@@ -15,12 +15,20 @@ module Webhooks
       return if disabled?
 
       guild_config.update_feeds.each do |channel|
-        Discord.send_message(channel:, content: t(message_key, **key_params))
+        Discord.send_message(channel:, content:)
       end
-
     rescue => e
       short_message = e.message.truncate(1000)
-      puts "⚠️[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id}) ERROR: ```#{short_message}```"
+      Discord.send_message(
+        channel: ENV['ERROR_LOG_CHANNEL'],
+        content: "⚠️[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id}) ERROR: ```#{short_message}```"
+      )
+    end
+
+    private
+
+    def content
+      t('feed_message', text: t(message_key, **key_params), wiki_prefix: wiki_prefix, emoji: emoji)
     end
   end
 end

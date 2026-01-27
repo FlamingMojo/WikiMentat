@@ -40,5 +40,10 @@ class GuildConfig
     def self.setup_default_emojis(config)
       config.hook_emojis.find_or_initialize_by(DEFAULT_HOOK_EMOJIS)
     end
+
+    def tag
+      # Add custom emojis (with discord uid) later
+      ":#{name}:"
+    end
   end
 end

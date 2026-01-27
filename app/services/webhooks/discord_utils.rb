@@ -17,7 +17,7 @@ module Webhooks
 
     delegate *Webhook::PAGE_ATTRIBUTES.excluding(%i[revision url message_key]), to: :page
     delegate *%i[hook_type target performer uploader revision_author], to: :webhook
-    delegate *%i[suppress_previews? max_username_characters max_characters], to: :guild_config
+    delegate *%i[suppress_previews? max_username_characters max_characters wiki_prefix use_emojis?], to: :guild_config
 
     def guild
       @guild ||= guild_config.guild
@@ -95,6 +95,10 @@ module Webhooks
       return unless protect
 
       protect.map { |k,v| "#{k}: #{v}" }.join("\n")
+    end
+
+    def emoji
+      guild_config.emoji_for(webhook)
     end
 
     def file_size

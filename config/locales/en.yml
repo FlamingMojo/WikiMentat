@@ -149,6 +149,7 @@ en:
         one: Comment
         other: Comments
   discord_webhooks:
+    feed_message: "%{prefix}%{emoji}%{text}"
     user_links: "%{name} (%{talk}|%{contribs})"
     revision_links: "(%{diff})%{minor}%{size}"
     talk: "t"

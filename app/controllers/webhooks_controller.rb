@@ -2,9 +2,7 @@ class WebhooksController < ActionController::Base
   skip_before_action :verify_authenticity_token, only: %i[create]
 
   def create
-    @webhook = WebhookFactory.create(webhook_params.to_h.with_indifferent_access)
-
-    if @webhook.persisted?
+    if WebhookFactory.create(webhook_params.to_h.with_indifferent_access)
       render json: { ok: true }, status: :created
     else
       render json: { ok: false }, status: :not_acceptable
