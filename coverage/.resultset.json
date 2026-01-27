@@ -1,0 +1,264 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/stephenforrest/code/WikiMentat/spec/models/channel_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/rails_helper.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/config/environment.rb": {
+        "lines": [
+          null,
+          1,
+          null,
+          null,
+          0
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/config/application.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/config/boot.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          0
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/guild_config_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/guild_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/member_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/message_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/role_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/user_claim_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/user_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/webhook_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/wiki_bot_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/wiki_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      },
+      "/Users/stephenforrest/code/WikiMentat/spec/models/wiki_user_spec.rb": {
+        "lines": [
+          1,
+          null,
+          0,
+          0,
+          null
+        ]
+      }
+    },
+    "timestamp": 1769095142
+  }
+}
