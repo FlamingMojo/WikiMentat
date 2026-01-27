@@ -17,5 +17,3 @@ class WebhooksController < ActionController::Base
     params.permit(:wiki, :hook, user: {}, page: {})
   end
 end
-
-# NEXT UP - DISCORD MESSAGE WEBHOOK PARSER AND SENDER
