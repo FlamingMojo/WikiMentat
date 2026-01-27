@@ -18,6 +18,8 @@ class GuildConfig < ApplicationRecord
   has_many :hook_emojis, dependent: :destroy
   has_many :disabled_users, dependent: :destroy
   has_many :configured_channels, dependent: :destroy
+  has_many :configured_feed_channels, -> { update_feed }, class_name: 'GuildConfig::ConfiguredChannel'
+  has_many :feed_channels, through: :update_configured_channels, source: :channel
 
   accepts_nested_attributes_for :disabled_hooks, allow_destroy: true
   accepts_nested_attributes_for :hook_emojis, allow_destroy: true
@@ -53,6 +55,6 @@ class GuildConfig < ApplicationRecord
   end
 
   def update_feeds
-    configured_channels.update_feed.map(&:discord_uid).map(&:to_i)
+    feed_channels.map(&:discord_uid).map(&:to_i)
   end
 end

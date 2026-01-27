@@ -20,7 +20,7 @@ module Webhooks
 
     rescue => e
       short_message = e.message.truncate(1000)
-      puts "c⚠️[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id}) ERROR: ```#{short_message}```"
+      puts "⚠️[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id}) ERROR: ```#{short_message}```"
     end
   end
 end
