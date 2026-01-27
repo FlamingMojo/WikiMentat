@@ -1,6 +1,6 @@
 ActiveAdmin.register Wiki do
   # Specify parameters which should be permitted for assignment
-  permit_params :guild_id, :url, :api_path, :wiki_prefix
+  permit_params :url, :api_path, :wiki_prefix
 
   # or consider:
   #
@@ -15,7 +15,6 @@ ActiveAdmin.register Wiki do
 
   # Add or remove filters to toggle their visibility
   filter :id
-  filter :guild
   filter :url
   filter :api_path
   filter :wiki_prefix
@@ -26,7 +25,6 @@ ActiveAdmin.register Wiki do
   index do
     selectable_column
     id_column
-    column :guild
     column :url
     column :api_path
     column :wiki_prefix
@@ -39,7 +37,6 @@ ActiveAdmin.register Wiki do
   show do
     attributes_table_for(resource) do
       row :id
-      row :guild
       row :url
       row :api_path
       row :wiki_prefix
@@ -52,7 +49,6 @@ ActiveAdmin.register Wiki do
   form do |f|
     f.semantic_errors(*f.object.errors.attribute_names)
     f.inputs do
-      f.input :guild
       f.input :url
       f.input :api_path
       f.input :wiki_prefix

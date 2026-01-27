@@ -13,6 +13,15 @@ ActiveAdmin.register Guild do
   # For security, limit the actions that should be available
   actions :all, except: []
 
+  member_action :sync, method: :post do
+    resource.sync
+    redirect_to admin_guilds_path(resource), notice: 'Synced'
+  end
+
+  action_item :sync, only: :show do
+    link_to 'Sync with Discord', sync_admin_guild_path(resource), method: :post, class: 'action-item-button'
+  end
+
   # Add or remove filters to toggle their visibility
   filter :id
   filter :discord_uid
