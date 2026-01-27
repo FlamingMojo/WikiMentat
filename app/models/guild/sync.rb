@@ -19,18 +19,15 @@ class Guild
     end
 
     def sync_channels
-      existing_channels.upsert_all(latest_channel_attributes, unique_by: :discord_uid)
+      guild.channels.where(discord_uid: ids(discord_channels)).
+        upsert_all(latest_channel_attributes, unique_by: :discord_uid)
       guild.channels.where.not(discord_uid: ids(discord_channels)).destroy_all
     end
 
     def latest_channel_attributes
-      discord_channels.select { |r| existing_channels.map(&:discord_uid).map(&:to_i).include?(r.id) }.map do |channel|
+      discord_channels.map do |channel|
         { discord_uid: channel.id.to_s, name: channel.name }
       end
-    end
-
-    def existing_channels
-      @existing_channels ||= guild.channels.where(discord_uid: ids(discord_channels))
     end
 
     def discord_channels
@@ -38,21 +35,17 @@ class Guild
     end
 
     def sync_roles
-      existing_roles.upsert_all(latest_role_attributes, unique_by: :discord_uid)
+      guild.roles.where(discord_uid: ids(discord_roles)).upsert_all(latest_role_attributes, unique_by: :discord_uid)
       guild.roles.where.not(discord_uid: ids(discord_roles)).destroy_all
     end
 
     def latest_role_attributes
-      discord_roles.select { |r| existing_roles.map(&:discord_uid).map(&:to_i).include?(r.id) }.map do |role|
+      discord_roles.map do |role|
         role_type = :standard
         role_type = :moderator if role.permissions.kick_members
         role_type = :admin if role.permissions.administrator
         { discord_uid: role.id.to_s, name: role.name, role_type: }
       end
-    end
-
-    def existing_roles
-      @existing_roles ||= guild.roles.where(discord_uid: ids(discord_roles))
     end
 
     def discord_roles
@@ -64,7 +57,7 @@ class Guild
       users.each { |u| guild.members.find_or_create_by(user: u) }
       guild.members.where.not(user: users).destroy_all
       guild.members.find_each do |member|
-        discord_member = discord_server.member(member.user.id)
+        discord_member = discord_server.member(member.user.discord_uid)
         member.roles = guild.roles.where(discord_uid: ids(discord_member.roles))
         member.save
       end
@@ -83,7 +76,7 @@ class Guild
     end
 
     def ids(collection)
-      collection.map(&:id).map(&:to_s)
+      collection.map(&:id)
     end
   end
 end
