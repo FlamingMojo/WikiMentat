@@ -68,7 +68,6 @@ module Discord
     end
 
     def self.setup
-      Dir['./lib/discord_bot/*.rb'].each { |file| require file }
       command_modules.each(&:setup)
     end
 
@@ -80,7 +79,7 @@ module Discord
     end
 
     def self.modules
-      Commands.constants.map { |sym| self.const_get("Commands::#{sym}") }
+      ::Discord::Commands.constants.map { |sym| self.const_get("::Discord::Commands::#{sym}") }
     end
   end
 end

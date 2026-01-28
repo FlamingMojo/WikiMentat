@@ -15,7 +15,8 @@ module Webhooks
       return if disabled?
 
       guild_config.update_feeds.each do |channel|
-        Discord.send_message(channel:, content:)
+        message = Discord.send_message(channel:, content:)
+        Message.create(webhook:, channel:, content:, discord_uid: message.id)
       end
     rescue => e
       short_message = e.message.truncate(1000)
@@ -28,7 +29,7 @@ module Webhooks
     private
 
     def content
-      t('feed_message', text: t(message_key, **key_params), wiki_prefix: wiki_prefix, emoji: emoji)
+      @content ||= t('feed_message', text: t(message_key, **key_params), wiki_prefix: wiki_prefix, emoji: emoji)
     end
   end
 end

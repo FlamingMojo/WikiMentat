@@ -12,4 +12,16 @@ class Member < ApplicationRecord
   has_and_belongs_to_many :roles
 
   validates :user_id, uniqueness: { scope: :guild_id }
+
+  def name
+    "[#{guild.initials}] #{user.username}"
+  end
+
+  def moderator?
+    roles.moderator.any?
+  end
+
+  def admin?
+    roles.admin.any?
+  end
 end

@@ -17,5 +17,11 @@ class Guild < ApplicationRecord
 
   def sync
     Sync.perform(self)
+
+    reload
+  end
+
+  def initials
+    name.split(' ').map(&:first).join.upcase
   end
 end

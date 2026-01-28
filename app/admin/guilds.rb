@@ -2,20 +2,12 @@ ActiveAdmin.register Guild do
   # Specify parameters which should be permitted for assignment
   permit_params :discord_uid, :name
 
-  # or consider:
-  #
-  # permit_params do
-  #   permitted = [:discord_uid, :name]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
   # For security, limit the actions that should be available
   actions :all, except: []
 
   member_action :sync, method: :post do
     resource.sync
-    redirect_to admin_guilds_path(resource), notice: 'Synced'
+    redirect_to admin_guild_path(resource), notice: 'Synced'
   end
 
   action_item :sync, only: :show do

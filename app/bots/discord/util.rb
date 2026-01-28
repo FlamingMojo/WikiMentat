@@ -68,11 +68,31 @@ module Discord
       end
     end
 
+    def mentat_member
+      @mentat_member ||= mentat_user.members.find_or_create_by(guild: guild)
+    end
+
+    def mentat_user
+      @mentat_user ||= User.find_or_create_by(discord_uid: user.id)
+    end
+
+    def mentat_roles
+      @mentat_roles ||= mentat_user.roles_for(guild)
+    end
+
     # Helper method to get (a) user on the server, defaulting to the user initiating the event
     def member(user_id = nil)
       return event.user.on(ENV['DISCORD_SERVER_ID']) unless user_id
 
-      Discord.server.member(user_id.to_i)
+      server.member(user_id.to_i)
+    end
+
+    def guild
+      @guild ||= Guild.find_by(discord_uid: server.id) || new_guild
+    end
+
+    def server
+      @server ||= event.server
     end
 
     # Helper method to PM a user
@@ -84,6 +104,10 @@ module Discord
 
     def user
       @user ||= event.user
+    end
+
+    def new_guild
+      Guild.create(discord_uid: server.id).sync
     end
   end
 end

@@ -16,4 +16,10 @@ class User < ApplicationRecord
   has_many :wiki_users, dependent: :nullify
 
   validates :discord_uid, presence: true, uniqueness: { case_sensitive: false }
+
+  def roles_for(guild)
+    return unless guilds.include?(guild)
+
+    members.find_by(guild:).roles
+  end
 end

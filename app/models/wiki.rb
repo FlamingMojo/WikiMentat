@@ -29,4 +29,8 @@ class Wiki < ApplicationRecord
     # By default, MediaWiki has many service users. These are useful for filtering out some webhooks.
     wiki_users.find_or_create_by(username: 'Redirect fixer')
   end
+
+  def api_url
+    url + api_path
+  end
 end

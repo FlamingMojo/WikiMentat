@@ -15,12 +15,13 @@ class WikiBot < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true
 
-  delegate(
-    *%i[upload_image query handle_command get_page email_user raw_action create_page delete_page protect_page],
-    to: :client
+  delegate(*%i[
+    upload_image query handle_command get_page email_user raw_action create_page delete_page protect_page
+    block_user unblock_user
+    ], to: :client
   )
 
   def client
-    @client ||= Mediawiki::Client.new(url: wiki.url, username: username, password: password)
+    @client ||= Mediawiki::Client.new(url: wiki.api_url, username: username, password: password)
   end
 end
