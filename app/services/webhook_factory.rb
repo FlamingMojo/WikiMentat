@@ -11,9 +11,6 @@ class WebhookFactory
   end
 
   def create
-    # Quick and dirty debounce for multiple identical webhooks
-    return if latest_hashes.include?(webhook.payload.hash)
-
     webhook.save
   end
 
