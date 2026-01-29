@@ -98,8 +98,9 @@ module Discord
           event.send(response_method, **response_params, &response_block)
         end
       rescue => e
-        message = e.message.truncate(1000)
-        content = I18n.t('discord.commands.dev_error', user: event.user.id, service: service.to_s, message:)
+        message = e.message.truncate(100)
+        backtrace = e.backtrace.join("\n").truncate(1000)
+        content = I18n.t('discord.commands.dev_error', user: event.user.id, service: service.to_s, message:, backtrace:)
         Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:)
 
         event.respond(content: I18n.t('discord.commands.something_went_wrong'), ephemeral: true)

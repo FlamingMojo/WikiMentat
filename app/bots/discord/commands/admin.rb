@@ -28,7 +28,7 @@ module Discord::Commands
 
       def register_handlers
         # handle_message('DiscordBot::Commands::Admin::AutoBlock')
-        handle(:mentat_admin, :verify_board, 'DiscordBot::Commands::Admin::VerifyBoard')
+        handle(:mentat_admin, :verify_board, 'Discord::Commands::Admin::VerifyBoard')
         # handle(:wiki_admin, :block_word, 'DiscordBot::Commands::Admin::AutoBlock::BlacklistWord')
         # handle(:wiki_admin, :unblock_word, 'DiscordBot::Commands::Admin::AutoBlock::WhitelistWord')
         handle_reaction('Discord::Commands::Admin::ReactionBlock', emoji: "❌")

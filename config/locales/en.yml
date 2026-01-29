@@ -221,7 +221,7 @@ en:
   discord:
     commands:
       something_went_wrong: 'Oops. Something went wrong! The devs have been notified!'
-      dev_error: "⚠️Mentat Error!\n User:`<@%{user}>`\n. Service: %{service}.\n Error: ```%{message}```"
+      dev_error: "⚠️Mentat Error!\n User:`<@%{user}>`\n. Service: %{service}.\n Error: ```%{message}```\n```%{backtrace}```"
       admin:
         auto_block:
           reason: "Automatically blocked by System for suspected spam/abuse"

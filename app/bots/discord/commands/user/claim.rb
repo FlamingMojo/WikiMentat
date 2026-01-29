@@ -1,6 +1,6 @@
-module DiscordBot::Commands::User
+module Discord::Commands::User
   class Claim
-    include ::DiscordBot::Util
+    include ::Discord::Util
 
     def content
       return claimed_message if already_claimed?

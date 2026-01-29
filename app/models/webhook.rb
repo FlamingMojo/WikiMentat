@@ -56,7 +56,7 @@ class Webhook < ApplicationRecord
   def check_verifications
     return unless PageContentSaveComplete? && page.summary.match?(/WM_(\d{6})_UV/i)
 
-    claim_code = summary.match(/WM_(\d{6})_UV/i).captures.first
+    claim_code = page.summary.match(/WM_(\d{6})_UV/i).captures.first
     UserClaim.pending.find_by(wiki: wiki, claimed_username: user.name, claim_code:)&.complete!(self)
   end
 

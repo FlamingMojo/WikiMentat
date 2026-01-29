@@ -23,8 +23,9 @@ module Discord::Commands::Admin
         block_user!
       end
     rescue => e
-      message = e.message.truncate(1000)
-      content = I18n.t('dev_error', user: event.user.id, service: self.class.to_s, message:)
+      message = e.message.truncate(100)
+      backtrace = e.backtrace.join("\n").truncate(1000)
+      content = I18n.t('dev_error', user: event.user.id, service: self.class.to_s, message:, backtrace:)
       Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:)
     end
 
