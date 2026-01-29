@@ -107,7 +107,7 @@ module Discord
     end
 
     def new_guild
-      Guild.create(discord_uid: server.id).sync
+      Guild.create(discord_uid: server.id, name: server.name).sync
     end
 
     def t(key, *args, **kwargs)

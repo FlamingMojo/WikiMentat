@@ -20,6 +20,8 @@ class GuildConfig < ApplicationRecord
   has_many :configured_channels, dependent: :destroy
   has_many :configured_feed_channels, -> { update_feed }, class_name: 'GuildConfig::ConfiguredChannel'
   has_many :update_feeds, through: :configured_feed_channels, source: :channel
+  has_many :configured_verify_board_channels, -> { verify_boards }, class_name: 'GuildConfig::ConfiguredChannel'
+  has_many :verify_board_channels, through: :configured_verify_board_channels, source: :channel
 
   accepts_nested_attributes_for :disabled_hooks, allow_destroy: true
   accepts_nested_attributes_for :hook_emojis, allow_destroy: true
@@ -41,11 +43,9 @@ class GuildConfig < ApplicationRecord
   end
 
   def disabled?(webhook)
-    return true if configured_channels.update_feed.none?
-    return true if disabled_hook_type?(webhook)
-    return true if disabled_user?(webhook)
-    return true if !bot_changes && webhook.user.bot
-    return true if !minor_changes? && webhook.page.minor_change?
+    return true unless send_discord_messages? && update_feeds.any?
+    return true if disabled_hook_type?(webhook) || disabled_user?(webhook)
+    return true if (!bot_changes && webhook.user.bot) || (!minor_changes? && webhook.page.minor_change?)
 
     false
   end

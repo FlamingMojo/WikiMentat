@@ -7,10 +7,10 @@ class Message < ApplicationRecord
     %w[channel guild webhook]
   end
 
-
-  enum :message_type, %i[webhook_update], default: :webhook_update
+  enum :message_type, %i[webhook_update board_post broadcast], default: :webhook_update
 
   belongs_to :webhook, optional: true
+  belongs_to :board, optional: true
   belongs_to :channel
   has_one :guild, through: :channel
 

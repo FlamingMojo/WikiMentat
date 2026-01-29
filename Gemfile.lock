@@ -105,6 +105,7 @@ GEM
     arbre (2.2.1)
       activesupport (>= 7.0)
     ast (2.4.3)
+    base32 (0.3.4)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
     bcrypt_pbkdf (1.1.2-arm64-darwin)
@@ -388,6 +389,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rotp (6.2.2)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -512,6 +514,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin
   activeadmin_assets
+  base32
   bootsnap
   brakeman
   bundler-audit
@@ -534,6 +537,7 @@ DEPENDENCIES
   puma (>= 5.0)
   pundit
   rails (~> 8.1.2)
+  rotp
   rspec
   rspec-rails
   rubocop-rails-omakase

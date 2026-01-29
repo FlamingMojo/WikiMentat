@@ -26,6 +26,8 @@ gem 'pundit'
 gem 'bytesize'
 gem 'discordrb', github: 'shardlab/discordrb', branch: 'main'
 gem 'mediawiki_api'
+gem 'rotp'
+gem 'base32'
 
 group :development, :test do
   gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
