@@ -1,0 +1,9 @@
+<h1>WIKI MENTAT LOGIN</h1>
+
+<% if @session_user %>
+  <%= link_to('Go to Admin portal', admin_root_path) %>
+<% else %>
+  <%= form_tag('/auth/discord', method: 'post', data: { turbo: false }) do %>
+    <button type='submit'>Login with Discord</button>
+  <% end %>
+<% end %>
