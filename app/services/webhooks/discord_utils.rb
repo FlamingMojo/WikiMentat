@@ -54,7 +54,7 @@ module Webhooks
 
     %i[target performer uploader revision_author].each do |user_type|
       define_method "#{user_type}_links" do
-        user(user_type)
+        user_links(webhook.send(user_type))
       end
     end
 
