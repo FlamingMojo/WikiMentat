@@ -71,6 +71,10 @@ module Discord
       end
     end
 
+    def t(key, *args, **kwargs)
+      I18n.t("discord.commands.#{key}", *args, **kwargs)
+    end
+
     class EventHandler
       extend Forwardable
       attr_reader :event, :service, :defer

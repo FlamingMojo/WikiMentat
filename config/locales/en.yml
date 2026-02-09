@@ -185,3 +185,189 @@ en:
     ext_approvedrevs_approved_file: "%{user_links} approved a new file revision of %{page_link} (%{revision_text}) from user %{uploader_links}"
     ext_approvedrevs_unapproved_file: "%{user_links} unapproved the approved file revision for %{page_link}"
     user_rename: "%{user_links} renamed the user %{old_username} to %{new_user_link}"
+  mission:
+    link: "https://discord.com/channels/%{guild_id}/%{channel_id}/%{message_id}"
+    embed:
+      no_assignee: "Nobody Yet! Accept the mission below!"
+      field:
+        instructions: "Instructions:"
+        status: "Status:"
+        issuer: "Issuer:"
+        assignee: "Assignee:"
+        wiki_page: "Page:"
+        map_link: "Nearest Map Location:"
+        language: "Language:"
+    instructions:
+      page_create: >
+        Create or Edit the wiki page %{wiki_page_md}. This will be automatically detected by the system
+      page_update: >
+        Edit the wiki page %{wiki_page_md}. This will be automatically detected by the system
+      image_upload: >
+        Post one or more images in the discord, tagging the bot. It will prompt you if the images are related to this
+        mission. Press the confirm button to submit
+      page_translate: >
+        Translate %{wiki_page} into %{language}. This will be automatically detected by the system
+    post:
+      accept_mission: "Accept"
+      approve_mission: "Approve"
+      reject_mission: "Reject"
+      admin_notification: "@here A new submission landed!"
+  discord:
+    commands:
+      admin:
+        auto_block:
+          reason: "Automatically blocked by System for suspected spam/abuse"
+        reaction_block:
+          reason: "Blocked by %{admin} via Discord for suspected spam/abuse"
+        reaction_unblock:
+          reason: "Unblocked by %{admin} via Discord"
+        tooltip:
+          wiki_admin: "Tools for Wiki Admins"
+          verify_board: "Post the verify board with button"
+          editor_board: "Post the editor tool board"
+        verify_board:
+          success: "Posted!"
+          link: "Link Account"
+          lookup: "Lookup User"
+          embed:
+            title: "Link Your %{wiki} Account"
+            description: >
+              Use the buttons below to link your wiki accounts, 
+              or look up accounts belonging to another user.
+              Please note that wiki usernames are case sensitive,
+              you must have an email associated with your account, and
+              your preferences must allow emails from other users
+              (just for verification - you can turn it off afterwards)
+      user:
+        tooltip:
+          wiki_user: "Sync %{wiki} accounts to discord"
+          claim: "Claim ownership of a Wiki account"
+          wiki_username: "Your Wiki username (Case sensitive + Must have an email)"
+          verify: "Enter verification code sent to verify ownership claim"
+          code: "The verification code you received"
+          lookup: "Look up Wiki accounts belong to a discord user (defaults to self)"
+          user: "The discord user to look up verified Wiki accounts"
+        search:
+          content: "Lookup verified wiki accounts"
+          placeholder: "Discord User"
+        link_modal:
+          title: "Link %{wiki} Account"
+          wiki_username: "Wiki Username"
+        claim:
+          already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
+        verify:
+          no_claim: >
+            You do not have an open verification for a wiki username.
+            See <#%{DISCORD_VERIFY_CHANNEL_ID}> to start verifying your ownership of a wiki user.
+            Please make sure you have an email associated to the account!
+          already_claimed: "%{wiki_username} has already been verified as <@%{discord_id}>"
+          incorrect_code: "Sorry, that code is not correct"
+          success: "Successfully verified ownership of %{wiki_username}"
+        lookup:
+          not_found: "Sorry, that user has not verified any wiki accounts"
+          found: "<@%{user_id}> Has verified ownership of the following wiki accounts:\n %{wiki_usernames}"
+      missions:
+        tooltip:
+          post: 'Post a new mission for the community'
+          abandon: 'Abandon your current mission'
+          cancel: 'Cancel a mission'
+          fields:
+            id: 'ID of the mission to cancel'
+        init:
+          prompt: "What type of mission do you want to post?"
+          placeholder: "Select One"
+          page_create: "Create Page"
+          page_update: "Update Page"
+          image_upload: "Upload Image"
+          page_translate: "Translate Page"
+        new:
+          title: "New %{type} Mission"
+          page_create: "Create Page"
+          page_update: "Update Page"
+          image_upload: "Upload Image"
+          page_translate: "Translate Page"
+          label:
+            title: "Mission Title"
+            description: "Mission Description"
+            wiki_page: "Wiki Page"
+            map_link: "Nearest Map Location"
+            language: "Language Code"
+          placeholder:
+            title: "Title"
+            description: "Mission Description"
+            wiki_page: "%{wiki}/Some_Page"
+            map_link: "%{wiki}/Interactive_Map?marker=MARKER_ID"
+            language: "en"
+          value:
+            description:
+              page_create: >
+                This page needs creating, with as much detail as possible. Include Categories X,Y,Z
+              page_update: >
+                Please update this page to add X,Y,Z
+              image_upload: >
+                We need screenshots of X for this page
+              page_translate: >
+                We need this page translating into X
+        create:
+          errors: "Could not post mission: %{errors}"
+          success: "Posted mission [%{id}] %{link}"
+        accept:
+          not_found: "Sorry, something went wrong, that mission is no longer available"
+          must_verify: "You must verify your wiki user first. See <#%{verification_channel}>"
+          already_on_mission: >
+            You have an active mission already: %{summary}.
+            You must complete or abandon it before taking a new one
+          accepted_mission: >
+            Thank you! You are now on mission %{summary}!
+            %{instructions}
+            To abandon this mission, simply `/abandon_mission`
+        approve:
+          approved_mission: "Completed mission %{summary}!"
+          celebration: "🎉<@%{user}> Has completed a mission - %{summary}!🎉"
+          not_found: "Sorry, something went wrong, can't find that mission"
+          not_submitted: "Sorry, that mission has not had a submission yet"
+          not_assigned: "Sorry, nobody is on that mission"
+        reject:
+          rejected_mission: "Rejected mission %{summary}! Notified user"
+          rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          feedback: >
+            Sorry, your submission to mission %{summary} was rejected.
+            You are still on this mission unless you choose to abandon it, and can continue to submit contributions!
+            Please reach out to moderators for assistance.
+          not_found: "Sorry, something went wrong, can't find that mission"
+          not_submitted: "Sorry, that mission has not had a submission yet"
+          not_assigned: "Sorry, nobody is on that mission"
+        abandon:
+          not_found: "You are not currently on a mission"
+          abandoned_mission: "You have abandoned the mission %{summary}"
+        cancel:
+          not_found: "You are not currently on a mission"
+          cancelled_mission: "You have cancelled the mission %{summary}"
+        submit:
+          create_page:
+            notify: >
+              <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by an Editor.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+          update_page:
+            notify: >
+              <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by an Editor.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+          upload_image:
+            link: "%{wiki}/File:%{image_name}"
+            prompt: "Did you upload these images for your current mission %{summary}?"
+            confirm_button: "Confirm"
+            cancel_button: "Cancel"
+            confirm:
+              not_you: "This button is not yours to push! 😠"
+              not_found: "Sorry, something went wrong, can't find that mission"
+              submitted_mission: >
+                Submitted your image for the mission. It will be reviewed by an Editor.
+                Thanks so much for your contribution! 🏅
+            cancel:
+              not_you: "This button is not yours to push! 😠"
+              not_found: "Sorry, something went wrong, can't find that mission"
+              cancel_submission: "No problem! Thank you for uploading the image"

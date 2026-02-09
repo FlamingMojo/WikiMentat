@@ -61,6 +61,14 @@ module Mediawiki
       raw_action(:emailuser, target: username, subject: subject, text: text, skip_retry: true)
     end
 
+    def block_user(user:, reason:)
+      raw_action(:block, user:, reason:, autoblock: true, nocreate: true, noemail: true)
+    end
+
+    def unblock_user(user:, reason:)
+      raw_action(:unblock, user: , reason:)
+    end
+
     private
 
     def bot

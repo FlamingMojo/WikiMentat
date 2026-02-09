@@ -51,4 +51,12 @@ class Webhook < ApplicationRecord
       Webhooks::DiscordChannelMessage.new(webhook: self, guild_config:).perform
     end
   end
+
+  def registered_user?
+    hook_type == :LocalUserCreated
+  end
+
+  def created_page?
+    hook_type == :PageContentSaveComplete && page.message_key == 'page_created'
+  end
 end

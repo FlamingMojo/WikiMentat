@@ -26,6 +26,10 @@ class GuildConfig < ApplicationRecord
   accepts_nested_attributes_for :disabled_users, allow_destroy: true
   accepts_nested_attributes_for :configured_channels, allow_destroy: true
 
+  def name
+    "#{guild.name} - #{wiki.name}"
+  end
+
   def already_setup?
     hook_emojis.any? || configured_channels.any? || disabled_hooks.any? || disabled_users.any?
   end
