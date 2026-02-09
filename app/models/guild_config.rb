@@ -46,6 +46,12 @@ class GuildConfig < ApplicationRecord
     false
   end
 
+  def emoji_for(webhook)
+    return unless use_emojis?
+
+    hook_emojis.find_by(hook_name: webhook.hook_type).tag
+  end
+
   def disabled_hook_type?(webhook)
     disabled_hooks.exists?(hook_name: webhook.hook_type)
   end

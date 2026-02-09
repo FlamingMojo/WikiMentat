@@ -11,10 +11,21 @@ class WebhookFactory
   end
 
   def create
-    Webhook.create(hook_type:, payload:, wiki:, wiki_user:)
+    # Quick and dirty debounce for multiple identical webhooks
+    return if latest_hashes.include?(webhook.payload.hash)
+
+    webhook.save
   end
 
   private
+
+  def webhook
+    @webhook ||= Webhook.new(hook_type:, payload:, wiki:, wiki_user:)
+  end
+
+  def latest_hashes
+    Webhook.last(5).map(&:payload).map(&:hash)
+  end
 
   def hook_type
     payload[:hook]
