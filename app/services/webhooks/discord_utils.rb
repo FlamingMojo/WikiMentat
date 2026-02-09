@@ -60,6 +60,8 @@ module Webhooks
 
     # Sanitize text input to prevent abuse of Discord's @here and @everyone pings
     def sanitize(text)
+      return text unless text.respond_to?(:gsub)
+
       text.gsub(/(`|@)/, '')
     end
 

@@ -1,6 +1,6 @@
-module DiscordBot::Commands::User
+module Discord::Commands::User
   class Claim
-    include ::DiscordBot::Util
+    include ::Discord::Util
 
     def content
       return claimed_message if already_claimed?
@@ -12,7 +12,7 @@ module DiscordBot::Commands::User
     private
 
     def claimed_message
-      if owning_user == mentat_user
+      if owning_user.id == mentat_user.id
         t('user.claim.already_verified', wiki_username: wiki_username)
       else
         t('user.claim.already_claimed', wiki_username: wiki_username, owner_id: owning_user.discord_uid)
@@ -34,7 +34,7 @@ module DiscordBot::Commands::User
     end
 
     def wiki_user
-      @wiki_user ||= WikiUser.find_by(username: wiki_username)
+      @wiki_user ||= wiki.wiki_users.find_by(username: wiki_username)
     end
 
     def wiki_username

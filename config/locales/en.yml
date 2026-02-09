@@ -221,7 +221,7 @@ en:
   discord:
     commands:
       something_went_wrong: 'Oops. Something went wrong! The devs have been notified!'
-      dev_error: "⚠️Mentat Error!\n User:`<@%{user}>`\n. Service: %{service}.\n Error: ```%{message}```"
+      dev_error: "⚠️Mentat Error!\n User: %{user}\n Service: %{service}\n Error: ```%{message}```\n```%{backtrace}```"
       admin:
         auto_block:
           reason: "Automatically blocked by System for suspected spam/abuse"
@@ -266,7 +266,7 @@ en:
         claim:
           already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
           already_verified: "You have already been verified as %{wiki_username}!"
-          instructions: <
+          instructions: >
             Please log into the wiki as %{wiki_username} and make an edit to any page.
             In the Summary of your changes, add the following verification code.
             ```WM_%{claim_code}_UV```
@@ -274,7 +274,7 @@ en:
             For example you can create or edit -
             %{wiki_url}/User:%{wiki_username}/Mentat_User_Claim
         verify:
-          success: "<@%{user}%> successfully verified ownership of %{wiki_username} on %{wiki}!"
+          success: "<@%{user}> successfully verified ownership of %{wiki_username} on %{wiki}!"
         lookup:
           not_found: "Sorry, that user has not verified any wiki accounts"
           found: "<@%{user_id}> Has verified ownership of the following wiki accounts:\n %{wiki_usernames}"

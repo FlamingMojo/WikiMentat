@@ -1,4 +1,11 @@
 class UserClaim < ApplicationRecord
+  def self.ransackable_attributes(auth_object = nil)
+    %w[claim_code claimed_username created_at id id_value status updated_at user_id wiki_id wiki_user_id]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[user wiki wiki_user]
+  end
   before_validation :generate_claim_code, unless: :claim_code?
 
   enum :status, %i[pending confirmed], default: :pending
@@ -15,8 +22,8 @@ class UserClaim < ApplicationRecord
   end
 
   def complete!(webhook)
-    update(wiki_user: webhook.wiki_user)
-    wiki_user.update(user:)
+    update!(wiki_user: webhook.wiki_user)
+    wiki_user.update!(user: user)
     confirmed!
 
     webhook.wiki.guild_configs.each do |guild_config|
@@ -27,5 +34,7 @@ class UserClaim < ApplicationRecord
       )
       DiscordChannelBroadcast.new(guild_config:, content:).perform
     end
+  rescue => error
+    DiscordError.handle(error:, user:, service: 'UserClaim#complete!')
   end
 end

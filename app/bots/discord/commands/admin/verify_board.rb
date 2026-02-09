@@ -2,7 +2,7 @@
 
 module Discord::Commands::Admin
   class VerifyBoard
-    include ::DiscordBot::Util
+    include ::Discord::Util
 
     def content
       return t('admin.verify_board.failure.no_access') unless mentat_member.admin?
@@ -12,7 +12,7 @@ module Discord::Commands::Admin
       guild_configs.each do |guild_config|
         guild_config.verify_board_channels.each do |channel|
           wiki = guild_config.wiki
-          create_params = { channel: channel.discord_uid, content: '', embeds: embed(wiki), components: buttons(wiki) }
+          create_params = { channel: channel.discord_uid, content: '', embeds: create_embed(wiki), components: buttons(wiki) }
           discord_message = Discord.send_message(**create_params)
           message = Message.create(message_type: :board_post, channel: channel, discord_uid: discord_message.id)
           Board.create(board_type: :verify_board, message: message, guild: channel.guild, wiki: guild_config.wiki)
@@ -35,7 +35,7 @@ module Discord::Commands::Admin
       end
     end
 
-    def embed(wiki)
+    def create_embed(wiki)
       Embed.generate(wiki)
     end
 
@@ -48,7 +48,7 @@ module Discord::Commands::Admin
     end
 
     class Embed
-      include ::DiscordBot::Util
+      include ::Discord::Util
       attr_reader :wiki
       private :wiki
 

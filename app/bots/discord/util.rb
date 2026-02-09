@@ -5,6 +5,7 @@ module Discord
     # While this defines #initialize, it is still a module and cannot be instantiated.
     def initialize(event)
       @event = event
+      mentat_member # Ensure the user, guild and member are all set up in the DB, even if not used.
     end
 
     def response_block
@@ -73,7 +74,7 @@ module Discord
     end
 
     def mentat_user
-      @mentat_user ||= User.find_or_create_by(discord_uid: user.id)
+      @mentat_user ||= User.find_or_create_by(discord_uid: user.id, username: user.username)
     end
 
     def mentat_roles

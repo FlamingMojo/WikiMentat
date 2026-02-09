@@ -18,12 +18,9 @@ module Webhooks
         message = Discord.send_message(channel: channel.discord_uid, content:)
         webhook.update(message: Message.create(webhook:, channel:, content:, discord_uid: message.id))
       end
-    rescue => e
-      short_message = e.message.truncate(1000)
-      Discord.send_message(
-        channel: ENV['ERROR_LOG_CHANNEL'],
-        content: "⚠️[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id}) ERROR: ```#{short_message}```"
-      )
+    rescue => error
+      user = "Webhook #[#{webhook.id}](#{ENV['HOST_URL']}/admin/webhooks/#{webhook.id})"
+      DiscordError.handle(error:, user:, service: self.class.to_s)
     end
 
     private

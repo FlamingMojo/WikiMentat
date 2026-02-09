@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Dashboard" do
       panel "Check Your Wiki User Claims" do
         ul do
           session_user.user_claims.map do |claim|
-            li link_to(claim.wiki_username, admin_user_claims_path(claim))
+            li link_to(claim.claimed_username, admin_user_claim_path(claim))
           end
         end
       end

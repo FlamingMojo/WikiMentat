@@ -22,10 +22,8 @@ module Discord::Commands::Admin
         delete_page!
         block_user!
       end
-    rescue => e
-      message = e.message.truncate(1000)
-      content = I18n.t('dev_error', user: event.user.id, service: self.class.to_s, message:)
-      Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:)
+    rescue => error
+      DiscordError.handle(error:, user: User.new(discord_uid: event.user.id), service: self.class.to_s)
     end
 
     def block_user!

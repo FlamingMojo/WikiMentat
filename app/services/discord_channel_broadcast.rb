@@ -18,12 +18,8 @@ class DiscordChannelBroadcast
       message = Discord.send_message(channel: channel.discord_uid, content:)
       Message.create(message_type: :broadcast, channel:, content:, discord_uid: message.id)
     end
-  rescue => e
-    short_message = e.message.truncate(1000)
-    Discord.send_message(
-      channel: ENV['ERROR_LOG_CHANNEL'],
-      content: "⚠️Mentat Error!\n Service: DiscordChannelBroadcast.\n Error: ```#{short_message}```"
-    )
+  rescue => error
+    DiscordError.handle(error:, user: 'System', service: self.class.to_s)
   end
 
   private
