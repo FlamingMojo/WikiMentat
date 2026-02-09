@@ -19,7 +19,7 @@ class GuildConfig < ApplicationRecord
   has_many :disabled_users, dependent: :destroy
   has_many :configured_channels, dependent: :destroy
   has_many :configured_feed_channels, -> { update_feed }, class_name: 'GuildConfig::ConfiguredChannel'
-  has_many :feed_channels, through: :configured_feed_channels, source: :channel
+  has_many :update_feeds, through: :configured_feed_channels, source: :channel
 
   accepts_nested_attributes_for :disabled_hooks, allow_destroy: true
   accepts_nested_attributes_for :hook_emojis, allow_destroy: true
@@ -62,9 +62,5 @@ class GuildConfig < ApplicationRecord
 
   def disabled_user?(webhook)
     disabled_users.exists?(wiki_user: webhook.wiki_user)
-  end
-
-  def update_feeds
-    feed_channels.map(&:discord_uid).map(&:to_i)
   end
 end

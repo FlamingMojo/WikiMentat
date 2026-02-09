@@ -40,7 +40,7 @@ module Discord
         token: ENV['DISCORD_BOT_TOKEN'],
         client_id: ENV['DISCORD_CLIENT_ID'],
         log_mode: log_mode,
-        )
+      )
     end
 
     def self.slash_command(*args, **kwargs, &block)
@@ -51,8 +51,8 @@ module Discord
       @server ||= Discord.bot.server
     end
 
-    def self.send_message(*args, **kwargs)
-      bot.send_message(*args, **kwargs)
+    def self.send_message(*args)
+      bot.send_message(*args)
     end
 
     def get_user(user_id)
