@@ -20,10 +20,6 @@ class WebhookFactory
     @webhook ||= Webhook.new(hook_type:, payload:, wiki:, wiki_user:)
   end
 
-  def latest_hashes
-    Webhook.last(5).map(&:payload).map(&:hash)
-  end
-
   def hook_type
     payload[:hook]
   end

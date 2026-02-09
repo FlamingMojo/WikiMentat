@@ -14,21 +14,21 @@ module Discord::Commands
 
       def register_commands
         # Not ready yet
-        # DiscordBot.slash_command(:wiki_admin, t('wiki_admin')) do |cmd|
-        #   cmd.subcommand(:verify_board, t('verify_board'))
-        #   cmd.subcommand(:editor_board, t('editor_board'))
-        #   cmd.subcommand(:block_word, 'Add word to username blocklist') do |sub|
-        #     sub.string('word', 'Word to block')
-        #   end
-        #   cmd.subcommand(:unblock_word, 'Remove word from username blocklist') do |sub|
-        #     sub.string('word', 'Word to unblock')
-        #   end
-        # end
+        Discord::Bot.slash_command(:mentat_admin, t('admin.tooltip.wiki_admin')) do |cmd|
+          cmd.subcommand(:verify_board, t('admin.tooltip.verify_board'))
+          # cmd.subcommand(:editor_board, t('editor_board'))
+          # cmd.subcommand(:block_word, 'Add word to username blocklist') do |sub|
+          #   sub.string('word', 'Word to block')
+          # end
+          # cmd.subcommand(:unblock_word, 'Remove word from username blocklist') do |sub|
+          #   sub.string('word', 'Word to unblock')
+          # end
+        end
       end
 
       def register_handlers
         # handle_message('DiscordBot::Commands::Admin::AutoBlock')
-        # handle(:wiki_admin, :verify_board, 'DiscordBot::Commands::Admin::VerifyBoard')
+        handle(:mentat_admin, :verify_board, 'DiscordBot::Commands::Admin::VerifyBoard')
         # handle(:wiki_admin, :block_word, 'DiscordBot::Commands::Admin::AutoBlock::BlacklistWord')
         # handle(:wiki_admin, :unblock_word, 'DiscordBot::Commands::Admin::AutoBlock::WhitelistWord')
         handle_reaction('Discord::Commands::Admin::ReactionBlock', emoji: "❌")

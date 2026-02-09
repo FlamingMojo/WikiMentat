@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_25_211039) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_29_115949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,6 +26,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_25_211039) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
+
+  create_table "boards", force: :cascade do |t|
+    t.integer "board_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.bigint "guild_id"
+    t.bigint "message_id"
+    t.datetime "updated_at", null: false
+    t.bigint "wiki_id"
+    t.index ["guild_id"], name: "index_boards_on_guild_id"
+    t.index ["message_id"], name: "index_boards_on_message_id"
+    t.index ["wiki_id"], name: "index_boards_on_wiki_id"
   end
 
   create_table "channels", force: :cascade do |t|
@@ -80,6 +92,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_25_211039) do
     t.boolean "use_emojis", default: false
     t.bigint "wiki_id"
     t.string "wiki_prefix"
+    t.boolean "wiki_user_verification", default: true
     t.index ["guild_id"], name: "index_guild_configs_on_guild_id"
     t.index ["wiki_id"], name: "index_guild_configs_on_wiki_id"
   end
@@ -198,6 +211,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_25_211039) do
   create_table "wikis", force: :cascade do |t|
     t.string "api_path", default: "/api.php", null: false
     t.datetime "created_at", null: false
+    t.string "logo_url"
     t.datetime "updated_at", null: false
     t.string "url", null: false
     t.string "wiki_prefix", default: "", null: false

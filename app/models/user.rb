@@ -2,7 +2,6 @@ class User < ApplicationRecord
   include Omniauthable
   include DiscordEventable
 
-
   def self.ransackable_attributes(auth_object = nil)
     %w[created_at discord_uid display_name id id_value mentat_role updated_at username]
   end

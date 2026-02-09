@@ -16,7 +16,7 @@ module Webhooks
 
       guild_config.update_feeds.each do |channel|
         message = Discord.send_message(channel: channel.discord_uid, content:)
-        Message.create(webhook:, channel:, content:, discord_uid: message.id)
+        webhook.update(message: Message.create(webhook:, channel:, content:, discord_uid: message.id))
       end
     rescue => e
       short_message = e.message.truncate(1000)

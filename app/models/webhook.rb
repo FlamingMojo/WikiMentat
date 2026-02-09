@@ -1,5 +1,6 @@
 class Webhook < ApplicationRecord
   after_create :publish_to_guilds
+  after_create :check_verifications
 
   PAGE_ATTRIBUTES = %i[
     message_key title url summary reason comment revision archived_revisions visibility_changes protect old_title
@@ -50,6 +51,13 @@ class Webhook < ApplicationRecord
     wiki.guild_configs.each do |guild_config|
       Webhooks::DiscordChannelMessage.new(webhook: self, guild_config:).perform
     end
+  end
+
+  def check_verifications
+    return unless PageContentSaveComplete? && page.summary.match?(/WM_(\d{6})_UV/i)
+
+    claim_code = summary.match(/WM_(\d{6})_UV/i).captures.first
+    UserClaim.pending.find_by(wiki: wiki, claimed_username: user.name, claim_code:)&.complete!(self)
   end
 
   def registered_user?

@@ -23,11 +23,9 @@ module Discord::Commands::Admin
         block_user!
       end
     rescue => e
-      short_message = e.message.truncate(1000)
-      Discord.send_message(
-        channel: ENV['ERROR_LOG_CHANNEL'],
-        content: "⚠️Reaction failed! `<@#{user.id}>` reacted to message [#{message.id}]. ERROR: ```#{short_message}```"
-      )
+      message = e.message.truncate(1000)
+      content = I18n.t('dev_error', user: event.user.id, service: self.class.to_s, message:)
+      Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:)
     end
 
     def block_user!

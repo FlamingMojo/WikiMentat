@@ -133,6 +133,12 @@ en:
     toggle_user_menu: Toggle user menu
     view: View
   activerecord:
+    errors:
+      models:
+        wiki_bot:
+          attributes:
+            password:
+              not_match: does not match
     attributes:
       active_admin/comment:
         author_type: Author type
@@ -166,11 +172,11 @@ en:
     page_deleted: "%{user_links} deleted %{page_link} `%{reason}` (%{archived_revisions} revisions deleted)"
     page_undeleted: "%{user_links} undeleted %{page_link} `%{reason}`"
     rev_visibility_changed: "%{user_links} changed visibility of %{visibility_changes} revisions on %{page_link}"
-    page_protect: "%{user_links} changed protection of %{page_link} `${reason}` `(${protections})`"
+    page_protect: "%{user_links} changed protection of %{page_link} `%{reason}` `(%{protections})`"
     page_moved: "%{user_links} moved %{old_page_link} to %{page_link} `%{reason}` `%{revision_text}`"
     user_registered: "%{user_links} registered"
     user_block_timeformat: "d F Y H:i"
-    user_block: "%{user_links} blocked %{target_links} `${reason}` (%{expiry})"
+    user_block: "%{user_links} blocked %{target_links} `%{reason}` (%{expiry})"
     user_block_partial: "%{user_links} partially blocked %{target_links} `%{reason}` (%{expiry})"
     user_unblock: "%{user_links} unblocked %{target_links}"
     user_groups_changed: "%{user_links} changed rights of %{target_links} `%{reason}` (%{added}) (%{removed})"
@@ -178,7 +184,7 @@ en:
     file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{file_size}, %{width}x%{height}, %{mime_type})"
     file_delete: "%{user_links} deleted a version of file %{page_link} `%{reason}`"
     file_undelete: "%{user_links} restored some versions of file %{page_link} `%{reason}`"
-    import: "%{user_links} imported %{page_link} (imported ${rev_count}/%{s_rev_count} revisions)"
+    import: "%{user_links} imported %{page_link} (imported %{rev_count}/%{s_rev_count} revisions)"
     page_merge: "%{user_links} merged revisions from %{original_page_link} into %{page_link}"
     ext_approvedrevs_approved: "%{user_links} approved a new revision of %{page_link} (revision %{revision_text}) from user %{revision_author_links}"
     ext_approvedrevs_unapproved: "%{user_links} unapproved the approved revision for %{page_link}"
@@ -214,6 +220,8 @@ en:
       admin_notification: "@here A new submission landed!"
   discord:
     commands:
+      something_went_wrong: 'Oops. Something went wrong! The devs have been notified!'
+      dev_error: "⚠️Mentat Error!\n User:`<@%{user}>`\n. Service: %{service}.\n Error: ```%{message}```"
       admin:
         auto_block:
           reason: "Automatically blocked by System for suspected spam/abuse"
@@ -222,11 +230,20 @@ en:
         reaction_unblock:
           reason: "Unblocked by %{admin} via Discord"
         tooltip:
-          wiki_admin: "Tools for Wiki Admins"
-          verify_board: "Post the verify board with button"
+          wiki_admin: "Tools for Mentat Wiki Admins"
+          verify_board: "Post the verify board with buttons to configured channels"
           editor_board: "Post the editor tool board"
         verify_board:
           success: "Posted!"
+          failure:
+            no_access: 'You need to be an admin to perform this!'
+            disabled: >
+              There are no Wikis configured to allow Wiki User Verification.
+              Log into %{website} to configure a wiki to enable this feature.
+            no_channels: >
+              There are no channels configured to post Verification Boards to.
+              Log into %{website} to configure channels for Verify Boards.
+              Note: This must be configured for each wiki separately.
           link: "Link Account"
           lookup: "Lookup User"
           embed:
@@ -234,35 +251,30 @@ en:
             description: >
               Use the buttons below to link your wiki accounts, 
               or look up accounts belonging to another user.
-              Please note that wiki usernames are case sensitive,
-              you must have an email associated with your account, and
-              your preferences must allow emails from other users
-              (just for verification - you can turn it off afterwards)
+              Please note that wiki usernames are case sensitive.
       user:
         tooltip:
-          wiki_user: "Sync %{wiki} accounts to discord"
-          claim: "Claim ownership of a Wiki account"
-          wiki_username: "Your Wiki username (Case sensitive + Must have an email)"
-          verify: "Enter verification code sent to verify ownership claim"
-          code: "The verification code you received"
+          wiki_user: "Sync Wiki accounts to discord"
           lookup: "Look up Wiki accounts belong to a discord user (defaults to self)"
           user: "The discord user to look up verified Wiki accounts"
         search:
           content: "Lookup verified wiki accounts"
           placeholder: "Discord User"
         link_modal:
-          title: "Link %{wiki} Account"
+          title: "Link Wiki User Account"
           wiki_username: "Wiki Username"
         claim:
           already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
+          already_verified: "You have already been verified as %{wiki_username}!"
+          instructions: <
+            Please log into the wiki as %{wiki_username} and make an edit to any page.
+            In the Summary of your changes, add the following verification code.
+            ```WM_%{claim_code}_UV```
+            You can edit any page with any content for this to be detected.
+            For example you can create or edit -
+            %{wiki_url}/User:%{wiki_username}/Mentat_User_Claim
         verify:
-          no_claim: >
-            You do not have an open verification for a wiki username.
-            See <#%{DISCORD_VERIFY_CHANNEL_ID}> to start verifying your ownership of a wiki user.
-            Please make sure you have an email associated to the account!
-          already_claimed: "%{wiki_username} has already been verified as <@%{discord_id}>"
-          incorrect_code: "Sorry, that code is not correct"
-          success: "Successfully verified ownership of %{wiki_username}"
+          success: "<@%{user}%> successfully verified ownership of %{wiki_username} on %{wiki}!"
         lookup:
           not_found: "Sorry, that user has not verified any wiki accounts"
           found: "<@%{user_id}> Has verified ownership of the following wiki accounts:\n %{wiki_usernames}"

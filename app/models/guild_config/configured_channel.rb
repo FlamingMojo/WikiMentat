@@ -10,7 +10,7 @@ class GuildConfig
       %w[channel guild_config]
     end
 
-    enum :channel_purpose, %i[update_feed]
+    enum :channel_purpose, %i[update_feed verify_boards], default: :update_feeds
 
     belongs_to :guild_config
     belongs_to :channel
