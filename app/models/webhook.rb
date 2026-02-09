@@ -1,4 +1,6 @@
 class Webhook < ApplicationRecord
+  after_create :publish_to_guilds
+
   PAGE_ATTRIBUTES = %i[
     message_key title url summary reason comment revision archived_revisions visibility_changes protect old_title
     old_url expiry expiry_as_unix target added removed performer new_revision file_name width height mime_type rev_count
@@ -42,5 +44,11 @@ class Webhook < ApplicationRecord
 
   def page
     Page.new(**payload_page.with_indifferent_access)
+  end
+
+  def publish_to_guilds
+    wiki.guild_configs.each do |guild_config|
+      Webhooks::DiscordChannelMessage.new(webhook: self, guild_config:).perform
+    end
   end
 end
