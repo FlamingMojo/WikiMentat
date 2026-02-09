@@ -53,10 +53,10 @@ class Webhook < ApplicationRecord
   end
 
   def registered_user?
-    hook_type == :LocalUserCreated
+    LocalUserCreated?
   end
 
   def created_page?
-    hook_type == :PageContentSaveComplete && page.message_key == 'page_created'
+    PageContentSaveComplete? && page.message_key == 'page_created'
   end
 end
