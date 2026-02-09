@@ -61,7 +61,7 @@ class Guild
 
     def sync_members
       # We don't want to create new Users, just keep the member list updated with users who are in the system
-      guild.members.find_or_create_by(user: users)
+      users.each { |u| guild.members.find_or_create_by(user: u) }
       guild.members.where.not(user: users).destroy_all
       guild.members.find_each do |member|
         discord_member = discord_server.member(member.user.id)
