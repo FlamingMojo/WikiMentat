@@ -17,9 +17,11 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: wiki_mentat
-    username: wiki_mentat
-    password: <%= ENV["WIKI_MENTAT_DATABASE_PASSWORD"] %>
+    database: <%= ENV.fetch('DATABASE_NAME', 'wiki_mentat') %>
+    username: <%= ENV.fetch('DATABASE_USER', 'wiki_mentat') %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV.fetch('DATABASE_HOST', 'localhost') %>
+    port: <%= ENV.fetch('DATABASE_PORT', '5432') %>
   cache:
     <<: *primary_production
     database: wiki_mentat_production_cache
