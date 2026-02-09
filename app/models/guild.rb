@@ -14,4 +14,8 @@ class Guild < ApplicationRecord
 
   validates :discord_uid, presence: true, uniqueness: { case_sensitive: false }
   validates :name, presence: true
+
+  def sync
+    Sync.perform(self)
+  end
 end

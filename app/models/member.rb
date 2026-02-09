@@ -10,4 +10,6 @@ class Member < ApplicationRecord
   belongs_to :guild
   belongs_to :user
   has_and_belongs_to_many :roles
+
+  validates :user_id, uniqueness: { scope: :guild_id }
 end
