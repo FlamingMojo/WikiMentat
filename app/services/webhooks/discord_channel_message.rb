@@ -11,7 +11,7 @@ module Webhooks
     end
 
     # Re-implements all the webhooks from [mw-discord](https://github.com/jayktaylor/mw-discord)
-    def process
+    def perform
       return if disabled?
 
       guild_config.update_feeds.each do |channel|
