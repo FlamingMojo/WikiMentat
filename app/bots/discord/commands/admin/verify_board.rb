@@ -29,7 +29,7 @@ module Discord::Commands::Admin
         builder.row do |row|
           row.button(label: t('admin.verify_board.link'), custom_id: "verify_board:link:#{wiki.id}", style: :primary)
           row.button(
-            label: t('admin.verify_board.lookup'), custom_id: "verify_board:search::#{wiki.id}", style: :secondary
+            label: t('admin.verify_board.lookup'), custom_id: "verify_board:search:#{wiki.id}", style: :secondary
           )
         end
       end

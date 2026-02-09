@@ -18,9 +18,9 @@ module Discord::Commands
       def register_handlers
         handle_button(/verify_board:link:/, 'Discord::Commands::User::Link')
         handle_modal(/verify_board:claim:/, 'Discord::Commands::User::Claim')
-        # handle_button('verify_board:search', 'DiscordBot::Commands::User::Search')
-        # handle_user_select('search:lookup', 'DiscordBot::Commands::User::Lookup')
-        # handle_mention('DiscordBot::Commands::User::UploadImage')
+        handle_button(/verify_board:search:/, 'Discord::Commands::User::Search')
+        handle_user_select(/search:lookup/, 'Discord::Commands::User::Lookup')
+        # handle_mention('Discord::Commands::User::UploadImage')
       end
     end
   end

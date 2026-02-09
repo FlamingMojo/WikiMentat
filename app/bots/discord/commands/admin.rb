@@ -27,10 +27,10 @@ module Discord::Commands
       end
 
       def register_handlers
-        # handle_message('DiscordBot::Commands::Admin::AutoBlock')
+        # handle_message('Discord::Commands::Admin::AutoBlock')
         handle(:mentat_admin, :verify_board, 'Discord::Commands::Admin::VerifyBoard')
-        # handle(:wiki_admin, :block_word, 'DiscordBot::Commands::Admin::AutoBlock::BlacklistWord')
-        # handle(:wiki_admin, :unblock_word, 'DiscordBot::Commands::Admin::AutoBlock::WhitelistWord')
+        # handle(:wiki_admin, :block_word, 'Discord::Commands::Admin::AutoBlock::BlacklistWord')
+        # handle(:wiki_admin, :unblock_word, 'Discord::Commands::Admin::AutoBlock::WhitelistWord')
         handle_reaction('Discord::Commands::Admin::ReactionBlock', emoji: "❌")
         handle_reaction('Discord::Commands::Admin::ReactionUnblock', emoji: '✅')
         # handle_reaction('Discord::Commands::Admin::AutoBlock::BlacklistName', emoji: '⚠️')
