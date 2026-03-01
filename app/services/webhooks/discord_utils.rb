@@ -96,7 +96,7 @@ module Webhooks
     def protections
       return unless protect
 
-      protect.map { |k,v| "#{k}: #{v}" }.join("\n")
+      protect.map { |k, v| "#{k}: #{v}" }.join("\n")
     end
 
     def emoji

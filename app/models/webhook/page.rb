@@ -6,8 +6,8 @@ class Webhook
   Page = Struct.new(*Webhook::PAGE_ATTRIBUTES, keyword_init: true) do
     def name
       return Title.new(**title.with_indifferent_access).prefixedText if title
-      return file_name if file_name
 
+      file_name
     end
 
     def old_name

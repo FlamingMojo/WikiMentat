@@ -21,9 +21,13 @@ class WikiBot < ApplicationRecord
 
   delegate(*%i[
     upload_image query handle_command get_page email_user raw_action create_page delete_page protect_page
-    block_user unblock_user
+    block_user unblock_user recent_changes
     ], to: :client
   )
+
+  def name
+    [ guild&.name, wiki.name, username ].join('-')
+  end
 
   def client
     @client ||= Mediawiki::Client.new(url: wiki.api_url, username: username, password: password)

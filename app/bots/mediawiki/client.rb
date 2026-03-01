@@ -66,7 +66,16 @@ module Mediawiki
     end
 
     def unblock_user(user:, reason:)
-      raw_action(:unblock, user: , reason:)
+      raw_action(:unblock, user:, reason:)
+    end
+
+    def recent_changes(from = nil)
+      from ||= 1.day.ago
+
+      query(
+        rcstart: from.iso8601, list: 'recentchanges', rcdir: 'newer', rclimit: 100,
+        rcprop: %w[timestamp user comment sizes redirect loginfo title flags ids userid tags],
+      )
     end
 
     private
