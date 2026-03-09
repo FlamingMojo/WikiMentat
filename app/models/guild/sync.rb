@@ -13,9 +13,17 @@ class Guild
 
     def perform
       guild.update(name: discord_server.name)
+      sync_primary_config
       sync_channels
       sync_roles
       sync_members
+    end
+
+    def sync_primary_config
+      return if guild.primary_config
+      return unless guild.guild_configs.any?
+
+      guild.update(primary_config: guild.guild_configs.first)
     end
 
     def sync_channels

@@ -1,4 +1,6 @@
 class GuildConfig < ApplicationRecord
+  include MissionChannels
+
   after_create :setup_default_settings, unless: :already_setup?
 
   def self.ransackable_attributes(auth_object = nil)
@@ -18,6 +20,12 @@ class GuildConfig < ApplicationRecord
   has_many :hook_emojis, dependent: :destroy
   has_many :disabled_users, dependent: :destroy
   has_many :configured_channels, dependent: :destroy
+  has_many :missions
+  has_many :type_defaults, dependent: :destroy
+  has_many :state_defaults, dependent: :destroy
+  has_many :reward_types, dependent: :nullify
+  has_many :rewards, through: :reward_types
+  has_many :image_rules, dependent: :destroy
   has_many :configured_feed_channels, -> { update_feed }, class_name: 'GuildConfig::ConfiguredChannel'
   has_many :update_feeds, through: :configured_feed_channels, source: :channel
   has_many :configured_verify_board_channels, -> { verify_boards }, class_name: 'GuildConfig::ConfiguredChannel'
@@ -27,6 +35,11 @@ class GuildConfig < ApplicationRecord
   accepts_nested_attributes_for :hook_emojis, allow_destroy: true
   accepts_nested_attributes_for :disabled_users, allow_destroy: true
   accepts_nested_attributes_for :configured_channels, allow_destroy: true
+  accepts_nested_attributes_for :type_defaults, allow_destroy: false
+  accepts_nested_attributes_for :state_defaults, allow_destroy: false
+
+  validates_with MissionChannelValidator
+  validates_with ImageUploadValidator
 
   def name
     "#{guild.name} - #{wiki.name}"
@@ -40,6 +53,8 @@ class GuildConfig < ApplicationRecord
     GuildConfig::HookEmoji.setup_default_emojis(self)
     # Some defaults require the record to be persisted
     disabled_users.find_or_create_by(wiki_user: wiki.wiki_users.find_or_create_by(username: 'Redirect fixer'))
+    Mission::TYPES.each { |name| type_defaults.find_or_create_by(name: name) }
+    Mission::STATES.each { |name| state_defaults.find_or_create_by(name: name) }
   end
 
   def disabled?(webhook)
@@ -62,5 +77,9 @@ class GuildConfig < ApplicationRecord
 
   def disabled_user?(webhook)
     disabled_users.exists?(wiki_user: webhook.wiki_user)
+  end
+
+  def wiki_bot
+    @wiki_bot ||= guild.wiki_bots.find_by(wiki:)
   end
 end

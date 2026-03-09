@@ -1,4 +1,8 @@
 class DiscordError
+  include Translatable
+
+  with_locale_context 'discord.commands'
+
   attr_reader :error, :service
   private :error, :service
 
@@ -18,13 +22,13 @@ class DiscordError
     return if EXCLUDE_MESSAGES.include?(message.strip)
 
     Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:, allowed_mentions: {})
-    I18n.t('discord.commands.something_went_wrong')
+    t('something_went_wrong')
   end
 
   private
 
   def content
-    I18n.t('discord.commands.dev_error', user:, service:, message:, backtrace:)
+    t('dev_error', user:, service:, message:, backtrace:)
   end
 
   def user

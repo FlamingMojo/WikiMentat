@@ -1,6 +1,11 @@
 class Webhook < ApplicationRecord
+  include Translatable
+
+  with_locale_context 'discord.commands.missions.submit'
   after_create :publish_to_guilds
   after_create :check_verifications
+  after_create :check_create_missions, if: :created_page?
+  after_update :check_update_missions, if: :updated_page?
 
   PAGE_ATTRIBUTES = %i[
     message_key title url summary reason comment revision archived_revisions visibility_changes protect old_title
@@ -60,11 +65,36 @@ class Webhook < ApplicationRecord
     UserClaim.pending.find_by(wiki: wiki, claimed_username: user.name, claim_code:)&.complete!(self)
   end
 
+  def check_update_missions
+    check_missions(:page_update)
+  end
+
+  def check_create_missions
+    check_missions(:page_create)
+  end
+
+  def check_missions(type)
+    Mission.accepted.where(type:, wiki_page: page.url).each do |mission|
+      next unless mission.assignee.user.wiki_users.include?(wiki_user)
+      next unless mission.guild_config.enable_missions
+
+      mission.submit
+      Discord.send_message(
+        channel: mission.guild_config.missions_notifications_channel.discord_uid,
+        content: t("#{type}.notify", summary: mission.summary, user: mission.assignee.discord_uid)
+      )
+    end
+  end
+
   def registered_user?
     LocalUserCreated?
   end
 
   def created_page?
     PageContentSaveComplete? && page.message_key == 'page_created'
+  end
+
+  def updated_page?
+    PageContentSaveComplete? && page.message_key == 'page_edited'
   end
 end

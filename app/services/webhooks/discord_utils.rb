@@ -1,11 +1,11 @@
 module Webhooks
   module DiscordUtils
+    include Translatable
+
+    with_locale_context 'discord_webhooks'
+
     # noinspection ALL
     URL_SUBSTITUTIONS = { ' ' => '%20', '(' => '%28', ')' => '%29' }.freeze
-
-    def t(key, *args, **kwargs)
-      I18n.t("discord_webhooks.#{key}", *args, **kwargs)
-    end
 
     def key_params
       # Metaprogramming wizardry - find all the keys the I18n record is expecting, then

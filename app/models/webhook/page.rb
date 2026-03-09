@@ -8,6 +8,7 @@ class Webhook
       return Title.new(**title.with_indifferent_access).prefixedText if title
       return file_name if file_name
 
+      ''
     end
 
     def old_name

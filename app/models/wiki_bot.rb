@@ -16,12 +16,14 @@ class WikiBot < ApplicationRecord
   belongs_to :wiki
   belongs_to :guild, optional: true
 
-  validates :username, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: { scope: %i[wiki_id guild_id] }
   validates :password, presence: true
+
+  validates_with BotPermissionsValidator
 
   delegate(*%i[
     upload_image query handle_command get_page email_user raw_action create_page delete_page protect_page
-    block_user unblock_user
+    block_user unblock_user permissions
     ], to: :client
   )
 

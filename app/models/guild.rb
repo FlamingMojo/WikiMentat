@@ -3,6 +3,7 @@ class Guild < ApplicationRecord
     %w[created_at discord_uid id name updated_at]
   end
 
+  belongs_to :primary_config, optional: true, class_name: 'GuildConfig'
   has_many :members, dependent: :destroy
   has_many :users, through: :members
   has_many :roles, dependent: :destroy
@@ -23,5 +24,13 @@ class Guild < ApplicationRecord
 
   def initials
     name.split(' ').map(&:first).join.upcase
+  end
+
+  def find_member_by_discord_uid(discord_uid)
+    members.joins(:user).where(discord_uid:)
+  end
+
+  def find_member_by_username(username)
+    members.joins(:user).where(username:)
   end
 end
