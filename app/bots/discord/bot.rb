@@ -24,8 +24,8 @@ module Discord
     )
   end
 
-  def self.update_message(channel:, message:, content:, mentions: nil, embeds: nil, components: nil, flags: nil)
-    ::Discordrb::API::Channel.edit_message(Bot.token, channel, message, content, mentions, embeds, components, flags)
+  def self.update_message(channel:, message:, content:, mentions: nil, embeds: nil, components: nil)
+    ::Discordrb::API::Channel.edit_message(Bot.token, channel, message, content, mentions, embeds, components)
   end
 
   def self.delete_message(channel:, message:, reason: nil)
