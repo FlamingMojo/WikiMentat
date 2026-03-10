@@ -28,7 +28,7 @@ module Discord
     ::Discordrb::API::Channel.edit_message(Bot.token, channel, message, content, mentions, embeds, components, flags)
   end
 
-  def delete_message(channel:, message:, reason: nil)
+  def self.delete_message(channel:, message:, reason: nil)
     ::Discordrb::API::Channel.delete_message(Bot.token, channel, message, reason)
   end
 
