@@ -8,14 +8,14 @@ class DiscordError
 
   EXCLUDE_MESSAGES = ['Unknown interaction'].freeze
 
-  def initialise(error, service: '', user: '')
+  def initialise(error:, service: '', user: '')
     @error = error
     @service = service
     @user = user
   end
 
-  def self.handle(error, service: '', user: '')
-    new(error, service:, user:).handle
+  def self.handle(error:, service: '', user: '')
+    new(error:, service:, user:).handle
   end
 
   def handle
