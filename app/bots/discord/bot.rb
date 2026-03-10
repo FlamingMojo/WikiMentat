@@ -56,7 +56,7 @@ module Discord
     end
 
     def self.token
-      @token ||= ENV['DISCORD_BOT_TOKEN']
+      @token ||= bot.token
     end
 
     def self.send_message(*args)
