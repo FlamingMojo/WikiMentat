@@ -34,4 +34,8 @@ class Member < ApplicationRecord
   def admin?
     roles.admin.any?
   end
+
+  def claimed_rewards
+    member_rewards.approved.map(&:reward_key)
+  end
 end
