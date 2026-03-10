@@ -1,6 +1,9 @@
 module Webhooks
   class DiscordChannelMessage
     include DiscordUtils
+    include Translatable
+
+    with_locale_context 'discord_webhooks'
 
     attr_reader :webhook, :guild_config
     private :webhook, :guild_config
