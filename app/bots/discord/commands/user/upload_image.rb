@@ -75,7 +75,7 @@ module Discord::Commands::User
     end
 
     def handle_mission
-      ::DiscordBot::Commands::Missions::Submit::UploadImage.new(
+      ::Discord::Commands::Missions::Submit::UploadImage.new(
         member: mentat_member, uploaded_files: uploaded_files, channel: event.channel
       ).handle
     end

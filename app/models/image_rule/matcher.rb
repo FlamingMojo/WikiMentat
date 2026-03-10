@@ -61,7 +61,7 @@ class ImageRule
     end
 
     def match_format
-      return true unless rule.format
+      return true unless rule.format.present?
 
       (image_info.format.to_s == rule.format.to_s).tap do |match|
         errors << t('format', rule_value: rule.format, image_value: image_info.format) unless match
