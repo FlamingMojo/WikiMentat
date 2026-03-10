@@ -24,9 +24,7 @@ class Mission
 
     def global_defaults
       return unless name
-      colour ||= COLOURS[name.to_sym]
-
-      update(colour:)
+      self.raw_colour ||= COLOURS[name.to_sym]
     end
 
     def colour

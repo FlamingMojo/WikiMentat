@@ -3,11 +3,14 @@
 module Discord::Commands::Admin
   class VerifyBoard
     include ::Discord::Util
+    include Translatable
+
+    with_locale_context 'dsicord.commands.admin.verify_board'
 
     def content
-      return t('admin.verify_board.failure.no_access') unless mentat_member.admin?
-      return t('admin.verify_board.failure.disabled', website: ENV['HOST_URL']) unless guild_configs.any?
-      return t('admin.verify_board.failure.no_channels', website: ENV['HOST_URL']) unless channels.any?
+      return t('failure.no_access') unless mentat_member.admin?
+      return t('failure.disabled', website: ENV['HOST_URL']) unless guild_configs.any?
+      return t('failure.no_channels', website: ENV['HOST_URL']) unless channels.any?
 
       guild_configs.each do |guild_config|
         guild_config.verify_board_channels.each do |channel|
@@ -19,7 +22,7 @@ module Discord::Commands::Admin
         end
       end
 
-      t('admin.verify_board.success')
+      t('success')
     end
 
     private
@@ -27,9 +30,9 @@ module Discord::Commands::Admin
     def buttons(wiki)
       ::Discordrb::Components::View.new do |builder|
         builder.row do |row|
-          row.button(label: t('admin.verify_board.link'), custom_id: "verify_board:link:#{wiki.id}", style: :primary)
+          row.button(label: t('link'), custom_id: "verify_board:link:#{wiki.id}", style: :primary)
           row.button(
-            label: t('admin.verify_board.lookup'), custom_id: "verify_board:search:#{wiki.id}", style: :secondary
+            label: t('lookup'), custom_id: "verify_board:search:#{wiki.id}", style: :secondary
           )
         end
       end
@@ -48,7 +51,11 @@ module Discord::Commands::Admin
     end
 
     class Embed
+      include Translatable
       include ::Discord::Util
+
+      with_locale_context 'discord.commands.admin.verify_board.embed'
+
       attr_reader :wiki
       private :wiki
 
@@ -61,9 +68,9 @@ module Discord::Commands::Admin
       end
 
       def generate
-        embed.title = t('admin.verify_board.embed.title', wiki: wiki.name)
+        embed.title = t('title', wiki: wiki.name)
         embed.colour = 0xf58a04
-        embed.description = t('admin.verify_board.embed.description')
+        embed.description = t('description')
         embed.thumbnail = thumbnail if wiki.logo_url
 
         embed
