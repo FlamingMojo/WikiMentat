@@ -1,5 +1,9 @@
 module Discord
   module CommandHandler
+    include ::Translatable
+
+    with_locale_context 'discord.commands'
+
     def handle(command, subcommand, service, defer: true)
       Discord.bot.application_command(command).subcommand(subcommand) do |event|
         EventHandler.new(event: event, service: const_get(service), defer: defer).respond
@@ -69,10 +73,6 @@ module Discord
       Discord.bot.mention(attributes) do |event|
         const_get(service).new(event).handle
       end
-    end
-
-    def t(key, *args, **kwargs)
-      I18n.t("discord.commands.#{key}", *args, **kwargs)
     end
 
     class EventHandler

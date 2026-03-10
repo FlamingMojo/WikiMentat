@@ -1,30 +1,34 @@
 class DiscordError
+  include ::Translatable
+
+  with_locale_context 'discord.commands'
+
   attr_reader :error, :service
   private :error, :service
 
-  EXCLUDE_MESSAGES = ['Unknown interaction'].freeze
+  EXCLUDE_MESSAGES = [ 'Unknown interaction' ].freeze
 
-  def initialise(error, service: '', user: '')
+  def initialize(error:, service: '', user: '')
     @error = error
     @service = service
     @user = user
   end
 
-  def self.handle(error)
-    new(error).handle
+  def self.handle(error:, service: '', user: '')
+    new(error:, service:, user:).handle
   end
 
   def handle
     return if EXCLUDE_MESSAGES.include?(message.strip)
 
     Discord.send_message(channel: ENV['ERROR_LOG_CHANNEL'], content:, allowed_mentions: {})
-    I18n.t('discord.commands.something_went_wrong')
+    t('something_went_wrong')
   end
 
   private
 
   def content
-    I18n.t('discord.commands.dev_error', user:, service:, message:, backtrace:)
+    t('dev_error', user:, service:, message:, backtrace:)
   end
 
   def user

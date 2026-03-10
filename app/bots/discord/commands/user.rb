@@ -3,8 +3,9 @@
 module Discord::Commands
   module User
     extend ::Discord::CommandHandler
+    include ::Translatable
 
-    # with_locale_context 'discord_bot.commands.user.tooltip'
+    with_locale_context 'discord.commands.user.tooltip'
 
     class << self
       def setup
@@ -20,7 +21,7 @@ module Discord::Commands
         handle_modal(/verify_board:claim:/, 'Discord::Commands::User::Claim')
         handle_button(/verify_board:search:/, 'Discord::Commands::User::Search')
         handle_user_select(/search:lookup/, 'Discord::Commands::User::Lookup')
-        # handle_mention('Discord::Commands::User::UploadImage')
+        handle_mention('Discord::Commands::User::UploadImage')
       end
     end
   end

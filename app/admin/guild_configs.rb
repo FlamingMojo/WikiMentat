@@ -3,7 +3,8 @@ ActiveAdmin.register GuildConfig do
   # Specify parameters which should be permitted for assignment
   permit_params(
     :guild_id, :wiki_id, :wiki_prefix, :send_discord_messages, :bot_changes, :minor_changes, :null_changes, 
-    :suppress_previews, :max_characters, :max_username_characters, :prepend_timestamp, :use_emojis, 
+    :suppress_previews, :max_characters, :max_username_characters, :prepend_timestamp, :use_emojis,
+    :enable_missions, :enable_rewards, :enable_image_upload,
     configured_channels_attributes: [ :id, :channel_id, :channel_purpose, :_destroy ],
     disabled_hooks_attributes: [ :id, :hook_name, :_destroy ],
     disabled_users_attributes: [ :id, :wiki_user_id, :_destroy ],
@@ -38,6 +39,9 @@ ActiveAdmin.register GuildConfig do
     column :max_username_characters
     column :prepend_timestamp
     column :use_emojis
+    column :enable_missions
+    column :enable_rewards
+    column :enable_image_upload
     actions
   end
 
@@ -57,6 +61,9 @@ ActiveAdmin.register GuildConfig do
       row :max_username_characters
       row :prepend_timestamp
       row :use_emojis
+      row :enable_missions
+      row :enable_rewards
+      row :enable_image_upload
       row :created_at
       row :updated_at
       row 'Configured Channels' do
@@ -102,6 +109,9 @@ ActiveAdmin.register GuildConfig do
       f.input :max_username_characters
       f.input :prepend_timestamp
       f.input :use_emojis
+      f.input :enable_missions
+      f.input :enable_rewards
+      f.input :enable_image_upload
       if resource.persisted?
         f.has_many :configured_channels, heading: 'Configured Channels', allow_destroy: true, new_record: true do |cf|
           cf.input :id, as: :hidden

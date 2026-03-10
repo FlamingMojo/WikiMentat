@@ -181,7 +181,7 @@ en:
     user_unblock: "%{user_links} unblocked %{target_links}"
     user_groups_changed: "%{user_links} changed rights of %{target_links} `%{reason}` (%{added}) (%{removed})"
     file_upload_new: "new version of "
-    file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{file_size}, %{width}x%{height}, %{mime_type})"
+    file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{width}x%{height}, %{mime_type})"
     file_delete: "%{user_links} deleted a version of file %{page_link} `%{reason}`"
     file_undelete: "%{user_links} restored some versions of file %{page_link} `%{reason}`"
     import: "%{user_links} imported %{page_link} (imported %{rev_count}/%{s_rev_count} revisions)"
@@ -203,6 +203,7 @@ en:
         wiki_page: "Page:"
         map_link: "Nearest Map Location:"
         language: "Language:"
+        rule: "Image Ruleset:"
     instructions:
       page_create: >
         Create or Edit the wiki page %{wiki_page_md}. This will be automatically detected by the system
@@ -217,7 +218,9 @@ en:
       accept_mission: "Accept"
       approve_mission: "Approve"
       reject_mission: "Reject"
+      abandon_mission: "Abandon"
       admin_notification: "@here A new submission landed!"
+      link: "https://discord.com/channels/%{guild}/%{channel}/%{message_id}"
   discord:
     commands:
       something_went_wrong: 'Oops. Something went wrong! The devs have been notified!'
@@ -252,6 +255,19 @@ en:
               Use the buttons below to link your wiki accounts, 
               or look up accounts belonging to another user.
               Please note that wiki usernames are case sensitive.
+        manually_verify:
+          not_found: 'User not found'
+          already_verified: "<@%{user_id}> is already verified as %{wiki_username}!"
+          success: 'Successfully verified <@%{user_id}> as the owner of %{wiki_username}!'
+        manually_submit_mission:
+          not_found: 'Mission not found!'
+          not_accepted: "That mission is not in progress!"
+          success: 'Successfully submitted Mission [%{mission_id}]!'
+          notify: >
+            <@%{user}> Thank you for your submission for mission %{summary}! 
+            It will be reviewed by staff.
+            You can continue updating the wiki page if you need in the meantime.
+            Thanks so much for your contribution! 🏅
       user:
         tooltip:
           wiki_user: "Sync Wiki accounts to discord"
@@ -278,11 +294,43 @@ en:
         lookup:
           not_found: "Sorry, that user has not verified any wiki accounts"
           found: "<@%{user_id}> Has verified ownership of the following wiki accounts:\n %{wiki_usernames}"
+        upload_image:
+          unknown_command: "<@%{user_id}> Sorry, I don't know what you're asking!"
+          not_enabled: "<@%{user_id}> Sorry, this server does not have wiki image uploads enabled!"
+          no_attachments: "<@%{user.id}> You haven't attached any images!"
+          no_title: "<@%{user.id}> You need to tell me a title for these images!"
+          rules_not_met: >
+            <@%{user_id}> Sorry, these files do not meet the image requirements:
+
+            - %{errors}
+
+            Please correct and re-upload with the same command
+          error: "<@%{user_id}> Sorry, something went wrong. Ask Mojo for help! Error: ```%{error}```"
+          aborted_error: "<@%{user_id}> Sorry, something went wrong. This is likely due to a duplicate image being uploaded."
+          comment: "Uploaded via Discord by %{username}"
+          success: >
+            <@%{user_id}> Uploaded:
+
+            - %{files}
+
+            for you!
+          rules:
+            min_width: "Width is too small. Minimum width: %{rule_value}px. Image width: %{image_value}px"
+            max_width: "Width is too large. Maximum width: %{rule_value}px. Image width: %{image_value}px"
+            min_height: "Height is too small. Minimum height: %{rule_value}px. Image height: %{image_value}px"
+            max_height: "Height is too large. Maximum height: %{rule_value}px. Image height: %{image_value}px"
+            format: "Incorrect image format. Required format: %{rule_value}. Format found: %{image_value}"
+            ratio: "Incorrect image W:H ratio. Required ratio: 1:%{rule_value}. Ratio found: 1:%{image_value}"
       missions:
+        not_enabled: 'Sorry. Missions are not enabled on this server.'
         tooltip:
           post: 'Post a new mission for the community'
           abandon: 'Abandon your current mission'
           cancel: 'Cancel a mission'
+          count: 'Show how many missions someone has completed (defaults to your own mission count)'
+          find: "Show a user's current mission (defaults to your own mission)"
+          rewards: 'Claim and view your rewards earned by completing missions!'
+          manually_reward: 'Manually give a player a reward'
           fields:
             id: 'ID of the mission to cancel'
         init:
@@ -304,12 +352,14 @@ en:
             wiki_page: "Wiki Page"
             map_link: "Nearest Map Location"
             language: "Language Code"
+            rule: "Image Ruleset"
           placeholder:
             title: "Title"
             description: "Mission Description"
             wiki_page: "%{wiki}/Some_Page"
-            map_link: "%{wiki}/Interactive_Map?marker=MARKER_ID"
+            map_link: "%{wiki}/Map?marker=MARKER_ID"
             language: "en"
+            rule: "e.g. menu"
           value:
             description:
               page_create: >
@@ -331,14 +381,17 @@ en:
             You must complete or abandon it before taking a new one
           accepted_mission: >
             Thank you! You are now on mission %{summary}!
-            %{instructions}
+            ```%{instructions}```
             To abandon this mission, simply `/abandon_mission`
         approve:
           approved_mission: "Completed mission %{summary}!"
-          celebration: "🎉<@%{user}> Has completed a mission - %{summary}!🎉"
+          celebration: "🎉<@%{user}> Has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
+          reward: "@here️ 🎖<@%{user}> Has completed %{count} Missions and has earned a reward!"
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"
+          reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> earned a %{reward} but we have none to give! ⚠️"
+          confirm: 'Approve'
         reject:
           rejected_mission: "Rejected mission %{summary}! Notified user"
           rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
@@ -351,21 +404,32 @@ en:
           not_assigned: "Sorry, nobody is on that mission"
         abandon:
           not_found: "You are not currently on a mission"
+          not_yours: "This is not your mission to abandon"
           abandoned_mission: "You have abandoned the mission %{summary}"
         cancel:
-          not_found: "You are not currently on a mission"
+          not_found: "Could not find mission."
           cancelled_mission: "You have cancelled the mission %{summary}"
+        count:
+          not_found: 'Sorry, cannot find that user!'
+          found_self: "You have completed %{count} missions."
+          found: "<@%{user_id}> has completed %{count} missions."
+        find:
+          not_found: 'Sorry, cannot find that user!'
+          found_self: "You are currently on %{summary}. Mission post link: %{link}"
+          no_mission_self: "You are not currently on a mission"
+          found: "<@%{user_id}> is currently on %{summary}. Mission post link: %{link}"
+          no_mission: "<@%{user_id}> is not currently on a mission"
         submit:
-          create_page:
+          page_create:
             notify: >
               <@%{user}> Thank you for your submission for mission %{summary}! 
-              It will be reviewed by an Editor.
+              It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
-          update_page:
+          page_update:
             notify: >
               <@%{user}> Thank you for your submission for mission %{summary}! 
-              It will be reviewed by an Editor.
+              It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
           upload_image:
@@ -377,9 +441,28 @@ en:
               not_you: "This button is not yours to push! 😠"
               not_found: "Sorry, something went wrong, can't find that mission"
               submitted_mission: >
-                Submitted your image for the mission. It will be reviewed by an Editor.
+                Submitted your image for the mission. It will be reviewed by staff.
                 Thanks so much for your contribution! 🏅
             cancel:
               not_you: "This button is not yours to push! 😠"
               not_found: "Sorry, something went wrong, can't find that mission"
               cancel_submission: "No problem! Thank you for uploading the image"
+        rewards:
+          not_enabled: 'Sorry. Rewards are not enabled on this server.'
+          no_rewards: "Sorry you haven't earned any rewards yet! See the missions board to get started!"
+          message: >
+            Congratulations! You have earned the following rewards:
+            
+            - %{rewards}
+        reward:
+          not_found: "Reward not found or already approved"
+          approved: "🏅Issued <@%{user_id}> a key for %{reward} - `%{key}`"
+          broadcast: "🏅Congratulations! <@%{user_id}> earned %{reward}! Use `/rewards` to claim your key!"
+          already_claimed: 'That user already has that reward. Unclaiming'
+        manually_reward:
+          not_enabled: 'Sorry. Rewards are not enabled on this server.'
+          reward: "@here️ 🎖<@%{user}> Has been manually awarded the %{reward} by <@%{admin}>."
+          not_found: "Sorry, something went wrong, can't find that user"
+          reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> was issued a %{reward} but we have none to give! ⚠️"
+          confirm: 'Approve'
+          issued: 'Issued the user a reward! It needs to be approved before they can receive it'

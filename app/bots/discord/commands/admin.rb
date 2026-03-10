@@ -3,8 +3,9 @@
 module Discord::Commands
   module Admin
     extend ::Discord::CommandHandler
-
-    # with_locale_context 'discord_bot.commands.admin.tooltip'
+    include ::Translatable
+    
+    with_locale_context 'discord.commands.admin.tooltip'
 
     class << self
       def setup
@@ -13,9 +14,8 @@ module Discord::Commands
       end
 
       def register_commands
-        # Not ready yet
-        Discord::Bot.slash_command(:mentat_admin, t('admin.tooltip.wiki_admin')) do |cmd|
-          cmd.subcommand(:verify_board, t('admin.tooltip.verify_board'))
+        Discord::Bot.slash_command(:mentat_admin, t('wiki_admin')) do |cmd|
+          cmd.subcommand(:verify_board, t('verify_board'))
           # cmd.subcommand(:editor_board, t('editor_board'))
           # cmd.subcommand(:block_word, 'Add word to username blocklist') do |sub|
           #   sub.string('word', 'Word to block')
@@ -31,7 +31,7 @@ module Discord::Commands
         handle(:mentat_admin, :verify_board, 'Discord::Commands::Admin::VerifyBoard')
         # handle(:wiki_admin, :block_word, 'Discord::Commands::Admin::AutoBlock::BlacklistWord')
         # handle(:wiki_admin, :unblock_word, 'Discord::Commands::Admin::AutoBlock::WhitelistWord')
-        handle_reaction('Discord::Commands::Admin::ReactionBlock', emoji: "❌")
+        handle_reaction('Discord::Commands::Admin::ReactionBlock', emoji: '❌')
         handle_reaction('Discord::Commands::Admin::ReactionUnblock', emoji: '✅')
         # handle_reaction('Discord::Commands::Admin::AutoBlock::BlacklistName', emoji: '⚠️')
       end

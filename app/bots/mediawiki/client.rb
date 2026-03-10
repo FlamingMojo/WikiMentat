@@ -69,6 +69,10 @@ module Mediawiki
       raw_action(:unblock, user: , reason:)
     end
 
+    def permissions
+      query(meta: :userinfo, uiprop: :rights)
+    end
+
     private
 
     def bot

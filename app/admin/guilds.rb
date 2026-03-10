@@ -1,6 +1,6 @@
 ActiveAdmin.register Guild do
   # Specify parameters which should be permitted for assignment
-  permit_params :discord_uid, :name
+  permit_params :discord_uid, :name, :primary_config_id
 
   # For security, limit the actions that should be available
   actions :all, except: []
@@ -27,6 +27,7 @@ ActiveAdmin.register Guild do
     id_column
     column :discord_uid
     column :name
+    column :primary_config
     column :created_at
     column :updated_at
     actions
@@ -38,6 +39,7 @@ ActiveAdmin.register Guild do
       row :id
       row :discord_uid
       row :name
+      row :primary_config
       row :created_at
       row :updated_at
     end
@@ -49,6 +51,7 @@ ActiveAdmin.register Guild do
     f.inputs do
       f.input :discord_uid
       f.input :name
+      f.input :primary_config
     end
     f.actions
   end

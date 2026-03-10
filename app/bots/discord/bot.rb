@@ -24,6 +24,14 @@ module Discord
     )
   end
 
+  def self.update_message(channel:, message:, content:, mentions: nil, embeds: nil, components: nil)
+    ::Discordrb::API::Channel.edit_message(Bot.token, channel, message, content, mentions, embeds, components)
+  end
+
+  def self.delete_message(channel:, message:, reason: nil)
+    ::Discordrb::API::Channel.delete_message(Bot.token, channel, message, reason)
+  end
+
   def self.pm_channel(*args, **kwargs)
     Bot.pm_channel(*args, **kwargs)
   end
@@ -36,19 +44,19 @@ module Discord
 
     # Note - calling Bot.new does initialize the bot (goes calling off to Discord)
     def self.bot
-      @bot ||= Discordrb::Bot.new(
-        token: ENV['DISCORD_BOT_TOKEN'],
-        client_id: ENV['DISCORD_CLIENT_ID'],
-        log_mode: log_mode,
-      )
+      @bot ||= Discordrb::Bot.new(token: ENV['DISCORD_BOT_TOKEN'], client_id:, log_mode:)
     end
 
     def self.slash_command(*args, **kwargs, &block)
       bot.register_application_command(*args, **kwargs, &block)
     end
 
-    def self.server
-      @server ||= Discord.bot.server
+    def self.client_id
+      @client_id ||= ENV['DISCORD_CLIENT_ID']
+    end
+
+    def self.token
+      @token ||= bot.token
     end
 
     def self.send_message(*args)

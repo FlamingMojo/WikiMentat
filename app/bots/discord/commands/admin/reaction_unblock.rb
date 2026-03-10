@@ -3,7 +3,10 @@
 module Discord::Commands::Admin
   class ReactionUnblock
     extend Forwardable
+    include Translatable
     include ::Discord::Util
+
+    with_locale_context 'discord.commands.admin.reaction_unblock'
 
     def_delegators :event, :user, :message
     def_delegators :message, :author
@@ -18,7 +21,7 @@ module Discord::Commands::Admin
 
       wiki_bot.unblock_user(
         user: webhook.user.name,
-        reason: t('admin.reaction_unblock.reason', admin: user.global_name)
+        reason: t('reason', admin: user.global_name)
       )
     rescue => error
       DiscordError.handle(error:, user: User.new(discord_uid: event.user.id), service: self.class.to_s)

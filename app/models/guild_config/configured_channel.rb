@@ -10,7 +10,11 @@ class GuildConfig
       %w[channel guild_config]
     end
 
-    enum :channel_purpose, %i[update_feed verify_boards], default: :update_feeds
+    GENERAL_CHANNELS = %i[update_feed verify_boards].freeze
+    MISSION_CHANNELS = %i[
+      mission_board mission_in_progress mission_submissions mission_completed mission_notifications mission_admin
+    ].freeze
+    enum :channel_purpose, [ *GENERAL_CHANNELS, *MISSION_CHANNELS ], default: :update_feeds
 
     belongs_to :guild_config
     belongs_to :channel

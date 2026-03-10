@@ -1,11 +1,11 @@
 module Webhooks
   module DiscordUtils
+    include ::Translatable
+
+    with_locale_context 'discord_webhooks'
+
     # noinspection ALL
     URL_SUBSTITUTIONS = { ' ' => '%20', '(' => '%28', ')' => '%29' }.freeze
-
-    def t(key, *args, **kwargs)
-      I18n.t("discord_webhooks.#{key}", *args, **kwargs)
-    end
 
     def key_params
       # Metaprogramming wizardry - find all the keys the I18n record is expecting, then
@@ -66,7 +66,7 @@ module Webhooks
     end
 
     def new_version
-      return '' unless page.new_version
+      return '' unless page.new_revision
 
       t('file_upload_new')
     end
@@ -78,13 +78,13 @@ module Webhooks
     def old_page_link
       return unless old_title && old_url
 
-      markdown_link(text: old_title, url: old_url)
+      markdown_link(text: page.old_name, url: old_url)
     end
 
     def original_page_link
       return unless original_title && original_url
 
-      markdown_link(text: original_title, url: original_url)
+      markdown_link(text: new_revision, url: original_url)
     end
 
     def new_user_link
@@ -101,10 +101,6 @@ module Webhooks
 
     def emoji
       guild_config.emoji_for(webhook)
-    end
-
-    def file_size
-      ByteSize.new(size)
     end
 
     def revision_text

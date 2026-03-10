@@ -1,5 +1,9 @@
 module Discord
   module Util
+    include ::Translatable
+
+    with_locale_context 'discord.commands'
+
     attr_reader :event
 
     # While this defines #initialize, it is still a module and cannot be instantiated.
@@ -9,7 +13,7 @@ module Discord
     end
 
     def response_block
-      -> (builder, view) {}
+      ->(builder, view) { }
     end
 
     def response_params
@@ -30,7 +34,7 @@ module Discord
     end
 
     def after_response
-      -> (message) {}
+      ->(message) { }
     end
 
     def allowed_mentions; end
@@ -50,7 +54,7 @@ module Discord
     end
 
     def ephemeral
-      true # By default make all bot responses only visible to the invoking user
+      true # By default, make all bot responses only visible to the invoking user
     end
 
     private
@@ -74,7 +78,7 @@ module Discord
     end
 
     def mentat_user
-      @mentat_user ||= User.find_or_create_by(discord_uid: user.id, username: user.username)
+      @mentat_user ||= User.find_or_create_by(discord_uid: user.id).tap { |u| u.update(username: user.username) }
     end
 
     def mentat_roles
@@ -109,10 +113,6 @@ module Discord
 
     def new_guild
       Guild.create(discord_uid: server.id, name: server.name).sync
-    end
-
-    def t(key, *args, **kwargs)
-      I18n.t("discord.commands.#{key}", *args, **kwargs)
     end
   end
 end
