@@ -57,7 +57,7 @@ module Discord::Commands::User
     end
 
     def message_text
-      text.gsub("<@#{Discord.bot.client_id}>", '').strip
+      text.gsub("<@#{Discord::Bot.client_id}>", '').strip
     end
 
     def rules_met?

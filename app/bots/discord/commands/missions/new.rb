@@ -53,12 +53,11 @@ module Discord::Commands::Missions
     def type_settings
       {
         page_create: { wiki_page: { required: true, placeholder: t('placeholder.wiki_page', wiki:) } },
-        page_update: { wiki_page: { required: true } },
+        page_update: { wiki_page: { required: true, placeholder: t('placeholder.wiki_page', wiki:) } },
         page_translate: {
           wiki_page: { required: true, placeholder: t('placeholder.wiki_page', wiki:) },
           language: { required: true },
         },
-        image_upload: { rule: { required: true } },
       }
     end
 
