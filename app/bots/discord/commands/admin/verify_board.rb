@@ -5,7 +5,7 @@ module Discord::Commands::Admin
     include ::Discord::Util
     include Translatable
 
-    with_locale_context 'dsicord.commands.admin.verify_board'
+    with_locale_context 'discord.commands.admin.verify_board'
 
     def content
       return t('failure.no_access') unless mentat_member.admin?
