@@ -1,21 +1,24 @@
 module Discord::Commands::User
   class Claim
     include ::Discord::Util
+    include Translatable
+
+    with_locale_context 'discord.commands.user.claim'
 
     def content
       return claimed_message if already_claimed?
 
       claim = mentat_user.user_claims.find_or_create_by!(wiki:, claimed_username: wiki_username)
-      t('user.claim.instructions', wiki_username: wiki_username, claim_code: claim.claim_code, wiki_url: wiki.url)
+      t('instructions', wiki_username: wiki_username, claim_code: claim.claim_code, wiki_url: wiki.url)
     end
 
     private
 
     def claimed_message
       if owning_user.id == mentat_user.id
-        t('user.claim.already_verified', wiki_username: wiki_username)
+        t('already_verified', wiki_username: wiki_username)
       else
-        t('user.claim.already_claimed', wiki_username: wiki_username, owner_id: owning_user.discord_uid)
+        t('already_claimed', wiki_username: wiki_username, owner_id: owning_user.discord_uid)
       end
     end
 

@@ -1,9 +1,12 @@
 module Discord::Commands::User
   class Link
     include ::Discord::Util
+    include Translatable
+
+    with_locale_context 'discord.commands.user.link_modal'
 
     def response_params
-      { title: t('user.link_modal.title'), custom_id: "verify_board:claim:#{wiki_id}" }
+      { title: t('title'), custom_id: "verify_board:claim:#{wiki_id}" }
     end
 
     def response_method
@@ -16,7 +19,7 @@ module Discord::Commands::User
           row.text_input(
             style: :short,
             custom_id: 'wiki_username',
-            label: t('user.link_modal.wiki_username'),
+            label: t('wiki_username'),
             required: true
           )
         end

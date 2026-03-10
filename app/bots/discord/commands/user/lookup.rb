@@ -1,11 +1,14 @@
 module Discord::Commands::User
   class Lookup
     include ::Discord::Util
+    include Translatable
+
+    with_locale_context 'discord.commands.user.lookup'
 
     def content
-      return t('user.lookup.not_found') unless wiki_users.any?
+      return t('not_found') unless wiki_users.any?
 
-      t('user.lookup.found', user_id: user_id, wiki_usernames: wiki_users.map(&:username).join(', '))
+      t('found', user_id: user_id, wiki_usernames: wiki_users.map(&:username).join(', '))
     end
 
     def response_method

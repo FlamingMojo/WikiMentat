@@ -1,9 +1,12 @@
 module Discord::Commands::User
   class Search
     include ::Discord::Util
+    include Translatable
+
+    with_locale_context 'discord.commands.user.search'
 
     def content
-      t('user.search.content')
+      t('content')
     end
 
     def response_block
@@ -13,7 +16,7 @@ module Discord::Commands::User
             custom_id: "search:lookup:#{wiki_id}",
             max_values: 1,
             min_values: 1,
-            placeholder: t('user.search.placeholder'),
+            placeholder: t('placeholder'),
           )
         end
       end

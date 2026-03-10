@@ -3,7 +3,10 @@
 module Discord::Commands::Admin
   class ReactionBlock
     extend Forwardable
+    include Translatable
     include ::Discord::Util
+
+    with_locale_context 'discord.commands.admin.reaction_block'
 
     def_delegators :event, :user, :message
     def_delegators :message, :author
@@ -27,11 +30,11 @@ module Discord::Commands::Admin
     end
 
     def block_user!
-      wiki_bot.block_user(user: webhook.user.name, reason: t('admin.reaction_block.reason', admin: user.global_name))
+      wiki_bot.block_user(user: webhook.user.name, reason: t('reason', admin: user.global_name))
     end
 
     def delete_page!
-      wiki_bot.delete_page(webhook.page.name, t('admin.reaction_block.reason', admin: user.global_name))
+      wiki_bot.delete_page(webhook.page.name, t('reason', admin: user.global_name))
     end
 
     def mentat_message
