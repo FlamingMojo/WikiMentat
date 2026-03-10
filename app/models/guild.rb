@@ -27,10 +27,10 @@ class Guild < ApplicationRecord
   end
 
   def find_member_by_discord_uid(discord_uid)
-    members.joins(:user).where(users: { discord_uid: })
+    members.joins(:user).where(user: { discord_uid: })
   end
 
   def find_member_by_username(username)
-    members.joins(:user).where(username:)
+    members.joins(:user).where(user: { username: })
   end
 end
