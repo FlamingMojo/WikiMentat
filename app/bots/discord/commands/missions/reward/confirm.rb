@@ -9,10 +9,10 @@ module Discord::Commands::Missions
     with_locale_context 'discord.commands.missions.reward'
 
     def content
-      return t('not_found') unless user_reward
+      return t('not_found') unless member_reward
       return already_claimed if user_already_rewarded?
 
-      user_reward.award(mentat_user)
+      member_reward.award(mentat_user)
       Discord.send_message(channel: notifications_channel.discord_uid, content: t('broadcast', user_id:, reward:))
       Discord.send_message(channel: admin_channel.discord_uid, content: t('approved', user_id:, key:, reward:))
       delete_message
@@ -31,17 +31,17 @@ module Discord::Commands::Missions
     end
 
     def already_claimed
-      user_reward.unclaim!
+      member_reward.unclaim!
       delete_message
       t('already_claimed')
     end
 
     def user_already_rewarded?
-      rewarded_user.claimed_rewards.include?(user_reward.reward_key)
+      rewarded_user.claimed_rewards.include?(member_reward.reward_key)
     end
 
     def key
-      @key ||= user_reward.redacted
+      @key ||= member_reward.redacted
     end
 
     def user_id
@@ -49,15 +49,15 @@ module Discord::Commands::Missions
     end
 
     def reward
-      @reward ||= user_reward.reward_type.name
+      @reward ||= member_reward.reward_type.name
     end
 
     def rewarded_user
-      @rewarded_user ||= user_reward.user
+      @rewarded_user ||= member_reward.user
     end
 
-    def user_reward
-      @user_reward ||= UserReward.find_by(id: custom_id.split(':').last)
+    def member_reward
+      @member_reward ||= MemberReward.find_by(id: custom_id.split(':').last)
     end
 
     def admin_channel

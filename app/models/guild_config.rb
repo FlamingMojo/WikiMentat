@@ -7,6 +7,7 @@ class GuildConfig < ApplicationRecord
     %w[
       created_at guild_id wiki_id id wiki_prefix send_discord_messages bot_changes minor_changes null_changes
       suppress_previews max_characters max_username_characters prepend_timestamp use_emojis updated_at
+      enable_missions enable_rewards enable_image_upload
     ]
   end
 

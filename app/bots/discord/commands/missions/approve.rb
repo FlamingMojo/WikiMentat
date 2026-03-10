@@ -66,7 +66,7 @@ module Discord::Commands::Missions
     def confirm_button
       ::Discordrb::Components::View.new do |builder|
         builder.row do |row|
-          row.button(label: t('confirm'), custom_id: "mission:reward:confirm:#{user_reward.id}", style: :success)
+          row.button(label: t('confirm'), custom_id: "mission:reward:confirm:#{member_reward.id}", style: :success)
         end
       end
     end

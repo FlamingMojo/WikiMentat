@@ -1,6 +1,6 @@
 class Guild < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
-    %w[created_at discord_uid id name updated_at]
+    %w[created_at discord_uid id name primary_config_id updated_at]
   end
 
   belongs_to :primary_config, optional: true, class_name: 'GuildConfig'

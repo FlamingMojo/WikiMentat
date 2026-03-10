@@ -9,7 +9,8 @@ class RewardType < ActiveRecord::Base
     %w[guild_config rewards]
   end
 
-  enum :reward_key, %i[atreides_battle_rifle]
+  # TODO: Remove reward key, just use name.
+  enum :reward_key, %i[one two three four five six seven eight nine]
   enum :threshold_type, %i[mission_count]
 
   scope :active, -> { where(active: true) }

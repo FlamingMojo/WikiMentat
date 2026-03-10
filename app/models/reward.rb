@@ -14,8 +14,8 @@ class Reward < ActiveRecord::Base
   belongs_to :member_reward, optional: true
   has_one :member, through: :member_reward, source: :member
 
-  scope :unclaimed, -> { where(user_reward_id: nil) }
-  scope :claimed, -> { where.not(user_reward_id: nil) }
+  scope :unclaimed, -> { where(member_reward_id: nil) }
+  scope :claimed, -> { where.not(member_reward_id: nil) }
 
   def issue_to(member, **kwargs)
     transaction do
