@@ -21,7 +21,7 @@ class Mission
       return move if mission.channel_uid != channel
 
       Discord.update_message(
-        channel: mission.channel_uid, message: mission.discord_post_uid, content: content, mentions: [],
+        channel: mission.channel_uid, message: mission.discord_post_uid, content: content,
         embeds: [ mission.embed ], components: buttons.to_a
       )
     end
