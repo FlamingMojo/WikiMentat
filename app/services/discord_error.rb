@@ -6,9 +6,9 @@ class DiscordError
   attr_reader :error, :service
   private :error, :service
 
-  EXCLUDE_MESSAGES = ['Unknown interaction'].freeze
+  EXCLUDE_MESSAGES = [ 'Unknown interaction' ].freeze
 
-  def initialise(error:, service: '', user: '')
+  def initialize(error:, service: '', user: '')
     @error = error
     @service = service
     @user = user
