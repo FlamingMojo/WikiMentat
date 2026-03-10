@@ -81,6 +81,6 @@ class GuildConfig < ApplicationRecord
   end
 
   def wiki_bot
-    @wiki_bot ||= guild.wiki_bots.find_by(wiki:)
+    guild.wiki_bots.find_by(wiki:)
   end
 end

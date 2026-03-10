@@ -1,7 +1,8 @@
 class GuildConfig
   class ImageUploadValidator < ActiveModel::Validator
     def validate(record)
-      return unless record.enable_image_upload && record.wiki_bot
+      return unless record.enable_image_upload
+      return unless record.wiki_bot
 
       record.errors.add(
         :enable_image_upload,
