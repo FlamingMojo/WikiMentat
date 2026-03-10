@@ -37,7 +37,7 @@ module Discord::Commands::Missions
     end
 
     def user_already_rewarded?
-      rewarded_user.claimed_rewards.include?(member_reward.reward_key)
+      rewarded_member.claimed_rewards.include?(member_reward.reward_key)
     end
 
     def key
@@ -45,15 +45,15 @@ module Discord::Commands::Missions
     end
 
     def user_id
-      @user_id ||= rewarded_user.discord_uid
+      @user_id ||= rewarded_member.discord_uid
     end
 
     def reward
       @reward ||= member_reward.reward_type.name
     end
 
-    def rewarded_user
-      @rewarded_user ||= member_reward.user
+    def rewarded_member
+      @rewarded_member ||= member_reward.member
     end
 
     def member_reward
