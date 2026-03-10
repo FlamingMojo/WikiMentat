@@ -1,6 +1,6 @@
 module Discord
   module Util
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'discord.commands'
 

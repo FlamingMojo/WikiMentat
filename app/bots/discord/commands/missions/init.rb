@@ -4,7 +4,7 @@
 # Returns dropdown of mission types
 module Discord::Commands::Missions
   class Init
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.init'

@@ -1,6 +1,6 @@
 module Webhooks
   module DiscordUtils
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'discord_webhooks'
 

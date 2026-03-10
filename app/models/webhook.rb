@@ -1,5 +1,5 @@
 class Webhook < ApplicationRecord
-  include Translatable
+  include ::Translatable
 
   with_locale_context 'discord.commands.missions.submit'
   after_create :publish_to_guilds

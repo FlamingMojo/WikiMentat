@@ -2,7 +2,7 @@
 
 class ImageRule
   class Matcher
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'discord.commands.user.upload_image.rules'
 

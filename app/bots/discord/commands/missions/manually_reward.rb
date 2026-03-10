@@ -2,7 +2,7 @@
 
 module Discord::Commands::Missions
   class ManuallyReward
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.manually_reward'

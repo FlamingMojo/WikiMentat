@@ -4,7 +4,7 @@
 # Returns a new modal to create mission
 module Discord::Commands::Missions
   class New
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.new'

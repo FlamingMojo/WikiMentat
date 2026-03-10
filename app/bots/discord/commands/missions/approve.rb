@@ -7,7 +7,7 @@
 # Updates submit embed to remove buttons and update status
 module Discord::Commands::Missions
   class Approve
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.approve'

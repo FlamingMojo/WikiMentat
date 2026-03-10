@@ -1,5 +1,5 @@
 class DiscordError
-  include Translatable
+  include ::Translatable
 
   with_locale_context 'discord.commands'
 

@@ -3,7 +3,7 @@
 # Invoked from button on reward issued in high council channel after 7 missions.
 module Discord::Commands::Missions
   class Reward::Confirm
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.reward'

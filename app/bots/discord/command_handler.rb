@@ -1,6 +1,6 @@
 module Discord
   module CommandHandler
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'discord.commands'
 

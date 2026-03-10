@@ -4,7 +4,7 @@
 # Returns array of buttons for response
 module Discord::Commands::Missions
   class Submit::UploadImage
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.submit.upload_image'

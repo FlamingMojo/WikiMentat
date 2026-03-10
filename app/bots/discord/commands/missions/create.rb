@@ -5,7 +5,7 @@
 # Returns confirmation to admin
 module Discord::Commands::Missions
   class Create
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.create'

@@ -2,7 +2,7 @@
 
 class Mission
   class Embed
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'mission.embed'
 

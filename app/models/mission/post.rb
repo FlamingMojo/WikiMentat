@@ -2,7 +2,7 @@
 
 class Mission
   class Post
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'mission.post'
 

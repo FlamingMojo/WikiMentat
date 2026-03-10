@@ -3,7 +3,7 @@
 module Discord::Commands
   module Admin
     extend ::Discord::CommandHandler
-    include Translatable
+    include ::Translatable
     
     with_locale_context 'discord.commands.admin.tooltip'
 

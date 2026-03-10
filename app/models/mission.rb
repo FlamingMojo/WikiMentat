@@ -15,7 +15,7 @@ class Mission < ActiveRecord::Base
     %w[assignee guild guild_config image_mission_rule image_rule issuer wiki]
   end
 
-  include Translatable
+  include ::Translatable
 
   with_locale_context 'mission'
 

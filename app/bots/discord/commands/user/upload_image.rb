@@ -4,7 +4,7 @@ module Discord::Commands::User
   class UploadImage
     extend Forwardable
     include ::Discord::Util
-    include Translatable
+    include ::Translatable
 
     with_locale_context 'discord.commands.user.upload_image'
 

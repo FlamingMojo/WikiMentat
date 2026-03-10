@@ -5,7 +5,7 @@
 # Returns message to user.
 module Discord::Commands::Missions
   class Submit::UploadImage::Confirm
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions.submit.upload_image.confirm'

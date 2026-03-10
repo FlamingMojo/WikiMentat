@@ -6,7 +6,7 @@
 # Posts submit embed with mission details plus submission details, and buttons
 module Discord::Commands::Missions
   class Submit
-    include Translatable
+    include ::Translatable
     include ::Discord::Util
 
     with_locale_context 'discord.commands.missions'
