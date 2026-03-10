@@ -328,6 +328,7 @@ en:
           abandon: 'Abandon your current mission'
           cancel: 'Cancel a mission'
           count: 'Show how many missions someone has completed (defaults to your own mission count)'
+          find: "Show a user's current mission (defaults to your own mission)"
           rewards: 'Claim and view your rewards earned by completing missions!'
           manually_reward: 'Manually give a player a reward'
           fields:

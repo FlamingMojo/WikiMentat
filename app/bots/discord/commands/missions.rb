@@ -22,6 +22,9 @@ module Discord::Commands
         Discord::Bot.slash_command(:missions, t('count')) do |cmd|
           cmd.user('target_user', 'Other discord user', required: false)
         end
+        Discord::Bot.slash_command(:mission, t('find')) do |cmd|
+          cmd.user('target_user', 'Other discord user', required: false)
+        end
         Discord::Bot.slash_command(:manual_reward, t('manually_reward')) do |cmd|
           cmd.user('target_user', 'Discord user', required: true)
         end
