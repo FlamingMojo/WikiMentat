@@ -108,7 +108,7 @@ module Discord::Commands::User
       end
 
       def local_filename
-        @local_filename ||= "./#{filename}"
+        @local_filename ||= "./tmp/#{filename}"
       end
 
       def filename
