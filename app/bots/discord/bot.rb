@@ -44,7 +44,7 @@ module Discord
 
     # Note - calling Bot.new does initialize the bot (goes calling off to Discord)
     def self.bot
-      @bot ||= Discordrb::Bot.new(token:, client_id:, log_mode:)
+      @bot ||= Discordrb::Bot.new(token: ENV['DISCORD_BOT_TOKEN'], client_id:, log_mode:)
     end
 
     def self.slash_command(*args, **kwargs, &block)
