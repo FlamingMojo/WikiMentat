@@ -12,7 +12,7 @@ module Discord::Commands::Missions
       return t('not_found') unless member_reward
       return already_claimed if user_already_rewarded?
 
-      member_reward.award(mentat_user)
+      member_reward.award(mentat_member)
       Discord.send_message(channel: notifications_channel.discord_uid, content: t('broadcast', user_id:, reward:))
       Discord.send_message(channel: admin_channel.discord_uid, content: t('approved', user_id:, key:, reward:))
       delete_message
