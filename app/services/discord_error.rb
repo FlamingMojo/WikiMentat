@@ -14,8 +14,8 @@ class DiscordError
     @user = user
   end
 
-  def self.handle(error)
-    new(error).handle
+  def self.handle(error, service: '', user: '')
+    new(error, service:, user:).handle
   end
 
   def handle
