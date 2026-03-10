@@ -66,7 +66,7 @@ module Webhooks
     end
 
     def new_version
-      return '' unless page.new_version
+      return '' unless page.new_revision
 
       t('file_upload_new')
     end
@@ -78,13 +78,13 @@ module Webhooks
     def old_page_link
       return unless old_title && old_url
 
-      markdown_link(text: old_title, url: old_url)
+      markdown_link(text: old_name, url: old_url)
     end
 
     def original_page_link
       return unless original_title && original_url
 
-      markdown_link(text: original_title, url: original_url)
+      markdown_link(text: new_revision, url: original_url)
     end
 
     def new_user_link
