@@ -21,8 +21,8 @@ class GuildConfig < ApplicationRecord
   has_many :disabled_users, dependent: :destroy
   has_many :configured_channels, dependent: :destroy
   has_many :missions
-  has_many :type_defaults, dependent: :destroy
-  has_many :state_defaults, dependent: :destroy
+  has_many :type_defaults, dependent: :destroy, class_name: 'Mission::TypeDefault'
+  has_many :state_defaults, dependent: :destroy, class_name: 'Mission::StateDefault'
   has_many :reward_types, dependent: :nullify
   has_many :rewards, through: :reward_types
   has_many :image_rules, dependent: :destroy
