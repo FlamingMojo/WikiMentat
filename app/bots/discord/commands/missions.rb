@@ -14,18 +14,18 @@ module Discord::Commands
       end
 
       def register_commands
-        Discord.slash_command(:post_mission, t('post'))
-        Discord.slash_command(:abandon_mission, t('abandon'))
-        Discord.slash_command(:cancel_mission, t('cancel')) do |cmd|
+        Discord::Bot.slash_command(:post_mission, t('post'))
+        Discord::Bot.slash_command(:abandon_mission, t('abandon'))
+        Discord::Bot.slash_command(:cancel_mission, t('cancel')) do |cmd|
           cmd.string('id', t('fields.id'), required: true)
         end
-        Discord.slash_command(:missions, t('count')) do |cmd|
+        Discord::Bot.slash_command(:missions, t('count')) do |cmd|
           cmd.user('target_user', 'Other discord user', required: false)
         end
-        Discord.slash_command(:manual_reward, t('manually_reward')) do |cmd|
+        Discord::Bot.slash_command(:manual_reward, t('manually_reward')) do |cmd|
           cmd.user('target_user', 'Discord user', required: true)
         end
-        Discord.slash_command(:rewards, t('rewards'))
+        Discord::Bot.slash_command(:rewards, t('rewards'))
       end
 
       def register_handlers
