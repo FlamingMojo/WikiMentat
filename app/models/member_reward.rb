@@ -18,7 +18,7 @@ class MemberReward < ActiveRecord::Base
   belongs_to :member
   has_one :user, through: :member
 
-  after_create :cache_user
+  after_initialize :cache_user, unless: :persisted?
 
   def award(issuer)
     update(issuer:, status: :approved)
@@ -30,7 +30,8 @@ class MemberReward < ActiveRecord::Base
   end
 
   def cache_user
-    update(discord_uid: user.discord_uid, issued_at: Time.now)
+    self.discord_uid = member.discord_uid
+    self.issued_at = Time.now
   end
 
   def to_message
