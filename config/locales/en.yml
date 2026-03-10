@@ -181,7 +181,7 @@ en:
     user_unblock: "%{user_links} unblocked %{target_links}"
     user_groups_changed: "%{user_links} changed rights of %{target_links} `%{reason}` (%{added}) (%{removed})"
     file_upload_new: "new version of "
-    file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{file_size}, %{width}x%{height}, %{mime_type})"
+    file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{width}x%{height}, %{mime_type})"
     file_delete: "%{user_links} deleted a version of file %{page_link} `%{reason}`"
     file_undelete: "%{user_links} restored some versions of file %{page_link} `%{reason}`"
     import: "%{user_links} imported %{page_link} (imported %{rev_count}/%{s_rev_count} revisions)"

@@ -78,7 +78,7 @@ module Webhooks
     def old_page_link
       return unless old_title && old_url
 
-      markdown_link(text: old_name, url: old_url)
+      markdown_link(text: page.old_name, url: old_url)
     end
 
     def original_page_link
@@ -101,10 +101,6 @@ module Webhooks
 
     def emoji
       guild_config.emoji_for(webhook)
-    end
-
-    def file_size
-      ByteSize.new(size)
     end
 
     def revision_text
