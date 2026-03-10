@@ -68,7 +68,7 @@ class Mission
 
     def active_buttons
       return [ accept_button ] if mission.active?
-      return [ abandon_button ] if mission.in_progress?
+      return [ abandon_button ] if mission.accepted?
       return [ approve_button, reject_button ] if mission.submitted?
 
       []
@@ -88,7 +88,7 @@ class Mission
         label: t('abandon_mission'),
         custom_id: "mission:abandon:#{mission.id}",
         style: :danger,
-        disabled: !mission.in_progress?,
+        disabled: !mission.accepted?,
       }
     end
 
