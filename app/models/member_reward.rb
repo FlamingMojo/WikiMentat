@@ -12,7 +12,7 @@ class MemberReward < ActiveRecord::Base
   enum :status, %i[pending approved]
   enum :issue_type, %i[missions staff manual]
 
-  belongs_to :issuer, class_name: 'Member'
+  belongs_to :issuer, class_name: 'Member', optional: true
   belongs_to :reward
   has_one :reward_type, through: :reward
   belongs_to :member
