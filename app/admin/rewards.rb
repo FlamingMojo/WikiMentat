@@ -17,7 +17,6 @@ ActiveAdmin.register Reward do
   filter :id
   filter :reward_type
   filter :member_reward
-  filter :key
   filter :created_at
   filter :updated_at
 
@@ -27,7 +26,7 @@ ActiveAdmin.register Reward do
     id_column
     column :reward_type
     column :member_reward
-    column :key
+    column :redacted
     column :created_at
     column :updated_at
     actions
@@ -39,7 +38,7 @@ ActiveAdmin.register Reward do
       row :id
       row :reward_type
       row :member_reward
-      row :key
+      row :redacted
       row :created_at
       row :updated_at
     end
@@ -51,7 +50,7 @@ ActiveAdmin.register Reward do
     f.inputs do
       f.input :reward_type
       f.input :member_reward
-      f.input :key
+      f.input :key if f.object.new_record?
     end
     f.actions
   end

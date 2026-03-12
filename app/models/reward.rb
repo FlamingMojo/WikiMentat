@@ -24,4 +24,8 @@ class Reward < ActiveRecord::Base
     end
     member_reward
   end
+
+  def redacted
+    "#{key[0..4]}*******#{key[-4..-1]}"
+  end
 end

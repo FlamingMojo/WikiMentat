@@ -127,6 +127,11 @@ class Mission < ActiveRecord::Base
       discord_post_uid: post_message.id,
       discord_post_link: t('link', guild_id: guild.discord_uid, message_id: post_message.id, channel_id: post.channel)
     )
+  rescue StandardError => e
+    if e.message == 'Unknown Message'
+      update(discord_post_uid: nil, discord_post_link: nil)
+      reload.sync_post!
+    end
   end
 
   def embed

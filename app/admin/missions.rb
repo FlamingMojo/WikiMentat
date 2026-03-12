@@ -13,6 +13,42 @@ ActiveAdmin.register Mission do
   # For security, limit the actions that should be available
   actions :all, except: []
 
+  member_action :sync, method: :post do
+    resource.sync_post!
+    redirect_to admin_mission_path(resource), notice: 'Synced'
+  end
+
+  member_action :cancel, method: :post do
+    resource.cancel
+    redirect_to admin_mission_path(resource), notice: 'Cancelled'
+  end
+
+  member_action :abandon, method: :post do
+    resource.abandon
+    redirect_to admin_mission_path(resource), notice: 'Abandoned'
+  end
+
+  member_action :manual_submit, method: :post do
+    resource.submit
+    redirect_to admin_mission_path(resource), notice: 'Manually Submitted'
+  end
+
+  action_item :sync, only: :show do
+    link_to 'Sync with Discord', sync_admin_mission_path(resource), method: :post, class: 'action-item-button'
+  end
+
+  action_item :cancel, only: :show do
+    link_to 'Cancel Mission', cancel_admin_mission_path(resource), method: :post, class: 'action-item-button'
+  end
+
+  action_item :abandon, only: :show do
+    link_to 'Abandon Mission', abandon_admin_mission_path(resource), method: :post, class: 'action-item-button'
+  end
+
+  action_item :manual_submit, only: :show do
+    link_to 'Manually Submit', manual_submit_admin_mission_path(resource), method: :post, class: 'action-item-button'
+  end
+
   # Add or remove filters to toggle their visibility
   filter :id
   filter :title
@@ -92,9 +128,9 @@ ActiveAdmin.register Mission do
       f.input :issuer
       f.input :assignee
       f.input :guild_config
-      f.input :status
-      f.input :type
-      f.input :priority
+      f.input :status, as: :string
+      f.input :type, as: :string
+      f.input :priority, as: :string
       f.input :completed_at
     end
     f.actions
