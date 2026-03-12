@@ -220,7 +220,7 @@ en:
       reject_mission: "Reject"
       abandon_mission: "Abandon"
       admin_notification: "@here A new submission landed!"
-      link: "https://discord.com/channels/%{guild}/%{channel}/%{message_id}"
+      link: "https://discord.com/channels/%{guild_id}/%{channel}/%{message_id}"
   discord:
     commands:
       something_went_wrong: 'Oops. Something went wrong! The devs have been notified!'
