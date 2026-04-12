@@ -101,10 +101,8 @@ module Discord
     end
 
     # Helper method to PM a user
-    def send_pm(user_id:, message:, tts: nil, embed: nil, attachments: nil, mentions: nil, ref: nil, actions: nil)
-      Discord.send_message(
-        Discord.pm_channel(user_id), message, tts, embed, attachments, mentions, ref, actions
-      )
+    def send_pm(user_id:, message:, **kwargs)
+      Discord.send_message(channel: Discord.pm_channel(user_id), content: message, **kwargs)
     end
 
     def user
