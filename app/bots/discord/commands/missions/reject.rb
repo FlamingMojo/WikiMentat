@@ -20,7 +20,7 @@ module Discord::Commands::Missions
       send_pm(user_id: mission.assignee.discord_uid.to_i, message: t('feedback', summary: mission.summary))
 
       # Catch the edge case where a user has picked up another mission while awaiting this being accepted.
-      return abandon_mission if assignee.current_mission
+      return abandon_mission if assignee.reload.current_mission
 
       t('rejected_mission', summary: mission.summary)
     rescue => error
