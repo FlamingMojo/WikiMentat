@@ -16,11 +16,10 @@ module Discord::Commands::Missions
       return t('not_submitted') unless mission.submitted?
       return t('not_assigned') unless assignee
 
-      mission.reject
-      send_pm(user_id: mission.assignee.discord_uid.to_i, message: t('feedback', summary: mission.summary))
-
+      send_pm(user_id: assignee.discord_uid.to_i, message: t('feedback', summary: mission.summary))
       # Catch the edge case where a user has picked up another mission while awaiting this being accepted.
-      return abandon_mission if assignee.reload.current_mission
+      return abandon_mission if assignee.missions.accepted.count >= 1
+      mission.reject
 
       t('rejected_mission', summary: mission.summary)
     rescue => error

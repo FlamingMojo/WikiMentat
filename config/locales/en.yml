@@ -398,7 +398,6 @@ en:
           rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
           feedback: >
             Sorry, your submission to mission %{summary} was rejected.
-            You are still on this mission unless you choose to abandon it, and can continue to submit contributions!
             Please reach out to moderators for assistance.
           abandon: >
             As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
