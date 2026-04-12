@@ -1,8 +1,13 @@
 # frozen_string_literal: true
-ActiveAdmin.register_page 'Dashboard' do
-  menu priority: 1, label: proc { I18n.t('active_admin.dashboard') }
+ActiveAdmin.register_page 'Bulk Image Upload' do
+  permit_params :wiki_bot_id, :files
+  menu priority: 1, label: proc { I18n.t('active_admin.bulk_image_upload') }
 
-  content title: proc { I18n.t('active_admin.dashboard') } do
+  collection_action :upload, method: :post do
+
+  end
+
+  content title: proc { I18n.t('active_admin.bulk_image_upload.title') } do
     panel 'Info' do
       para "Welcome to the Wiki Mentat admin dashboard, #{session_user.username}."
     end

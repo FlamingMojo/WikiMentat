@@ -19,7 +19,7 @@ module Discord::Commands::User
 
     def content
       return t('unknown_command', user_id: user.id) unless message_text.start_with?(/upload/i)
-      return t('not_enabled', user_id: user.id) unless guild_config.enable_image_upload
+      return t('not_enabled', user_id: user.id) unless guild_config.discord_image_upload
       return t('no_attachments', user_id: user.id) unless attachments.any?
       return t('no_title', user_id: user.id) unless title_base.length
       return t('rules_not_met', user_id: user.id, errors: rule_errors.flatten.join("\n- ")) unless rules_met?
