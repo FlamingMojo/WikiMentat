@@ -394,11 +394,15 @@ en:
           confirm: 'Approve'
         reject:
           rejected_mission: "Rejected mission %{summary}! Notified user"
+          rejected_abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
           rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
           feedback: >
             Sorry, your submission to mission %{summary} was rejected.
             You are still on this mission unless you choose to abandon it, and can continue to submit contributions!
             Please reach out to moderators for assistance.
+          abandon: >
+            As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+            It has now been set back to available and you can pick it up later here %{link}
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"

@@ -63,11 +63,11 @@ module Discord
       bot.send_message(*args)
     end
 
-    def get_user(user_id)
+    def self.get_user(user_id)
       bot.user(user_id)
     end
 
-    def pm_channel(user_id)
+    def self.pm_channel(user_id)
       get_user(user_id).pm
     end
 
