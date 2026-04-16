@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_01_191451) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_190413) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_191451) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["key"], name: "index_api_keys_on_key", unique: true
+    t.index ["user_id"], name: "index_api_keys_on_user_id", unique: true
+  end
+
+  create_table "api_request_logs", force: :cascade do |t|
+    t.bigint "api_key_id", null: false
+    t.datetime "created_at", null: false
+    t.string "endpoint"
+    t.jsonb "payload"
+    t.string "request_method"
+    t.jsonb "response_body"
+    t.integer "response_code"
+    t.datetime "updated_at", null: false
+    t.index ["api_key_id"], name: "index_api_request_logs_on_api_key_id"
   end
 
   create_table "boards", force: :cascade do |t|

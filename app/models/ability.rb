@@ -30,5 +30,7 @@ class Ability
   def admin
     can :manage, :all
     cannot :manage, User
+    cannot :manage, APIKey
+    cannot :manage, APIRequestLog
   end
 end
