@@ -27,6 +27,10 @@ class Member < ApplicationRecord
     "[#{guild.initials}] #{user.username}"
   end
 
+  def manage_missions?
+    moderator? || admin?
+  end
+
   def moderator?
     roles.moderator.any?
   end

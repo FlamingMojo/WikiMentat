@@ -27,4 +27,8 @@ class User < ApplicationRecord
   def name
     display_name.presence || username.presence || discord_uid
   end
+
+  def member_of(guild)
+    members.find_by(guild:)
+  end
 end
