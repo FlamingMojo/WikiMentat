@@ -23,6 +23,24 @@ module API::V1
       end
     end
 
+    def cancel
+      if mission & guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.cancel
+        handle_response({ message: "Successfully cancelled Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
+    def abandon
+      if mission & guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.abandon
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
     private
 
     def mission
