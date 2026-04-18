@@ -24,7 +24,7 @@ module API::V1
     end
 
     def cancel
-      if mission & guild_config.enable_missions && guild && member && member.manage_missions?
+      if mission && guild_config.enable_missions && guild && member && member.manage_missions?
         mission.cancel
         handle_response({ message: "Successfully cancelled Mission [#{mission.id}]"}, status: 200)
       else
@@ -33,7 +33,7 @@ module API::V1
     end
 
     def abandon
-      if mission & guild_config.enable_missions && guild && member && member.manage_missions?
+      if mission && guild_config.enable_missions && guild && member && member.manage_missions?
         mission.abandon
         handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
       else
