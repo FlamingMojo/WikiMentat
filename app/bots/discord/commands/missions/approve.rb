@@ -31,5 +31,9 @@ module Discord::Commands::Missions
     def mission
       @mission ||= guild_config.missions.find_by(id: custom_id.split(':').last)
     end
+
+    def guild_config
+      @guild_config ||= guild.primary_config
+    end
   end
 end
