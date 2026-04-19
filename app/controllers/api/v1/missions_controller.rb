@@ -41,6 +41,33 @@ module API::V1
       end
     end
 
+    def submit
+      if mission&.accepted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.submit
+        handle_response({ message: "Successfully manually submitted Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
+    def approve
+      if mission&.submitted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.approve
+        handle_response({ message: "Successfully approved Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
+    def reject
+      if mission&.submitted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.reject
+        handle_response({ message: "Successfully rejected Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
     private
 
     def mission
