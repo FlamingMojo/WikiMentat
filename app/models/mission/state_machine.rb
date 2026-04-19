@@ -18,11 +18,11 @@ class Mission
     end
 
     def reject
-      delete_post! && accepted! && reload && sync_post!
+      Reject.call(self)
     end
 
     def approve
-      completed! && reload && sync_post!
+      Approve.call(self)
     end
   end
 end
