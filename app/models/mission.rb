@@ -77,8 +77,8 @@ class Mission < ActiveRecord::Base
   end
 
   def as_json(options = nil)
-    rule = image_rule_id ? image_rule.name : nil
-    assignee_uid = assignee_id ? assignee.discord_uid : nil
+    rule = image_upload? && image_mission_rule ? image_rule.name : nil
+    assignee_uid = assignee_id.present? ? assignee.discord_uid : nil
     {
       id:, guild_config_id:, status:, type:, title:, description:, wiki_page:, map_link:,
       discord_post_uid:, discord_post_link:, rule:, issuer: issuer.discord_uid,
