@@ -4,6 +4,7 @@ module API::V1
       @mission = Mission.new(mission_params)
 
       if guild_config.enable_missions && guild && member && member.manage_missions?
+        @mission.issuer = member
         if @mission.save
           @mission.sync_post! && @mission.reload
           handle_response(@mission.as_json, status: 201)
