@@ -1,5 +1,14 @@
 module API::V1
   class MissionsController < APIController
+    def index
+      @q = Mission.for_user(@current_user).ransack(params[:q])
+      @missions = @q.result(distinct: true)
+
+      handle_response(@missions.to_json, status: 200)
+    rescue => error
+      handle_response({ error: error.message }, status: 400)
+    end
+
     def create
       @mission = Mission.new(mission_params)
 
