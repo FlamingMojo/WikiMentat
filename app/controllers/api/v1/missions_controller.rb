@@ -15,6 +15,18 @@ module API::V1
       end
     end
 
+    def update
+      if mission && guild_config.enable_missions && guild && member && member.manage_missions?
+        if mission.update(mission_params)
+          handle_response(mission.as_json, status: 200)
+        else
+          handle_response({ error: @mission.errors.as_json }, status: 400)
+        end
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
     def show
       if mission && guild_config.enable_missions && member
         handle_response(mission.as_json, status: 200)
@@ -75,7 +87,7 @@ module API::V1
     end
 
     def mission_params
-      params.expect(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :rule)
+      params.permit(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :rule)
     end
 
     def assignee_member
