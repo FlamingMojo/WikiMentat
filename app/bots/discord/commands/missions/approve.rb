@@ -15,7 +15,7 @@ module Discord::Commands::Missions
     def content
       return t('not_found') unless mission
       return t('not_submitted') unless mission.submitted?
-      return t('not_assigned') unless assignee
+      return t('not_assigned') unless mission.assignee
 
       mission.approve
     rescue => error
@@ -24,12 +24,12 @@ module Discord::Commands::Missions
 
     private
 
-    def assignee
-      @assignee ||= mission.assignee
-    end
-
     def mission
       @mission ||= guild_config.missions.find_by(id: custom_id.split(':').last)
+    end
+
+    def guild_config
+      @guild_config ||= guild.primary_config
     end
   end
 end

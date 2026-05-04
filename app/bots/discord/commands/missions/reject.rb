@@ -14,7 +14,7 @@ module Discord::Commands::Missions
     def content
       return t('not_found') unless mission
       return t('not_submitted') unless mission.submitted?
-      return t('not_assigned') unless assignee
+      return t('not_assigned') unless mission.assignee
 
       mission.reject
     rescue => error

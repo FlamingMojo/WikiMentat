@@ -38,6 +38,7 @@ class Mission < ActiveRecord::Base
   has_one :image_rule, through: :image_mission_rule
 
   scope :in_progress, -> { where(status: %w[active accepted submitted]) }
+  scope :for_user, ->(user) { joins(:guild_config).where(guild_config: { guild_id: user.guilds.pluck(:id) }) }
 
   validates :title, presence: true
   validates :description, presence: true
@@ -76,10 +77,12 @@ class Mission < ActiveRecord::Base
   end
 
   def as_json(options = nil)
+    rule = image_upload? && image_mission_rule ? image_rule.name : nil
+    assignee_uid = assignee_id.present? ? assignee.discord_uid : nil
     {
       id:, guild_config_id:, status:, type:, title:, description:, wiki_page:, map_link:,
-      discord_post_uid:, discord_post_link:,  rule: image_rule&.name, issuer: issuer.discord_uid,
-      assignee: assignee&.discord_uid,
+      discord_post_uid:, discord_post_link:, rule:, issuer: issuer.discord_uid,
+      assignee: assignee_uid,
     }
   end
 end

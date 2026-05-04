@@ -20,6 +20,10 @@ module API
         @log.update(response_code: status, response_body: body)
 
         render json: body, status: status
+      rescue => error
+        @log.update(response_code: 500, response_body: { error: error.message })
+
+        render json: { error: 'An internal error occurred.' }, status: 500
       end
 
       private

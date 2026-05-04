@@ -15,8 +15,11 @@ class User < ApplicationRecord
   has_many :accepted_missions, through: :members
   has_many :user_claims, dependent: :destroy
   has_many :wiki_users, dependent: :nullify
+  has_one :api_key, dependent: :nullify
 
   validates :discord_uid, presence: true, uniqueness: { case_sensitive: false }
+
+  after_create :create_api_key
 
   def roles_for(guild)
     return unless guilds.include?(guild)
@@ -30,5 +33,9 @@ class User < ApplicationRecord
 
   def member_of(guild)
     members.find_by(guild:)
+  end
+
+  def create_api_key
+    APIKey.create(user: self, key: SecureRandom.uuid)
   end
 end

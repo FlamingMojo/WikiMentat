@@ -1,9 +1,19 @@
 module API::V1
   class MissionsController < APIController
+    def index
+      @q = Mission.for_user(@current_user).ransack(params[:q])
+      @missions = @q.result(distinct: true)
+
+      handle_response(@missions.to_json, status: 200)
+    rescue => error
+      handle_response({ error: error.message }, status: 400)
+    end
+
     def create
       @mission = Mission.new(mission_params)
 
       if guild_config.enable_missions && guild && member && member.manage_missions?
+        @mission.issuer = member
         if @mission.save
           @mission.sync_post! && @mission.reload
           handle_response(@mission.as_json, status: 201)
@@ -12,6 +22,18 @@ module API::V1
         end
       else
         handle_response({ error: 'The guild does not allow you to create missions.' }, status: 403)
+      end
+    end
+
+    def update
+      if mission && guild_config.enable_missions && guild && member && member.manage_missions?
+        if mission.update(mission_params)
+          handle_response(mission.as_json, status: 200)
+        else
+          handle_response({ error: @mission.errors.as_json }, status: 400)
+        end
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
       end
     end
 
@@ -41,6 +63,33 @@ module API::V1
       end
     end
 
+    def submit
+      if mission&.accepted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.submit
+        handle_response({ message: "Successfully manually submitted Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
+    def approve
+      if mission&.submitted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.approve
+        handle_response({ message: "Successfully approved Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
+    def reject
+      if mission&.submitted? && guild_config.enable_missions && guild && member && member.manage_missions?
+        mission.reject
+        handle_response({ message: "Successfully rejected Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ error: 'Not able to cancel mission' }, status: 400)
+      end
+    end
+
     private
 
     def mission
@@ -48,7 +97,7 @@ module API::V1
     end
 
     def mission_params
-      params.expect(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :rule)
+      params.permit(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :rule)
     end
 
     def assignee_member

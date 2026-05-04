@@ -8,10 +8,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :missions, only: %i[create show] do
+      resources :missions, only: %i[index create show update] do
         member do
           delete '', to: 'missions#cancel'
           match :abandon, via: %i[put patch]
+          match :submit, via: %i[put patch]
+          match :approve, via: %i[put patch]
+          match :reject, via: %i[put patch]
           match :cancel, via: %i[put patch delete]
         end
       end
