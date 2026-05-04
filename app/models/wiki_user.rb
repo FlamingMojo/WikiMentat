@@ -12,4 +12,8 @@ class WikiUser < ApplicationRecord
   has_many :webhooks
 
   validates :username, presence: true
+
+  def as_json(options = nil)
+    { wiki: wiki.url, username: }
+  end
 end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         end
       end
       resources :guild_configs, only: %i[index]
+      resources :users, only: %i[show]
     end
   end
 

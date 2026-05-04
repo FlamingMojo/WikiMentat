@@ -38,4 +38,8 @@ class User < ApplicationRecord
   def create_api_key
     APIKey.create(user: self, key: SecureRandom.uuid)
   end
+
+  def as_json(options = nil)
+    { discord_uid:, username:, mentat_role:, wiki_users: wiki_users.map(&:as_json) }
+  end
 end
