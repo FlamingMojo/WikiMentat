@@ -1,15 +1,12 @@
 module Discord::Commands::User
-  class Right
+  class Retry
     include ::Discord::Util
 
     def content
+      FrontBackCompare.new.post_message
       Discord.delete_message(channel: event.message.channel.id, message: event.message.id)
 
-      compare.right!
-
-      FrontBackCompare.new.post_message
-
-      'Confirmed the RIGHT was FRONT.'
+      'Reset.'
     rescue StandardError => _e
       @error = true
       'An error occurred. Please try the button below or `/front_or_back` to reset'
@@ -23,14 +20,6 @@ module Discord::Commands::User
           row.button(label: 'Reset', custom_id: 'front_or_back', style: :primary)
         end
       end
-    end
-
-    def compare
-      @compare ||= FrontBackCompare.new(mission)
-    end
-
-    def mission
-      Mission.find(custom_id.split(':').last)
     end
   end
 end

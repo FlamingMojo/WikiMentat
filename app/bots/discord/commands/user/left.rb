@@ -10,8 +10,19 @@ module Discord::Commands::User
       FrontBackCompare.new.post_message
 
       'Confirmed the LEFT was FRONT.'
-    rescue
-      'An error occurred. Please try /front_or_back to reset'
+    rescue StandardError => _e
+      @error = true
+      'An error occurred. Please try the button below or `/front_or_back` to reset'
+    end
+
+    def response_block
+      return ->(_builder, _view) { } unless @error
+
+      lambda do |_builder, view|
+        view.row do |row|
+          row.button(label: 'Reset', custom_id: 'front_or_back', style: :primary)
+        end
+      end
     end
 
     def compare
