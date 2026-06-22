@@ -47,6 +47,8 @@ module Discord::Commands::User
 
       move(from: first, to: front)
       move(from: second, to: back)
+
+      mission.update(wiki_page: "https://awakening.wiki/#{front}")
     end
 
     def right!
@@ -58,6 +60,8 @@ module Discord::Commands::User
 
       move(from: second, to: front)
       move(from: first, to: back)
+
+      mission.update(wiki_page: "https://awakening.wiki/#{front}")
     end
 
     private
