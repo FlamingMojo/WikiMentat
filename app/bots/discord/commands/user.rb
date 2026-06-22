@@ -14,6 +14,7 @@ module Discord::Commands
       end
 
       def register_commands
+        Discord::Bot.slash_command(:front_or_back, 'Start Front or Back')
       end
 
       def register_handlers
@@ -23,6 +24,12 @@ module Discord::Commands
         handle_user_select(/search:lookup/, 'Discord::Commands::User::Lookup')
         handle_mention('Discord::Commands::User::UploadImage')
         handle_member_join('Discord::Commands::User::Join')
+        # TEMP WIKI COMMANDS
+        handle_command(:front_or_back, 'Discord::Commands::User::FrontOrBack')
+        handle_button(/left:/, 'Discord::Commands::User::Left')
+        handle_button(/right:/, 'Discord::Commands::User::Right')
+        handle_button(/skip:/, 'Discord::Commands::User::Skip')
+        handle_button(/problem:/, 'Discord::Commands::User::Problem')
       end
     end
   end
