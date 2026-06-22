@@ -10,6 +10,8 @@ module Discord::Commands::User
       FrontBackCompare.new.post_message
 
       'Confirmed the RIGHT was FRONT.'
+    rescue StandardError
+      'An error occurred. Please try /front_or_back to reset'
     end
 
     def compare

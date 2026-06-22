@@ -8,6 +8,8 @@ module Discord::Commands::User
       FrontBackCompare.new.post_message
 
       'Skipped'
+    rescue StandardError
+      'An error occurred. Please try /front_or_back to reset'
     end
 
     def mission

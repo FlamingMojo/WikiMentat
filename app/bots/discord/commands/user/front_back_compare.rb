@@ -14,6 +14,15 @@ module Discord::Commands::User
         attachments: attachments,
         components: buttons
       )
+    rescue StandardError
+      mission.high!
+
+      Discord.send_message(
+        channel: 1518636099252256890,
+        content: "Found a problem with images from Mission ##{mission.id}"
+      )
+
+      raise 'Something went wrong'
     end
 
     def attachments
