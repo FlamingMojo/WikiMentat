@@ -14,7 +14,7 @@ module Discord::Commands::User
       FrontBackCompare.new.post_message
 
       'Raised Problem.'
-    rescue StandardError
+    rescue
       'An error occurred. Please try /front_or_back to reset'
     end
 
