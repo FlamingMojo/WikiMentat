@@ -30,9 +30,18 @@ module Discord::Commands::User
         image_url = get_image_url(image_page)
         name = image_page.gsub('File:', '').gsub('.jpg', '')
         discord_image = Discord::Commands::User::UploadImage::DiscordImage.new(image_url, name)
-        discord_image.generate_image_file!
+        discord_image.generate_image_file! unless File.exist?(discord_image.local_filename)
 
         File.open(discord_image.local_filename)
+      end
+    end
+
+    def download_images!
+      image_pages.map do |image_page|
+        image_url = get_image_url(image_page)
+        name = image_page.gsub('File:', '').gsub('.jpg', '')
+        discord_image = Discord::Commands::User::UploadImage::DiscordImage.new(image_url, name)
+        discord_image.generate_image_file!
       end
     end
 
@@ -104,8 +113,18 @@ module Discord::Commands::User
 
     def get_image_url(page_name)
       # File:Some_filename.jpg
+      image_urls = JSON.parse(File.read('image_pages.json'))
+      return image_urls[page_name] if image_urls[page_name]
+
       response = WikiBot.first.query(titles: page_name, prop: :imageinfo, iiprop: :url)
-      response.data['pages'].map { |_k, v| v['imageinfo'].map { |vv| vv['url'] } }.flatten.first
+      url = response.data['pages'].map { |_k, v| v['imageinfo'].map { |vv| vv['url'] } }.flatten.first
+      image_urls[page_name] = url
+      File.write('image_pages.json', JSON.pretty_generate(image_urls))
+
+      url
+    rescue StandardError
+      mission.high!
+      raise
     end
 
     def next_mission
