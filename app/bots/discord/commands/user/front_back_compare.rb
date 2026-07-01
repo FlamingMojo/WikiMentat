@@ -43,6 +43,8 @@ module Discord::Commands::User
         discord_image = Discord::Commands::User::UploadImage::DiscordImage.new(image_url, name)
         discord_image.generate_image_file!
       end
+    rescue
+      mission.high!
     end
 
     def buttons
@@ -123,9 +125,6 @@ module Discord::Commands::User
       File.write('tmp/image_pages.json', JSON.pretty_generate(image_urls))
 
       url
-    rescue StandardError
-      mission.high!
-      raise
     end
 
     def next_mission
