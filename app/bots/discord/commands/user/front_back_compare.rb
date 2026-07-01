@@ -113,13 +113,14 @@ module Discord::Commands::User
 
     def get_image_url(page_name)
       # File:Some_filename.jpg
-      image_urls = JSON.parse(File.read('image_pages.json'))
+      File.write('tmp/image_pages.json', '{}') unless File.exist?('tmp/image_pages.json')
+      image_urls = JSON.parse(File.read('tmp/image_pages.json'))
       return image_urls[page_name] if image_urls[page_name]
 
       response = WikiBot.first.query(titles: page_name, prop: :imageinfo, iiprop: :url)
       url = response.data['pages'].map { |_k, v| v['imageinfo'].map { |vv| vv['url'] } }.flatten.first
       image_urls[page_name] = url
-      File.write('image_pages.json', JSON.pretty_generate(image_urls))
+      File.write('tmp/image_pages.json', JSON.pretty_generate(image_urls))
 
       url
     rescue StandardError
