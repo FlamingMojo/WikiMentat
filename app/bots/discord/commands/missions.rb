@@ -28,6 +28,11 @@ module Discord::Commands
         Discord::Bot.slash_command(:manual_reward, t('manually_reward')) do |cmd|
           cmd.user('target_user', 'Discord user', required: true)
         end
+        Discord::Bot.slash_command(:grant_missions, t('grant')) do |cmd|
+          cmd.user('target_user', 'Discord user', required: true)
+          cmd.integer('count', 'Mission credits to grant', required: true, min_value: 1, max_value: 100)
+          cmd.string('description', 'Description of tasks credited', required: true)
+        end
         Discord::Bot.slash_command(:rewards, t('rewards'))
       end
 
@@ -49,6 +54,7 @@ module Discord::Commands
         handle_command(:mission, 'Discord::Commands::Missions::Find')
         handle_command(:rewards, 'Discord::Commands::Missions::Rewards')
         handle_command(:manual_reward, 'Discord::Commands::Missions::ManuallyReward')
+        handle_command(:grant_missions, 'Discord::Commands::Missions::Grant')
       end
     end
   end

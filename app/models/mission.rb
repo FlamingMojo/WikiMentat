@@ -42,8 +42,8 @@ class Mission < ActiveRecord::Base
 
   validates :title, presence: true
   validates :description, presence: true
-  validate :wiki_page_must_be_valid_wiki_url
-  validate :map_link_must_be_valid_wiki_url
+  validate :wiki_page_must_be_valid_wiki_url, unless: :manually_granted?
+  validate :map_link_must_be_valid_wiki_url, unless: :manually_granted?
 
   def wiki_page_must_be_valid_wiki_url
     return if wiki_page.blank? || wiki_page.match(/\A#{wiki.url}\//i)

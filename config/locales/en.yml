@@ -331,6 +331,7 @@ en:
           find: "Show a user's current mission (defaults to your own mission)"
           rewards: 'Claim and view your rewards earned by completing missions!'
           manually_reward: 'Manually give a player a reward'
+          grant: 'Grant a player a number of mission credits'
           fields:
             id: 'ID of the mission to cancel'
         init:
@@ -469,3 +470,7 @@ en:
           reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> was issued a %{reward} but we have none to give! ⚠️"
           confirm: 'Approve'
           issued: 'Issued the user a reward! It needs to be approved before they can receive it'
+        grant:
+          not_enabled: 'Sorry. Missions are not enabled on this server.'
+          not_found: "Sorry, something went wrong, can't find that user"
+          granted: "Granted %{count} mission credits to <@%{user_id}>"
