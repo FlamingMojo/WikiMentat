@@ -9,7 +9,7 @@ module Discord::Commands::User
 
     def post_message
       Discord.send_message(
-        channel: 1474846638760530153,
+        channel: 1518636099252256890,
         content: message,
         attachments: attachments,
         components: buttons
