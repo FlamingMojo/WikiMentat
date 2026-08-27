@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resources :missions, only: %i[index create show update] do
         member do
           delete '', to: 'missions#cancel'
+          match :accept_wiki, via: %i[get]
+          match :abandon_wiki, via: %i[get]
           match :abandon, via: %i[put patch]
           match :submit, via: %i[put patch]
           match :approve, via: %i[put patch]

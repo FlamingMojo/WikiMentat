@@ -90,7 +90,33 @@ module API::V1
       end
     end
 
+    def accept_wiki
+      if mission&.active? && guild_config.enable_missions && guild && wiki_member&.current_mission.nil?
+        mission.accept(wiki_member)
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ message: 'Not able to accept mission' }, status: 200)
+      end
+    end
+
+    def abandon_wiki
+      if mission && guild_config.enable_missions && guild && mission == wiki_member&.current_mission
+        mission.abandon
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ message: 'Not able to abandon mission' }, status: 200)
+      end
+    end
+
     private
+
+    def wiki_member
+      @wiki_member = wiki_user.member_of(guild)
+    end
+
+    def wiki_user
+      @wiki_user ||= WikiUser.find_by(username: params[:wiki_username])
+    end
 
     def mission
       @mission ||= Mission.find_by(id: params[:id])
