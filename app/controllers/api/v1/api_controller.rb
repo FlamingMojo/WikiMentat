@@ -5,7 +5,7 @@ module API
       before_action :validate_api_key
 
       def validate_api_key
-        @api_key = APIKey.active.find_by(key:)
+        @api_key = key ? APIKey.active.find_by(key:) : nil
         if @api_key
           @current_user = @api_key.user
           @log = @api_key.api_request_logs.create(
