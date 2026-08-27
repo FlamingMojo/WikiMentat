@@ -111,7 +111,9 @@ module API::V1
     private
 
     def wiki_member
-      @wiki_member = wiki_user.member_of(guild)
+      return unless wiki_user
+
+      @wiki_member = wiki_user.user.member_of(guild)
     end
 
     def wiki_user
