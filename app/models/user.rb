@@ -35,6 +35,10 @@ class User < ApplicationRecord
     members.find_by(guild:)
   end
 
+  def wiki_user_for(wiki)
+    wiki_users.where(wiki:).first
+  end
+
   def create_api_key
     APIKey.create(user: self, key: SecureRandom.uuid)
   end

@@ -91,24 +91,48 @@ module API::V1
     end
 
     def accept_wiki
-      if mission&.active? && guild_config.enable_missions && guild && wiki_member&.current_mission.nil?
+      if wiki_acceptable?
         mission.accept(wiki_member)
-        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+        handle_response({ message: "Successfully accepted Mission [#{mission.id}]"}, status: 200)
       else
-        handle_response({ message: 'Not able to accept mission' }, status: 200)
+        handle_response({ message: "Not able to accept mission - #{@error}" }, status: 200)
       end
     end
 
     def abandon_wiki
-      if mission && guild_config.enable_missions && guild && mission == wiki_member&.current_mission
+      if wiki_abandonable?
         mission.abandon
         handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
       else
-        handle_response({ message: 'Not able to abandon mission' }, status: 200)
+        handle_response({ message: "Not able to abandon mission - #{@error}" }, status: 200)
       end
     end
 
     private
+
+    def wiki_acceptable?
+      @error = 'Mission not available' and return false unless mission&.active?
+      @error = 'Missions not enabled' and return false unless guild_config.enable_missions
+      @error = 'Guild not found' and return false unless guild
+      @error = 'Your user cannot be found, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki_member
+      @error = "You are already on mission #{current_mission_link}!" and return false if wiki_member.current_mission
+
+      true
+    end
+
+    def wiki_abandonable?
+      @error = 'Mission not found' and return false unless mission
+      @error = 'Missions not enabled' and return false unless guild_config.enable_missions
+      @error = 'Guild not found' and return false unless guild
+      @error = 'Your user cannot be found, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki_member
+      @error = 'This is not your mission!' and return false unless mission == wiki_member.current_mission
+
+      true
+    end
+
+    def current_mission_link
+      "[[Mentat:Mission/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"
+    end
 
     def wiki_member
       return unless wiki_user&.user
