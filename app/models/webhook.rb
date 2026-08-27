@@ -88,7 +88,7 @@ class Webhook < ApplicationRecord
   end
 
   def register_new_wiki_user
-    mentat_user = User.find_or_create_by(
+    mentat_user = ::User.find_or_create_by(
       discord_uid: "wiki_user_#{user.name.gsub(/\W/, "")}-#{wiki.name}",
       username: user.name,
       display_name: user.name
