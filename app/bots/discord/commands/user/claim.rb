@@ -25,7 +25,7 @@ module Discord::Commands::User
     def already_claimed?
       return false unless wiki_user
 
-      owning_user.present?
+      wiki_user.real_user?
     end
 
     def owning_user

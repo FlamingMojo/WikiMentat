@@ -23,6 +23,7 @@ class UserClaim < ApplicationRecord
 
   def complete!(webhook)
     update!(wiki_user: webhook.wiki_user)
+    migrate_missions if wiki_user.dummy_user?
     wiki_user.update!(user: user)
     confirmed!
 
@@ -36,5 +37,24 @@ class UserClaim < ApplicationRecord
     end
   rescue => error
     DiscordError.handle(error:, user:, service: 'UserClaim#complete!')
+  end
+
+  def migrate_missions
+    # All WikiUsers create a 'dummy' User so they can complete missions without a discord account
+    # Any missions completed and rewards earned should move to the new user as they've been claimed
+    dummy_user = wiki_user.user
+    user.guilds.each do |guild|
+      dummy_member = dummy_user.member_of(guild)
+      real_member = user.member_of(guild)
+      dummy_member.missions.each do |mission|
+        mission.update(assignee: real_member)
+        mission.sync_post!
+      end
+      dummy_member.member_rewards.each do |reward|
+        reward.update(rewardable: dummy_member, discord_uid: user.discord_uid)
+      end
+      dummy_member.destroy
+    end
+    dummy_user.destroy if dummy_user.reload.members.none?
   end
 end

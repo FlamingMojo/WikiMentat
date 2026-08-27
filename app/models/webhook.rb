@@ -5,7 +5,8 @@ class Webhook < ApplicationRecord
   after_create :publish_to_guilds
   after_create :check_verifications
   after_create :check_create_missions, if: :created_page?
-  after_update :check_update_missions, if: :updated_page?
+  after_create :check_update_missions, if: :updated_page?
+  after_create :register_new_wiki_user, if: :registered_user?
 
   PAGE_ATTRIBUTES = %i[
     message_key title url summary reason comment revision archived_revisions visibility_changes protect old_title
@@ -84,6 +85,16 @@ class Webhook < ApplicationRecord
         content: t("#{type}.notify", summary: mission.summary, user: mission.assignee.discord_uid)
       )
     end
+  end
+
+  def register_new_wiki_user
+    mentat_user = User.find_or_create_by(
+      discord_uid: "wiki_user_#{user.name.gsub(/\W/, "")}-#{wiki.name}",
+      username: user.name,
+      display_name: user.name
+    )
+    wiki.wiki_users.find_or_create_by(username: user.name, user: mentat_user)
+    wiki.guilds.each { |g| g.members.find_or_create_by(user: mentat_user) }
   end
 
   def registered_user?
