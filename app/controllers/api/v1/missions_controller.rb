@@ -111,13 +111,13 @@ module API::V1
     private
 
     def wiki_member
-      return unless wiki_user
+      return unless wiki_user&.user
 
       @wiki_member = wiki_user.user.member_of(guild)
     end
 
     def wiki_user
-      @wiki_user ||= WikiUser.find_by(username: params[:wiki_username])
+      @wiki_user ||= wiki.wiki_users.find_by(username: params[:wiki_username])
     end
 
     def mission
@@ -142,6 +142,10 @@ module API::V1
 
     def member
       @member ||= @current_user.member_of(guild)
+    end
+
+    def wiki
+      @wiki ||= guild_config.wiki
     end
 
     def guild
