@@ -21,7 +21,11 @@ Rails.application.routes.draw do
         end
       end
       resources :guild_configs, only: %i[index]
-      resources :users, only: %i[show]
+      resources :users, only: %i[show] do
+        collection do
+          match :verify_wiki_user, via: %i[get]
+        end
+      end
     end
   end
 
