@@ -75,6 +75,18 @@ module Discord
       end
     end
 
+    def handle_member_join(service, **attributes)
+      Discord.bot.member_join(attributes) do |event|
+        const_get(service).new(event).handle
+      end
+    end
+
+    def handle_member_leave(service, **attributes)
+      Discord.bot.member_leave(attributes) do |event|
+        const_get(service).new(event).handle
+      end
+    end
+
     class EventHandler
       extend Forwardable
       attr_reader :event, :service, :defer

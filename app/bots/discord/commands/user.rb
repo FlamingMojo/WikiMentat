@@ -22,6 +22,7 @@ module Discord::Commands
         handle_button(/verify_board:search:/, 'Discord::Commands::User::Search')
         handle_user_select(/search:lookup/, 'Discord::Commands::User::Lookup')
         handle_mention('Discord::Commands::User::UploadImage')
+        handle_member_join('Discord::Commands::User::Join')
       end
     end
   end
