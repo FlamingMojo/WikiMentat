@@ -10,16 +10,39 @@ module API::V1
       end
     end
 
+    def wiki_missions
+      if wiki_user?
+        handle_response(wiki_user.user.missions.to_json)
+      else
+        handle_response({ error: "Unable to show missions - #{@error}" })
+      end
+    end
+
+    def wiki_rewards
+      if wiki_user?
+        handle_response(wiki_user.user.member_rewards.to_json)
+      else
+        handle_response({ error: "Unable to show rewards - #{@error}" })
+      end
+    end
+
     def verify_wiki_user
       if claimable?
         user_claim.complete_with(wiki_user)
-        handle_response({ message: "Successfully linked #{wiki_user.user.username} to your Wiki account" }, status: 200)
+        handle_response({ message: "Successfully linked #{wiki_user.user.username} to your Wiki account" })
       else
-        handle_response({ error: "Unable to verify - #{@error}" }, status: 200)
+        handle_response({ error: "Unable to verify - #{@error}" })
       end
     end
 
     private
+
+    def wiki_user?
+      @error = 'Internal Error, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki
+      @error = 'Your user cannot be found, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki_user&.user
+
+      true
+    end
 
     def claimable?
       @error = 'Internal Error, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki

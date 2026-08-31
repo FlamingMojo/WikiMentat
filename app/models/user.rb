@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :guilds, through: :members
   has_many :roles, through: :members
+  has_many :member_rewards, through: :members
   has_many :missions, through: :members
   has_many :accepted_missions, through: :members
   has_many :user_claims, dependent: :destroy

@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       resources :guild_configs, only: %i[index]
       resources :users, only: %i[show] do
         collection do
+          match :wiki_missions, via: %i[get]
+          match :wiki_rewards, via: %i[get]
           match :verify_wiki_user, via: %i[get]
         end
       end
