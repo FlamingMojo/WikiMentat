@@ -77,7 +77,7 @@ class Mission
       def notify_celebration
         wiki_bot.notify_user(
           username: wiki_user.username,
-          subject: t('approved_mission_subject'),
+          header: t('approved_mission_subject'),
           content: t('celebration_content', summary: mission.summary, count: mission_count),
           page: "Mentat:Mission/#{mission.id}"
         )

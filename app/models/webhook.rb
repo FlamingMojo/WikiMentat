@@ -84,6 +84,13 @@ class Webhook < ApplicationRecord
         channel: mission.guild_config.mission_notifications_channel.discord_uid,
         content: t("#{type}.notify", summary: mission.summary, user: mission.assignee.discord_uid)
       )
+      next unless guild_config.wiki_bot
+      guild_config.wiki_bot.notify_user(
+        username: user.name,
+        header: t('submitted_mission_subject'),
+        content: t("#{type}.notify_content", summary: mission.summary),
+        page: "Mentat:Mission/#{mission.id}"
+      )
     end
   end
 

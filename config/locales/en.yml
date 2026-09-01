@@ -424,15 +424,26 @@ en:
           found: "<@%{user_id}> is currently on %{summary}. Mission post link: %{link}"
           no_mission: "<@%{user_id}> is not currently on a mission"
         submit:
+          submitted_mission_subject: "Mission Submitted"
           page_create:
-            notify: >
+            notify: |
               <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
           page_update:
             notify: >
               <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
