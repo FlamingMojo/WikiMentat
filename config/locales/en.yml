@@ -283,16 +283,9 @@ en:
           already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
           already_verified: "You have already been verified as %{wiki_username}!"
           instructions: >
-            You can automatically verify with this link:
-            %{wiki_url}/Mentat:Verify?claim_code=%{claim_code}
-            
-            If there is an issue with the above link, you can still manually verify by
-            logging into the wiki as %{wiki_username} and make an edit to any page.
-            In the Summary of your changes, add the following verification code.
-            ```WM_%{claim_code}_UV```
-            You can edit any page with any content for this to be detected.
-            For example you can create or edit -
-            %{wiki_url}/User:%{wiki_username}/Mentat_User_Claim
+            To verify:
+            1 - Log into `%{wiki_url}` as `%{wiki_username}`
+            2 - Click this link: %{wiki_url}/Mentat:Verify?claim_code=%{claim_code}
         verify:
           success: "<@%{user}> successfully verified ownership of %{wiki_username} on %{wiki}!"
         lookup:
