@@ -282,7 +282,7 @@ en:
         claim:
           already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
           already_verified: "You have already been verified as %{wiki_username}!"
-          instructions: >
+          instructions: |
             To verify:
             1 - Log into `%{wiki_url}` as `%{wiki_username}`
             2 - Click this link: %{wiki_url}/Mentat:Verify?claim_code=%{claim_code}
