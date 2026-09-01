@@ -19,7 +19,7 @@ module API::V1
     end
 
     def wiki_rewards
-      if wiki_user?
+      if wiki_user? && can_view_rewards?
         handle_response(wiki_user.user.member_rewards.to_json)
       else
         handle_response({ error: "Unable to show rewards - #{@error}" })
@@ -36,6 +36,13 @@ module API::V1
     end
 
     private
+
+    def can_view_rewards?
+      return true if @current_user.superadmin?
+      @error = 'You cannot view other user rewards' and return false unless @current_user == wiki_user.user
+
+      true
+    end
 
     def wiki_user?
       @error = 'Internal Error, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki
