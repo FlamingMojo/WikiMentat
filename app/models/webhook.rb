@@ -93,7 +93,9 @@ class Webhook < ApplicationRecord
       username: user.name,
       display_name: user.name
     )
-    wiki.wiki_users.find_or_create_by(username: user.name, user: mentat_user)
+    return unless mentat_user.persisted?
+    wiki_user = wiki.wiki_users.find_or_create_by(username: user.name)
+    wiki_user.update!(user_id: mentat_user.id) unless wiki_user.user
     wiki.guilds.each { |g| g.members.find_or_create_by(user: mentat_user) }
   end
 

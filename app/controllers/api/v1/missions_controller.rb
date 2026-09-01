@@ -137,7 +137,7 @@ module API::V1
     def wiki_member
       return unless wiki_user&.user
 
-      @wiki_member = wiki_user.user.member_of(guild)
+      @wiki_member ||= wiki_user.user.member_of(guild)
     end
 
     def wiki_user
