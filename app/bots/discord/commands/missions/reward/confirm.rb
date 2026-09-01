@@ -13,6 +13,7 @@ module Discord::Commands::Missions
       return already_claimed if user_already_rewarded?
 
       member_reward.award(mentat_member)
+      notify_reward if wiki_user
       Discord.send_message(channel: notifications_channel.discord_uid, content: t('broadcast', user_id:, reward:))
       Discord.send_message(channel: admin_channel.discord_uid, content: t('approved', user_id:, key:, reward:))
       delete_message
@@ -38,6 +39,23 @@ module Discord::Commands::Missions
 
     def user_already_rewarded?
       rewarded_member.claimed_rewards.include?(member_reward.reward_key)
+    end
+
+    def notify_reward
+      wiki_bot.notify_user(
+        username: wiki_user.username,
+        subject: t('rewarded_subject'),
+        content: t('rewarded_content', reward:),
+        page: 'Mentat:Account'
+      )
+    end
+
+    def wiki_user
+      @wiki_user ||= rewarded_member.wiki_user_for(guild_config.wiki)
+    end
+
+    def wiki_bot
+      @wiki_bot ||= guild_config.wiki_bot
     end
 
     def key

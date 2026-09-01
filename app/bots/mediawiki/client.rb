@@ -61,6 +61,16 @@ module Mediawiki
       raw_action(:emailuser, target: username, subject: subject, text: text, skip_retry: true)
     end
 
+    def notify_user(username:, header:, content:, page: nil, section: :alert, email: false)
+      raw_action(
+        :echocreateevent,
+        user: username,
+        header: header[0...160], # Header has hard limit of 160 bytes
+        content: content[0...5000], # Content has hard limit of 5000 bytes
+        page:, section:, email:
+      )
+    end
+
     def block_user(user:, reason:)
       raw_action(:block, user:, reason:, autoblock: true, nocreate: true, noemail: true)
     end

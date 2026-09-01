@@ -18,6 +18,7 @@ class Mission
       def approve
         mission.completed! && mission.reload && mission.sync_post!
         celebrate
+        notify_celebration
         handle_reward
         t('approved_mission', summary: mission.summary)
       end
@@ -41,7 +42,7 @@ class Mission
           channel: admin_channel.discord_uid,
           content: t('reward', user: assignee.discord_uid, count: mission_count, reward: reward_type_due.name),
           components: confirm_button,
-          )
+        )
       end
 
       def reward_types
@@ -71,6 +72,23 @@ class Mission
             )
           end
         end
+      end
+
+      def notify_celebration
+        wiki_bot.notify_user(
+          username: wiki_user.username,
+          subject: t('approved_mission_subject'),
+          content: t('celebration_content', summary: mission.summary, count: mission_count),
+          page: "Mentat:Mission/#{mission.id}"
+        )
+      end
+
+      def wiki_user
+        @wiki_user ||= assignee.wiki_user_for(guild_config.wiki)
+      end
+
+      def wiki_bot
+        @wiki_bot ||= guild_config.wiki_bot
       end
 
       def mission_count

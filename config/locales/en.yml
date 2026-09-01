@@ -383,7 +383,9 @@ en:
             To abandon this mission, simply `/abandon_mission`
         approve:
           approved_mission: "Completed mission %{summary}!"
+          approved_mission_subject: "Mission Submission Approved"
           celebration: "🎉<@%{user}> Has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
+          celebration_content: "🎉 You have completed a mission - %{summary}! You have now completed **%{count}** missions! 🎉"
           reward: "@here️ 🎖<@%{user}> Has completed %{count} Missions and has earned a reward!"
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
@@ -394,9 +396,10 @@ en:
           rejected_mission: "Rejected mission %{summary}! Notified user"
           rejected_abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
           rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          rejected_mission_subject: "Mission Submission Rejected"
           feedback: >
             Sorry, your submission to mission %{summary} was rejected.
-            Please reach out to moderators for assistance.
+            Please reach out to staff for assistance.
           abandon: >
             As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
             It has now been set back to available and you can pick it up later here %{link}
@@ -460,6 +463,8 @@ en:
           approved: "🏅Issued <@%{user_id}> a key for %{reward} - `%{key}`"
           broadcast: "🏅Congratulations! <@%{user_id}> earned %{reward}! Use `/rewards` to claim your key!"
           already_claimed: 'That user already has that reward. Unclaiming'
+          rewarded_subject: 'You have been issued a reward!'
+          rewarded_content: "🏅Congratulations! You have earned %{reward}! Visit your Mentat Account page to claim."
         manually_reward:
           not_enabled: 'Sorry. Rewards are not enabled on this server.'
           reward: "@here️ 🎖<@%{user}> Has been manually awarded the %{reward} by <@%{admin}>."

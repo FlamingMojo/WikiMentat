@@ -16,6 +16,7 @@ class Mission
       end
 
       def reject
+        notify_feedback
         pm_feedback
         return abandon if assignee.missions.accepted.count >= 1
         mission.delete_post! && mission.accepted! && mission.reload && mission.sync_post!
@@ -48,6 +49,27 @@ class Mission
           channel: Discord.pm_channel(assignee.discord_uid.to_i),
           content: t('feedback', summary: mission.summary)
         )
+      end
+
+      def notify_feedback
+        wiki_bot.notify_user(
+          username: wiki_user.username,
+          subject: t('rejected_mission_subject'),
+          content: t('feedback', summary: mission.summary),
+          page: "Mentat:Mission/#{mission.id}"
+        )
+      end
+
+      def wiki_user
+        @wiki_user ||= assignee.wiki_user_for(guild_config.wiki)
+      end
+
+      def wiki_bot
+        @wiki_bot ||= guild_config.wiki_bot
+      end
+
+      def guild_config
+        @guild_config ||= mission.guild_config
       end
 
       def assignee
