@@ -87,7 +87,7 @@ class Webhook < ApplicationRecord
       )
       next unless guild_config.wiki_bot
 
-      wiki_bot.notify_user(
+      guild_config.wiki_bot.notify_user(
         username: user.name,
         message: t(
           "#{type}.notify_content",
