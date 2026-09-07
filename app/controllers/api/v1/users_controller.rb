@@ -18,6 +18,14 @@ module API::V1
       end
     end
 
+    def wiki_missions_count
+      if wiki_user?
+        handle_response({ count: wiki_user.user.missions.completed.count })
+      else
+        handle_response({ error: "Unable to show mission count - #{@error}" })
+      end
+    end
+
     def wiki_rewards
       if wiki_user? && can_view_rewards?
         handle_response(wiki_user.user.member_rewards.to_json)

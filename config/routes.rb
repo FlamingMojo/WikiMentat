@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show] do
         collection do
           match :wiki_missions, via: %i[get]
+          match :wiki_missions_count, via: %i[get]
           match :wiki_rewards, via: %i[get]
           match :verify_wiki_user, via: %i[get]
         end
