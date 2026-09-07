@@ -54,9 +54,7 @@ class Mission
       def notify_feedback
         wiki_bot.notify_user(
           username: wiki_user.username,
-          header: t('rejected_mission_subject'),
-          content: t('feedback', summary: mission.summary),
-          page: "Mentat:Mission/#{mission.id}"
+          message: t('feedback', summary: "[[Mentat:Missions/#{mission.id}|#{mission.summary}]]"),
         )
       end
 

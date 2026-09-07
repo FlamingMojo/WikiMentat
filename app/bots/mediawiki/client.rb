@@ -61,15 +61,16 @@ module Mediawiki
       raw_action(:emailuser, target: username, subject: subject, text: text, skip_retry: true)
     end
 
-    def notify_user(username:, header:, content:, page: nil, section: :alert, email: false)
-      raw_action(
-        :echocreateevent,
-        user: username,
-        header: header[0...160], # Header has hard limit of 160 bytes
-        content: content[0...5000], # Content has hard limit of 5000 bytes
-        page:, section:, email:
-      )
-    end
+    # WILL NOT WORK UNTIL WE UPGRADE TO 1.43+
+    # def notify_user(username:, header:, content:, page: nil, section: :alert, email: false)
+    #   raw_action(
+    #     :echocreateevent,
+    #     user: username,
+    #     header: header[0...160], # Header has hard limit of 160 bytes
+    #     content: content[0...5000], # Content has hard limit of 5000 bytes
+    #     page:, section:, email:
+    #   )
+    # end
 
     def block_user(user:, reason:)
       raw_action(:block, user:, reason:, autoblock: true, nocreate: true, noemail: true)
@@ -83,7 +84,34 @@ module Mediawiki
       query(meta: :userinfo, uiprop: :rights)
     end
 
+    def reply_to_topic(page:, topic:, message:)
+      talk_page = get_page(page).body
+      titles = talk_page.split("\n").each_with_index.flat_map { |l,i| [l,i] if l.match?(/^== .* ==$/) }.to_h
+      topic_index = titles["== #{topic} =="]
+      before_topic, topic, after_topic = [], [], []
+      if topic_index
+        next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
+        before_topic = talk_page.split("\n").take(topic_index)
+        after_topic = talk_page.split("\n").drop(next_topic_index)
+        topic = talk_page.split("\n").take(next_topic_index).drop(topic_index)
+      else
+        topic = [ "== #{topic} ==", "\n" ]
+      end
+
+      timestamp = Time.now.strftime('%R, %d %B %Y (UTC)')
+      topic << [ message, signature, timestamp ].join(' ')
+      topic << ''
+      content = (before_topic + topic + after_topic).join("\n")
+      bot.create_page(page, content)
+    end
+
     private
+
+    def signature
+      name = username.split('@').first
+
+      "[[User:#{name}|#{name}]] ([[User_talk:#{name}|talk]])"
+    end
 
     def bot
       @bot ||= MediawikiApi::Client.new(url).tap do |client|

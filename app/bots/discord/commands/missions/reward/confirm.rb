@@ -43,10 +43,8 @@ module Discord::Commands::Missions
 
     def notify_reward
       wiki_bot.notify_user(
-        username: wiki_user.username,
-        header: t('rewarded_subject'),
-        content: t('rewarded_content', reward:),
-        page: 'Mentat:Account'
+        username: user.name,
+        message: t('rewarded_content', reward:),
       )
     end
 

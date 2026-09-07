@@ -76,20 +76,23 @@ class Webhook < ApplicationRecord
 
   def check_missions(type)
     Mission.accepted.where(type:, wiki_page: page.url).each do |mission|
+      guild_config = mission.guild_config
       next unless mission.assignee.user.wiki_users.include?(wiki_user)
-      next unless mission.guild_config.enable_missions
+      next unless guild_config.enable_missions
 
       mission.submit
       Discord.send_message(
-        channel: mission.guild_config.mission_notifications_channel.discord_uid,
+        channel: guild_config.mission_notifications_channel.discord_uid,
         content: t("#{type}.notify", summary: mission.summary, user: mission.assignee.discord_uid)
       )
       next unless guild_config.wiki_bot
-      guild_config.wiki_bot.notify_user(
+
+      wiki_bot.notify_user(
         username: user.name,
-        header: t('submitted_mission_subject'),
-        content: t("#{type}.notify_content", summary: mission.summary),
-        page: "Mentat:Mission/#{mission.id}"
+        message: t(
+          "#{type}.notify_content",
+          summary: "[[Mentat:Missions/#{mission.id}|#{mission.summary}]]",
+        ),
       )
     end
   end

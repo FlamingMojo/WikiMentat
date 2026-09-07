@@ -23,9 +23,17 @@ class WikiBot < ApplicationRecord
 
   delegate(*%i[
     upload_image query handle_command get_page email_user raw_action create_page delete_page protect_page
-    block_user unblock_user permissions notify_user
+    block_user unblock_user permissions reply_to_topic
     ], to: :client
   )
+
+  def notify_user(username:, message:)
+    reply_to_topic(
+      page: "User_talk:#{username}",
+      topic: 'Mentat Notifications',
+      message: message,
+    )
+  end
 
   def client
     @client ||= Mediawiki::Client.new(url: wiki.api_url, username: username, password: password)

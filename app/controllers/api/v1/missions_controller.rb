@@ -131,7 +131,7 @@ module API::V1
     end
 
     def current_mission_link
-      "[[Mentat:Mission/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"
+      "[[Mentat:Missions/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"
     end
 
     def wiki_member
