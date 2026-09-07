@@ -86,7 +86,7 @@ module Mediawiki
 
     def reply_to_topic(page:, topic:, message:)
       talk_page = get_page(page).body
-      titles = talk_page.split("\n").each_with_index.flat_map { |l,i| [l,i] if l.match?(/^== .* ==$/) }.to_h
+      titles = talk_page.split("\n").each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
       before_topic, topic, after_topic = [], [], []
       if topic_index
