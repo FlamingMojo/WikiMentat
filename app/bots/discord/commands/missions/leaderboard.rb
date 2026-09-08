@@ -12,7 +12,7 @@ module Discord::Commands::Missions
 
       nil
     rescue => error
-      Discord::Error.handle(error:, user: mentat_user, service: self.class.to_s)
+      DiscordError.handle(error:, user: mentat_user, service: self.class.to_s)
     end
 
     def ephemeral
