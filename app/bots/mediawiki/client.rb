@@ -95,7 +95,7 @@ module Mediawiki
         after_topic = talk_page.split("\n").drop(next_topic_index)
         topic = talk_page.split("\n").take(next_topic_index).drop(topic_index)
       else
-        topic = [ "== #{topic} ==", "\n" ]
+        topic = [ "== #{topic} ==", '' ]
       end
 
       timestamp = Time.now.strftime('%R, %d %B %Y (UTC)')
