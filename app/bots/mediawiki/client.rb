@@ -85,7 +85,7 @@ module Mediawiki
     end
 
     def reply_to_topic(page:, topic:, message:)
-      talk_page = wiki_bot.get_page(page).body
+      talk_page = get_page(page).body
       titles = talk_page.split("\n").each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
       before_topic, after_topic = [], []
@@ -102,7 +102,8 @@ module Mediawiki
       topic_body << [ message, signature, timestamp ].join(' ')
       topic_body << ''
       content = (before_topic + topic_body + after_topic).join("\n")
-      bot.create_page(page, content)
+
+      create_page(page, content)
     end
 
     private
