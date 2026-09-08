@@ -34,6 +34,7 @@ module Discord::Commands
           cmd.string('description', 'Description of tasks credited', required: true)
         end
         Discord::Bot.slash_command(:rewards, t('rewards'))
+        Discord::Bot.slash_command(:leaderboard, t('leaderboard'))
       end
 
       def register_handlers
@@ -55,6 +56,7 @@ module Discord::Commands
         handle_command(:rewards, 'Discord::Commands::Missions::Rewards')
         handle_command(:manual_reward, 'Discord::Commands::Missions::ManuallyReward')
         handle_command(:grant_missions, 'Discord::Commands::Missions::Grant')
+        handle_command(:leaderboard, 'Discord::Commands::Missions::Leaderboard')
       end
     end
   end

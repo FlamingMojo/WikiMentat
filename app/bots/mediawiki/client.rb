@@ -85,11 +85,11 @@ module Mediawiki
     end
 
     def reply_to_topic(page:, topic:, message:)
-      talk_page = get_page(page).body
+      talk_page = wiki_bot.get_page(page).body
       titles = talk_page.split("\n").each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
       before_topic, after_topic = [], []
-      if topic_index
+      if topic_index.present?
         next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
         before_topic = talk_page.split("\n").take(topic_index)
         after_topic = talk_page.split("\n").drop(next_topic_index)

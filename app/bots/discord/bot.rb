@@ -89,5 +89,9 @@ module Discord
     def self.modules
       ::Discord::Commands.constants.map { |sym| self.const_get("::Discord::Commands::#{sym}") }
     end
+
+    def self.avatar_url
+      'https://media.awakening.wiki/wiki/8/85/WikiMentat.png'
+    end
   end
 end
