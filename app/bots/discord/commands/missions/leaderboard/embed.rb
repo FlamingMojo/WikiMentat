@@ -40,7 +40,7 @@ module Discord::Commands::Missions
         leader_ids = top_ten.select { |_k, v| v == score }.keys
 
         leader_ids.map do |leader_id|
-          { place:, label: "#{Member.find(leader_id).user.display_name} - **#{score}**" }
+          { place:, label: "@#{Member.find(leader_id).username} - **#{score}**" }
         end
       end
     end
