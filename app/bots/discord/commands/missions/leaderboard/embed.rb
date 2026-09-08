@@ -9,7 +9,7 @@ module Discord::Commands::Missions
     attr_reader :guild_config
 
     def initialize(guild_config)
-      @guild = guild_config
+      @guild_config = guild_config
     end
 
     def self.generate(guild_config)
