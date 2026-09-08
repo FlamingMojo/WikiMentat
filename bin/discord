@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/environment"
+
+Discord::Bot.setup
+# Run the bot as a standalone process (not in the background)
+Discord::Bot.run
