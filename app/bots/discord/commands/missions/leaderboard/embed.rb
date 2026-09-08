@@ -36,7 +36,7 @@ module Discord::Commands::Missions
     end
 
     def leaders
-      top_ten_scores.each_with_index.map do |score, place|
+      top_ten_scores.each_with_index.flat_map do |score, place|
         leader_ids = top_ten.select { |_k, v| v == score }.keys
 
         leader_ids.map do |leader_id|
