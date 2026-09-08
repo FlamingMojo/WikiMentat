@@ -88,20 +88,20 @@ module Mediawiki
       talk_page = get_page(page).body
       titles = talk_page.split("\n").each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
-      before_topic, topic, after_topic = [], [], []
+      before_topic, after_topic = [], []
       if topic_index
         next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
         before_topic = talk_page.split("\n").take(topic_index)
         after_topic = talk_page.split("\n").drop(next_topic_index)
-        topic = talk_page.split("\n").take(next_topic_index).drop(topic_index)
+        topic_body = talk_page.split("\n").take(next_topic_index).drop(topic_index)
       else
-        topic = [ "== #{topic} ==", '' ]
+        topic_body = [ "== #{topic} ==", '' ]
       end
 
       timestamp = Time.now.strftime('%R, %d %B %Y (UTC)')
-      topic << [ message, signature, timestamp ].join(' ')
-      topic << ''
-      content = (before_topic + topic + after_topic).join("\n")
+      topic_body << [ message, signature, timestamp ].join(' ')
+      topic_body << ''
+      content = (before_topic + topic_body + after_topic).join("\n")
       bot.create_page(page, content)
     end
 
