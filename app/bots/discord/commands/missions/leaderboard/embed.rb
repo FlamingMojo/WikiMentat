@@ -22,7 +22,7 @@ module Discord::Commands::Missions
       embed.colour = 0x81D41A
       embed.timestamp = Time.now
       embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: Discord::Bot.avatar_url)
-      leaders.first(20).each do |leader|
+      leaders.first(10).each do |leader|
         embed.add_field(name: t("places.#{leader[:place]}"), value: leader[:label])
       end
 
@@ -40,7 +40,7 @@ module Discord::Commands::Missions
         leader_ids = top_ten.select { |_k, v| v == score }.keys
 
         leader_ids.map do |leader_id|
-          { place:, label: "<@#{Member.find(leader_id).discord_uid}> - **#{score}**" }
+          { place:, label: "#{Member.find(leader_id).user.display_name} - **#{score}**" }
         end
       end
     end

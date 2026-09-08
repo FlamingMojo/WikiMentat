@@ -20,7 +20,11 @@ module Discord::Commands::Missions
     end
 
     def embed
-      Embed.generate(guild.primary_config)
+      Embed.generate(guild_config)
+    end
+
+    def guild_config
+      @guild_config ||= guild.primary_config
     end
   end
 end
