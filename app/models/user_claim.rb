@@ -49,6 +49,7 @@ class UserClaim < ApplicationRecord
     dummy_user = wiki_user.user
     user.guilds.each do |guild|
       dummy_member = dummy_user.member_of(guild)
+      next unless dummy_member
       real_member = user.member_of(guild)
       dummy_member.missions.each do |mission|
         mission.update(assignee: real_member)
