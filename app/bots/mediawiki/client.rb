@@ -89,13 +89,14 @@ module Mediawiki
       lines = talk_page.split("\n")
       titles = lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
-      before_topic, after_topic = [], []
+      after_topic = []
       if topic_index.present?
         next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first || lines.length
         before_topic = lines.take(topic_index)
         after_topic = lines.drop(next_topic_index)
         topic_body = lines.take(next_topic_index).drop(topic_index)
       else
+        before_topic = lines
         topic_body = [ "== #{topic} ==", '' ]
       end
 
