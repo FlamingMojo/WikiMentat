@@ -43,7 +43,7 @@ module Discord::Commands::Missions
 
     def notify_reward
       wiki_bot.notify_user(
-        username: user.name,
+        username: wiki_user.username,
         message: t('rewarded_content', reward:),
       )
     end
