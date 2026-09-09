@@ -86,14 +86,15 @@ module Mediawiki
 
     def reply_to_topic(page:, topic:, message:)
       talk_page = get_page(page).body
-      titles = talk_page.split("\n").each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
+      lines = talk_page.split("\n")
+      titles = lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
       before_topic, after_topic = [], []
       if topic_index.present?
-        next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
-        before_topic = talk_page.split("\n").take(topic_index)
-        after_topic = talk_page.split("\n").drop(next_topic_index)
-        topic_body = talk_page.split("\n").take(next_topic_index).drop(topic_index)
+        next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first || lines.length
+        before_topic = lines.take(topic_index)
+        after_topic = lines.drop(next_topic_index)
+        topic_body = lines.take(next_topic_index).drop(topic_index)
       else
         topic_body = [ "== #{topic} ==", '' ]
       end
