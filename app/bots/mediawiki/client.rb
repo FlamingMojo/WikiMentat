@@ -89,7 +89,7 @@ module Mediawiki
       lines = talk_page.split("\n")
       titles = lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
       topic_index = titles["== #{topic} =="]
-      after_topic = []
+      after_topic = [ '' ]
       if topic_index.present?
         next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first || lines.length
         before_topic = lines.take(topic_index)
@@ -100,8 +100,7 @@ module Mediawiki
         topic_body = [ "== #{topic} ==", '' ]
       end
 
-      timestamp = Time.now.strftime('%R, %d %B %Y (UTC)')
-      topic_body << [ message, signature, timestamp ].join(' ')
+      topic_body << [ message, '~~~~' ].join(' ')
       topic_body << ''
       content = (before_topic + topic_body + after_topic).join("\n")
 
@@ -109,12 +108,6 @@ module Mediawiki
     end
 
     private
-
-    def signature
-      name = username.split('@').first
-
-      "[[User:#{name}|#{name}]] ([[User_talk:#{name}|talk]])"
-    end
 
     def bot
       @bot ||= MediawikiApi::Client.new(url).tap do |client|
