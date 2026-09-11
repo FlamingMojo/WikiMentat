@@ -45,6 +45,7 @@ module Discord::Commands
         handle_button(/^mission:abandon:/, 'Discord::Commands::Missions::Abandon')
         handle_button(/^mission:approve:/, 'Discord::Commands::Missions::Approve')
         handle_button(/^mission:reject:/, 'Discord::Commands::Missions::Reject')
+        handle_modal(/^mission:feedback:/, 'Discord::Commands::Missions::Reject::Feedback')
         handle_button(/^mission:image:confirm:/, 'Discord::Commands::Missions::Submit::UploadImage::Confirm')
         handle_button(/^mission:image:cancel:/, 'Discord::Commands::Missions::Submit::UploadImage::Cancel')
         handle_button(/^mission:reward:confirm:/, 'Discord::Commands::Missions::Reward::Confirm')

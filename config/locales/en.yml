@@ -394,19 +394,68 @@ en:
           reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> earned a %{reward} but we have none to give! ⚠️"
           confirm: 'Approve'
         reject:
-          rejected_mission: "Rejected mission %{summary}! Notified user"
-          rejected_abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
-          rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
-          rejected_mission_subject: "Mission Submission Rejected"
-          feedback: >
-            Sorry, your submission to mission %{summary} was rejected.
-            Please reach out to staff for assistance.
-          abandon: >
-            As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
-            It has now been set back to available and you can pick it up later here %{link}
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"
+          something_went_wrong: 'Sorry, something went wrong.'
+          rejected_mission: "Rejected mission %{summary}! Notified user"
+          abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
+          rejected_mission_no_pm: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          abandoned_mission_no_pm: "Abandoned mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          title: 'Reject Feedback'
+          labels:
+            feedback: 'Feedback'
+          placeholders:
+            feedback:
+              The reasoning why the mission is being rejected.
+              This will be sent to the user, and viewable publicly on their talk page.
+          notification:
+            abandon:
+              discord:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the feedback:
+                  ```
+                  %{feedback}
+                  ```
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to staff for assistance.
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+              wiki:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                   %{feedback}
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to [[Staff]] for assistance.
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+            rejected:
+              discord:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the staff feedback:
+                  ```
+                  %{feedback}
+                  ```
+                  You can view the mission at %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to staff for assistance.
+                  You can view the mission at %{link}
+              wiki:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                   %{feedback}
+                  You can view the mission at %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to [[Staff]] for assistance.
+                  You can view the mission at %{link}
         abandon:
           not_found: "You are not currently on a mission"
           not_yours: "This is not your mission to abandon"

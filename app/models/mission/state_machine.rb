@@ -17,8 +17,8 @@ class Mission
       delete_post! && update(assignee: nil, status: 'completed', title: "[CANCELLED] #{title}") && reload && sync_post!
     end
 
-    def reject
-      Reject.call(self)
+    def reject(feedback: nil)
+      Reject.call(mission: self, feedback:)
     end
 
     def approve

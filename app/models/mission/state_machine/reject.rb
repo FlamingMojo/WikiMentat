@@ -2,60 +2,62 @@ class Mission
   module StateMachine
     class Reject
       include ::Translatable
-      attr_reader :mission
-      private :mission
+      attr_reader :mission, :feedback, :abandon
+      private :mission, :feedback
 
       with_locale_context 'discord.commands.missions.reject'
 
-      def initialize(mission)
+      def initialize(mission:, feedback: nil)
         @mission = mission
+        @feedback = feedback
+        @abandon = false
       end
 
-      def self.call(mission)
-        new(mission).reject
+      def self.call(mission:, feedback: nil)
+        new(mission:, feedback:).reject
       end
 
       def reject
-        notify_feedback
-        pm_feedback
-        return abandon if assignee.missions.accepted.count >= 1
-        mission.delete_post! && mission.accepted! && mission.reload && mission.sync_post!
-        t('rejected_mission', summary: mission.summary)
+        return abandon_mission if assignee.missions.accepted.count >= 1
+
+        reject_mission
       end
 
       private
 
-      def abandon
+      def abandon_mission
+        @abandon = true
         mission.abandon
-        Discord.send_message(
-          channel: Discord.pm_channel(assignee.discord_uid.to_i),
-          content: abandon_pm_message
-        )
+        notify_user
 
-        t('rejected_abandoned_mission', summary: mission.summary)
+        t('abandoned_mission', summary: mission.summary)
+      rescue StandardError
+        t('abandoned_mission_no_pm', summary: mission.summary)
       end
 
-      def abandon_pm_message
-        t(
-          'abandon',
-          current_mission: assignee.current_mission.summary,
-          summary: mission.summary,
-          link: mission.reload.discord_post_link
-        )
+      def reject_mission
+        mission.delete_post! && mission.accepted! && mission.reload && mission.sync_post!
+        notify_user
+
+        t('rejected_mission', summary: mission.summary)
+      rescue StandardError
+        t('rejected_mission_no_pm', summary: mission.summary)
       end
 
-      def pm_feedback
-        Discord.send_message(
-          channel: Discord.pm_channel(assignee.discord_uid.to_i),
-          content: t('feedback', summary: mission.summary)
-        )
-      end
-
-      def notify_feedback
+      def notify_user
         wiki_bot.notify_user(
           username: wiki_user.username,
-          message: t('feedback', summary: "[[Mentat:Missions/#{mission.id}|#{mission.summary}]]"),
+          message: message(:wiki),
         )
+
+        Discord.send_message(
+          channel: Discord.pm_channel(assignee.discord_uid.to_i),
+          content: message,
+        ) unless wiki_user.dummy_user?
+      end
+
+      def message(platform = :discord)
+        RejectMessage.new(mission:, feedback:, abandon:, platform:).message
       end
 
       def wiki_user
@@ -72,6 +74,56 @@ class Mission
 
       def assignee
         @assignee ||= mission.assignee
+      end
+
+      class RejectMessage
+        include ::Translatable
+        with_locale_context 'discord.commands.missions.reject'
+
+        attr_reader :mission, :feedback, :abandon, :platform
+        private :mission, :feedback, :abandon, :platform
+
+        def initialize(mission:, feedback: nil, abandon: false, platform: :discord)
+          @mission = mission
+          @feedback = feedback
+          @abandon = abandon
+          @platform = platform
+        end
+
+        def message
+          t(key, **{ summary:, current_mission:, link:, feedback: }.compact)
+        end
+
+        def key
+          [
+            'notification',
+            abandon ? 'abandon' : 'rejected',
+            platform,
+            feedback ? 'feedback' : 'standalone'
+          ].join('.')
+        end
+
+        def summary
+          mission.summary
+        end
+
+        def current_mission
+          return unless abandon
+          new_mission = mission.assignee.current_mission
+          return "[[Mentat:Missions/#{new_mission.id}|#{new_mission.summary}]]" unless discord?
+
+          new_mission.summary
+        end
+
+        def link
+          mission.reload.discord_post_link if discord?
+
+          "[[Mentat:Missions/#{mission.id}|Mission #{mission.id}]]"
+        end
+
+        def discord?
+          platform == :discord
+        end
       end
     end
   end
