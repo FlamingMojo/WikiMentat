@@ -197,6 +197,7 @@ module Mediawiki
         end
 
         def add_message(message)
+          lines << ''
           lines << "#{message.strip} ~~~~"
           lines << ''
         end
