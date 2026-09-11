@@ -94,7 +94,7 @@ module Mediawiki
         next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
         before_topic = lines.take(topic_index)
         after_topic = lines.drop(next_topic_index) if next_topic_index.present?
-        topic_body = lines.take(next_topic_index).drop(topic_index)
+        topic_body = lines.take(next_topic_index || lines.length).drop(topic_index)
       else
         before_topic = lines
         topic_body = [ "== #{topic} ==", '' ]
