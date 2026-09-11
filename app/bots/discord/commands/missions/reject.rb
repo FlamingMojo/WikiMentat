@@ -31,6 +31,8 @@ module Discord::Commands::Missions
     end
 
     def response_block
+      return super if error_message
+
       lambda do |modal|
         modal.label t('labels.feedback') do |label|
           label.text_input(
