@@ -407,8 +407,7 @@ en:
             feedback: 'Feedback'
           placeholders:
             feedback:
-              The reasoning why the mission is being rejected.
-              This will be sent to the user, and viewable publicly on their talk page.
+              Feedback sent to the user and on their talk page.
           notification:
             abandon:
               discord:
