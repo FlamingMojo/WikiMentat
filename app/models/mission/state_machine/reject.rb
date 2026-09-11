@@ -52,7 +52,7 @@ class Mission
 
         Discord.send_message(
           channel: Discord.pm_channel(assignee.discord_uid.to_i),
-          content: message,
+          content: message(:discord),
         ) unless wiki_user.dummy_user?
       end
 
@@ -116,9 +116,10 @@ class Mission
         end
 
         def link
-          mission.reload.discord_post_link if discord?
-
-          "[[Mentat:Missions/#{mission.id}|Mission #{mission.id}]]"
+          {
+            discord: mission.reload.discord_post_link,
+            wiki: "[[Mentat:Missions/#{mission.id}|Mission #{mission.id}]]",
+          }.fetch(platform)
         end
 
         def discord?
