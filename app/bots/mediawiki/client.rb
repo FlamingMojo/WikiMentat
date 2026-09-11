@@ -172,7 +172,11 @@ module Mediawiki
       def topic_titles
         # Gets every topic title and the line number
         # { '== topic ==' => i, '== topic 2 ==' => j }
-        lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
+        @topic_titles ||= lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
+      end
+
+      def lines
+        @lines ||= content.split("\n")
       end
 
       class Topic
