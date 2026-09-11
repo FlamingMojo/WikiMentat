@@ -34,12 +34,13 @@ module Discord::Commands::Missions
       return super if error_message
 
       lambda do |modal|
-        modal.label t('labels.feedback') do |label|
-          label.text_input(
+        modal.row do |row|
+          row.text_input(
             style: :paragraph,
             custom_id: 'feedback',
             required: true,
-            placeholder: t('placeholders.feedback')
+            label: t('labels.feedback'),
+            placeholder: t('placeholders.feedback'),
           )
         end
       end
