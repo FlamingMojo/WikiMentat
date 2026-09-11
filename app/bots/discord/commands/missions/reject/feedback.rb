@@ -16,7 +16,7 @@ module Discord::Commands::Missions
       return t('not_submitted') unless mission.submitted?
       return t('not_assigned') unless mission.assignee
 
-      mission.reject(feedback: feedback.gsub("\n", ' '))
+      mission.reject(feedback:)
     rescue => error
       DiscordError.handle(error:, user: mentat_user, service: self.class.to_s)
       t('something_went_wrong', summary: mission.summary)
@@ -25,7 +25,17 @@ module Discord::Commands::Missions
     private
 
     def feedback
+      return unless raw_feedback
+
+      raw_feedback.gsub("\n", ' ')
+    end
+
+    def raw_feedback
       modal_values['feedback']
+    end
+
+    def modal_keys
+      %w[feedback]
     end
 
     def mission
