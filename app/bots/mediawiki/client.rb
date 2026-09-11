@@ -85,26 +85,8 @@ module Mediawiki
     end
 
     def reply_to_topic(page:, topic:, message:)
-      talk_page = get_page(page).body
-      lines = talk_page.split("\n")
-      titles = lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
-      topic_index = titles["== #{topic} =="]
-      after_topic = [ '' ]
-      if topic_index.present?
-        next_topic_index = titles.invert.keys.select { |line| line > topic_index }.sort.first
-        before_topic = lines.take(topic_index)
-        after_topic = lines.drop(next_topic_index) if next_topic_index.present?
-        topic_body = lines.take(next_topic_index || lines.length).drop(topic_index)
-      else
-        before_topic = lines
-        topic_body = [ "== #{topic} ==", '' ]
-      end
-
-      topic_body << [ message.strip, '~~~~' ].join(' ')
-      topic_body << ''
-      content = (before_topic + topic_body + after_topic).join("\n")
-
-      create_page(page, content)
+      talk_page = DiscussionPage.new(bot: self, title: page)
+      talk_page.reply_to_topic(name: topic, message:)
     end
 
     private
@@ -112,6 +94,108 @@ module Mediawiki
     def bot
       @bot ||= MediawikiApi::Client.new(url).tap do |client|
         client.log_in(username, password)
+      end
+    end
+
+    class DiscussionPage
+      attr_reader :bot, :title, :content
+
+      def initialize(bot:, title:, content: nil)
+        @bot = bot
+        @title = title
+        @content = content || bot.get_page(title).body
+      end
+
+      def reply_to_topic(name:, message:)
+        topic = topics.find { |t| t.name == name }
+        unless topic.present?
+          topic = Topic.new(name: name)
+          topics << topic
+        end
+
+        topic.add_message(message)
+
+        bot.create_page(title, topics.map(&:to_s).join)
+      end
+
+      def topics
+        @topics ||= parse_topics
+      end
+
+      def parse_topics
+        return [] unless topic_titles.any?
+
+        parse_topic_lines
+        topic_lines.map do |topic_title, lines|
+          Topic.new(name: topic_title.gsub('==', '').strip, lines: lines)
+        end
+      end
+
+      def topic_lines
+        # { '== topic ==' => [line1, line2], '== topic 2 ==' => [line4, line5] }
+        @topic_lines ||= topic_titles.keys.map { |title| [ title, [] ] }.to_h
+      end
+
+      def parse_topic_lines
+        # Uses the line map to fill out the topic lines hash
+        lines.each_with_index do |line, i|
+          next if topic_titles.values.include?(i)
+          topic_lines[topic_line_map[i]] << line
+        end
+      end
+
+      def topic_line_map
+        # Maps every line number to a topic
+        # { 0 => '== topic ==', 1=> '== topic 2 ==', ...}
+        # Improves performance to O(2N)
+        topic_ranges.flat_map do |title, range|
+          range.to_a.map { |index| [ index, title ] }
+        end.to_h
+      end
+
+      def topic_ranges
+        # Gets the line number ranges for each topic
+        # { '== topic ==' => i...j, '== topic 2 ==' => j...len }
+        topic_ranges = topic_titles.dup
+        arr = topic_ranges.to_a
+        topic_ranges.each_with_index.map do |(key, value), i|
+          if i >= arr.length - 1
+            topic_ranges[key] = (value..(lines.length))
+          else
+            next_topic = arr[i + 1].first
+            topic_ranges[key] = (value...topic_ranges[next_topic])
+          end
+        end
+        topic_ranges
+      end
+
+      def topic_titles
+        # Gets every topic title and the line number
+        # { '== topic ==' => i, '== topic 2 ==' => j }
+        lines.each_with_index.map { |l, i| [ l, i ] if l.match?(/^== .* ==$/) }.compact.to_h
+      end
+
+      class Topic
+        attr_reader :name, :lines
+
+        def initialize(name:, lines: [])
+          @name = name
+          @lines = lines
+        end
+
+        def to_s
+          [
+            "== #{name} ==",
+            '',
+            *lines,
+            ''
+          ].join("\n")
+        end
+
+        def add_message(message)
+          lines << "#{message.strip} ~~~~"
+          lines << ''
+        end
       end
     end
   end
