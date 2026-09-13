@@ -1,15 +1,11 @@
-module Discord::Commands::User
-  class Left
+module Discord::Commands::Custom::AwakeningWiki
+  class FrontOrBack
     include ::Discord::Util
 
     def content
-      Discord.delete_message(channel: event.message.channel.id, message: event.message.id)
+      compare.post_message
 
-      compare.left!
-
-      FrontBackCompare.new.post_message
-
-      'Confirmed the LEFT was FRONT.'
+      'Posted'
     rescue StandardError => _e
       @error = true
       'An error occurred. Please try the button below or `/front_or_back` to reset'
@@ -26,14 +22,9 @@ module Discord::Commands::User
     end
 
     def compare
-      @compare ||= FrontBackCompare.new(mission)
-    end
-
-    def mission
-      Mission.find(custom_id.split(':').last)
+      @compare ||= FrontBackCompare.new
     end
   end
 end
-
 
 

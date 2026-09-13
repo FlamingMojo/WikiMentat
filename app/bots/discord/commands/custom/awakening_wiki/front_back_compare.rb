@@ -1,4 +1,4 @@
-module Discord::Commands::User
+module Discord::Commands::Custom::AwakeningWiki
   class FrontBackCompare
     attr_reader :mission, :image_pages
 

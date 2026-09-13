@@ -1,11 +1,12 @@
-module Discord::Commands::User
-  class FrontOrBack
+module Discord::Commands::Custom::AwakeningWiki
+  class Retry
     include ::Discord::Util
 
     def content
-      compare.post_message
+      FrontBackCompare.new.post_message
+      Discord.delete_message(channel: event.message.channel.id, message: event.message.id)
 
-      'Posted'
+      'Reset.'
     rescue StandardError => _e
       @error = true
       'An error occurred. Please try the button below or `/front_or_back` to reset'
@@ -20,11 +21,6 @@ module Discord::Commands::User
         end
       end
     end
-
-    def compare
-      @compare ||= FrontBackCompare.new
-    end
   end
 end
-
 
