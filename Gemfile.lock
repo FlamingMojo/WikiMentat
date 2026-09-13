@@ -163,6 +163,8 @@ GEM
     ffi (1.17.3-aarch64-linux-gnu)
     ffi (1.17.3-arm64-darwin)
     ffi (1.17.3-x86_64-linux-gnu)
+    foreman (0.90.0)
+      thor (~> 1.4)
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
@@ -527,6 +529,7 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   fastimage
+  foreman
   importmap-rails
   jbuilder
   kamal

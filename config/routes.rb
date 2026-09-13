@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resources :missions, only: %i[index create show update] do
         member do
           delete '', to: 'missions#cancel'
+          match :accept_wiki, via: %i[get]
+          match :abandon_wiki, via: %i[get]
           match :abandon, via: %i[put patch]
           match :submit, via: %i[put patch]
           match :approve, via: %i[put patch]
@@ -19,7 +21,14 @@ Rails.application.routes.draw do
         end
       end
       resources :guild_configs, only: %i[index]
-      resources :users, only: %i[show]
+      resources :users, only: %i[show] do
+        collection do
+          match :wiki_missions, via: %i[get]
+          match :wiki_missions_count, via: %i[get]
+          match :wiki_rewards, via: %i[get]
+          match :verify_wiki_user, via: %i[get]
+        end
+      end
     end
   end
 

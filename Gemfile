@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'dotenv'
 gem 'rails', '~> 8.1.2'
+gem 'foreman'
 gem 'activeadmin'
 gem 'activeadmin_assets'
 gem 'cancancan'

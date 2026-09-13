@@ -15,6 +15,7 @@ class Mission
       page_update: "#{ENV["HOST_URL"]}/page_update.png",
       image_upload: "#{ENV["HOST_URL"]}/image_upload.png",
       page_translate: "#{ENV["HOST_URL"]}/page_translate.png",
+      manually_granted: "#{ENV["HOST_URL"]}/manually_granted.png",
     }.freeze
 
     belongs_to :guild_config

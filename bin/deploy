@@ -1,15 +1,16 @@
-# frozen_string_literal: true
+#!/usr/bin/env ruby
+
 require 'optparse'
 require 'dotenv'
 Dotenv.load
 DowngradeError = Class.new(ArgumentError)
 NoRegistryError = Class.new(ArgumentError)
 
-registry = ENV['DOCKER_REGISTRY_URL']
+registry = ENV.fetch('DOCKER_REGISTRY_URL', 'registry.flamingmojo.dev')
 image_name = 'wiki_mentat'
 raise NoRegistryError.new('A registry is required to build and deploy') unless registry
 
-current_version = Gem::Version.new(File.read('./.image-version'))
+current_version = Gem::Version.new(File.read('.image-version'))
 next_patch = Gem::Version.new((current_version.segments.tap {|v| v[-1] += 1}).join('.'))
 next_minor = Gem::Version.new("#{current_version.bump}.0")
 next_major = Gem::Version.new("#{current_version.segments.first + 1}.0.0")

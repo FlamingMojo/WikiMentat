@@ -13,6 +13,14 @@ class WikiUser < ApplicationRecord
 
   validates :username, presence: true
 
+  def real_user?
+    user && !dummy_user?
+  end
+
+  def dummy_user?
+    user && user.discord_uid.start_with?('wiki_user')
+  end
+
   def as_json(options = nil)
     { wiki: wiki.url, username: }
   end

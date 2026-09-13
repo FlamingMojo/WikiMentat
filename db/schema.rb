@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_190413) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_06_204407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,7 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_190413) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "mission_priority", ["low", "medium", "high"]
   create_enum "mission_status", ["active", "accepted", "submitted", "completed"]
-  create_enum "mission_type", ["page_create", "page_update", "image_upload", "page_translate"]
+  create_enum "mission_type", ["page_create", "page_update", "image_upload", "page_translate", "batch"]
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.bigint "author_id"
@@ -237,6 +237,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_190413) do
     t.bigint "guild_config_id", null: false
     t.bigint "issuer_id", null: false
     t.string "language"
+    t.boolean "manually_granted", default: false
     t.string "map_link"
     t.enum "priority", default: "low", null: false, enum_type: "mission_priority"
     t.enum "status", default: "active", null: false, enum_type: "mission_status"

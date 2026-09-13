@@ -22,19 +22,44 @@ class UserClaim < ApplicationRecord
   end
 
   def complete!(webhook)
-    update!(wiki_user: webhook.wiki_user)
+    complete_with(webhook.wiki_user)
+  end
+
+  def complete_with(wiki_user)
+    update!(wiki_user:)
+    migrate_missions if wiki_user.dummy_user?
     wiki_user.update!(user: user)
     confirmed!
 
-    webhook.wiki.guild_configs.each do |guild_config|
+    wiki_user.wiki.guild_configs.each do |guild_config|
       next unless user.guilds.include?(guild_config.guild)
       content = I18n.t(
         'discord.commands.user.verify.success',
-        user: user.discord_uid, wiki_username: wiki_user.username, wiki: wiki.url
+        user: user.discord_uid, wiki_username: wiki_user.username, wiki: wiki_user.wiki.url
       )
       DiscordChannelBroadcast.new(guild_config:, content:).perform
     end
   rescue => error
-    DiscordError.handle(error:, user:, service: 'UserClaim#complete!')
+    DiscordError.handle(error:, user:, service: 'UserClaim#complete_with')
+  end
+
+  def migrate_missions
+    # All WikiUsers create a 'dummy' User so they can complete missions without a discord account
+    # Any missions completed and rewards earned should move to the new user as they've been claimed
+    dummy_user = wiki_user.user
+    user.guilds.each do |guild|
+      dummy_member = dummy_user.member_of(guild)
+      next unless dummy_member
+      real_member = user.member_of(guild)
+      dummy_member.missions.each do |mission|
+        mission.update(assignee: real_member)
+        mission.sync_post!
+      end
+      dummy_member.member_rewards.each do |reward|
+        reward.update(rewardable: dummy_member, discord_uid: user.discord_uid)
+      end
+      dummy_member.destroy
+    end
+    dummy_user.destroy if dummy_user.reload.members.none?
   end
 end

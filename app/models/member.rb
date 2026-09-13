@@ -21,7 +21,7 @@ class Member < ApplicationRecord
   has_many :accepted_missions, -> { accepted }, class_name: 'Mission', foreign_key: 'assignee_id'
 
   validates :user_id, uniqueness: { scope: :guild_id }
-  def_delegators :user, :discord_uid, :username
+  def_delegators :user, :discord_uid, :username, :wiki_user_for
 
   def name
     "[#{guild.initials}] #{user.username}"

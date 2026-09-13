@@ -12,17 +12,49 @@ module Discord::Commands::Missions
     with_locale_context 'discord.commands.missions.reject'
 
     def content
+      error_message
+    rescue => error
+      DiscordError.handle(error:, user: mentat_user, service: self.class.to_s)
+      t('../', summary: mission.summary)
+    end
+
+    def response_params
+      return super if error_message
+
+      { title: t('title'), custom_id: "mission:feedback:#{mission.id}" }
+    end
+
+    def response_method
+      return super if error_message
+
+      :show_modal
+    end
+
+    def response_block
+      return super if error_message
+
+      lambda do |modal|
+        modal.row do |row|
+          row.text_input(
+            style: :paragraph,
+            custom_id: 'feedback',
+            required: true,
+            label: t('labels.feedback'),
+            placeholder: t('placeholders.feedback'),
+          )
+        end
+      end
+    end
+
+    private
+
+    def error_message
       return t('not_found') unless mission
       return t('not_submitted') unless mission.submitted?
       return t('not_assigned') unless mission.assignee
 
-      mission.reject
-    rescue => error
-      DiscordError.handle(error:, user: mentat_user, service: self.class.to_s)
-      t('rejected_mission_no_feedback', summary: mission.summary)
+      nil
     end
-
-    private
 
     def mission
       @mission ||= Mission.find_by(id: custom_id.split(':').last)

@@ -90,7 +90,59 @@ module API::V1
       end
     end
 
+    def accept_wiki
+      if wiki_acceptable?
+        mission.accept(wiki_member)
+        handle_response({ message: "Successfully accepted Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ message: "Not able to accept mission - #{@error}" }, status: 200)
+      end
+    end
+
+    def abandon_wiki
+      if wiki_abandonable?
+        mission.abandon
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+      else
+        handle_response({ message: "Not able to abandon mission - #{@error}" }, status: 200)
+      end
+    end
+
     private
+
+    def wiki_acceptable?
+      @error = 'Mission not available' and return false unless mission&.active?
+      @error = 'Missions not enabled' and return false unless guild_config.enable_missions
+      @error = 'Guild not found' and return false unless guild
+      @error = 'Your user cannot be found, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki_member
+      @error = "You are already on mission #{current_mission_link}!" and return false if wiki_member.current_mission
+
+      true
+    end
+
+    def wiki_abandonable?
+      @error = 'Mission not found' and return false unless mission
+      @error = 'Missions not enabled' and return false unless guild_config.enable_missions
+      @error = 'Guild not found' and return false unless guild
+      @error = 'Your user cannot be found, contact [[User:FlamingMojo|Mojo]]' and return false unless wiki_member
+      @error = 'This is not your mission!' and return false unless mission == wiki_member.current_mission
+
+      true
+    end
+
+    def current_mission_link
+      "[[Mentat:Missions/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"
+    end
+
+    def wiki_member
+      return unless wiki_user&.user
+
+      @wiki_member ||= wiki_user.user.member_of(guild)
+    end
+
+    def wiki_user
+      @wiki_user ||= wiki.wiki_users.find_by(username: params[:wiki_username])
+    end
 
     def mission
       @mission ||= Mission.find_by(id: params[:id])
@@ -114,6 +166,10 @@ module API::V1
 
     def member
       @member ||= @current_user.member_of(guild)
+    end
+
+    def wiki
+      @wiki ||= guild_config.wiki
     end
 
     def guild

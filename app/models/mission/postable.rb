@@ -2,7 +2,9 @@ class Mission
   # Collection of methods to implement the discord embed posts
   module Postable
     def type_default
-      guild_config.type_defaults.find_by(name: type)
+      name = manually_granted? ? 'manually_granted' : type
+
+      guild_config.type_defaults.find_by(name:)
     end
 
     def state_default
@@ -75,6 +77,5 @@ class Mission
     def channel_uid
       discord_post_link.gsub('https://discord.com/channels/', '').split('/')[1]
     end
-
   end
 end

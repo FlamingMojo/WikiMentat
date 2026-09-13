@@ -282,13 +282,10 @@ en:
         claim:
           already_claimed: "%{wiki_username} has already been verified as <@%{owner_id}>"
           already_verified: "You have already been verified as %{wiki_username}!"
-          instructions: >
-            Please log into the wiki as %{wiki_username} and make an edit to any page.
-            In the Summary of your changes, add the following verification code.
-            ```WM_%{claim_code}_UV```
-            You can edit any page with any content for this to be detected.
-            For example you can create or edit -
-            %{wiki_url}/User:%{wiki_username}/Mentat_User_Claim
+          instructions: |
+            To verify:
+            1 - Log into `%{wiki_url}` as `%{wiki_username}`
+            2 - Click this link: %{wiki_url}/Mentat:Verify?claim_code=%{claim_code}
         verify:
           success: "<@%{user}> successfully verified ownership of %{wiki_username} on %{wiki}!"
         lookup:
@@ -331,6 +328,8 @@ en:
           find: "Show a user's current mission (defaults to your own mission)"
           rewards: 'Claim and view your rewards earned by completing missions!'
           manually_reward: 'Manually give a player a reward'
+          grant: 'Grant a player a number of mission credits'
+          leaderboard: 'Show the missions leaderboard'
           fields:
             id: 'ID of the mission to cancel'
         init:
@@ -385,7 +384,9 @@ en:
             To abandon this mission, simply `/abandon_mission`
         approve:
           approved_mission: "Completed mission %{summary}!"
-          celebration: "🎉<@%{user}> Has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
+          approved_mission_subject: "Mission Submission Approved"
+          celebration: "🎉<@%{user}> has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
+          celebration_content: "🎉 You have completed a mission - %{summary}! You have now completed '''%{count}''' missions! 🎉"
           reward: "@here️ 🎖<@%{user}> Has completed %{count} Missions and has earned a reward!"
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
@@ -393,18 +394,67 @@ en:
           reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> earned a %{reward} but we have none to give! ⚠️"
           confirm: 'Approve'
         reject:
-          rejected_mission: "Rejected mission %{summary}! Notified user"
-          rejected_abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
-          rejected_mission_no_feedback: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
-          feedback: >
-            Sorry, your submission to mission %{summary} was rejected.
-            Please reach out to moderators for assistance.
-          abandon: >
-            As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
-            It has now been set back to available and you can pick it up later here %{link}
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"
+          something_went_wrong: 'Sorry, something went wrong.'
+          rejected_mission: "Rejected mission %{summary}! Notified user"
+          abandoned_mission: "Rejected mission %{summary}! Set to available as user has a new mission."
+          rejected_mission_no_pm: "Rejected mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          abandoned_mission_no_pm: "Abandoned mission %{summary}! ⚠️ Unable to notify user! Please DM ⚠️"
+          title: 'Reject Feedback'
+          labels:
+            feedback: 'Feedback'
+          placeholders:
+            feedback:
+              Feedback sent to the user and on their talk page.
+          notification:
+            abandon:
+              discord:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the feedback:
+                  ```
+                  %{feedback}
+                  ```
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to staff for assistance.
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+              wiki:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                   %{feedback}
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to [[Staff]] for assistance.
+                  As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
+                  It has now been set back to available and you can pick it up later here %{link}
+            rejected:
+              discord:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the staff feedback:
+                  ```
+                  %{feedback}
+                  ```
+                  You can view the mission at %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to staff for assistance.
+                  You can view the mission at %{link}
+              wiki:
+                feedback: |
+                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                   %{feedback}
+                  You can view the mission at %{link}
+                standalone: |
+                  Sorry, your submission to mission %{summary} was rejected.
+                  Please reach out to [[Staff]] for assistance.
+                  You can view the mission at %{link}
         abandon:
           not_found: "You are not currently on a mission"
           not_yours: "This is not your mission to abandon"
@@ -423,15 +473,26 @@ en:
           found: "<@%{user_id}> is currently on %{summary}. Mission post link: %{link}"
           no_mission: "<@%{user_id}> is not currently on a mission"
         submit:
+          submitted_mission_subject: "Mission Submitted"
           page_create:
-            notify: >
+            notify: |
               <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
           page_update:
             notify: >
               <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
@@ -462,6 +523,8 @@ en:
           approved: "🏅Issued <@%{user_id}> a key for %{reward} - `%{key}`"
           broadcast: "🏅Congratulations! <@%{user_id}> earned %{reward}! Use `/rewards` to claim your key!"
           already_claimed: 'That user already has that reward. Unclaiming'
+          rewarded_subject: 'You have been issued a reward!'
+          rewarded_content: "🏅Congratulations! You have earned %{reward}! Visit your [[Mentat:Account|Mentat Account]] page to claim."
         manually_reward:
           not_enabled: 'Sorry. Rewards are not enabled on this server.'
           reward: "@here️ 🎖<@%{user}> Has been manually awarded the %{reward} by <@%{admin}>."
@@ -469,3 +532,22 @@ en:
           reward_out_of_stock: "⚠️ OUT OF STOCK! <@%{user_id}> was issued a %{reward} but we have none to give! ⚠️"
           confirm: 'Approve'
           issued: 'Issued the user a reward! It needs to be approved before they can receive it'
+        grant:
+          not_enabled: 'Sorry. Missions are not enabled on this server.'
+          not_found: "Sorry, something went wrong, can't find that user"
+          granted: "Granted %{count} mission credits to <@%{user_id}>"
+        leaderboard:
+          embed:
+            title: 'Missions Leaderboard'
+            description: 'The top players by completed missions:'
+            places:
+              0: 🥇First 🥇
+              1: 🥈Second 🥈
+              2: 🥉Third 🥉
+              3: Fourth
+              4: Fifth
+              5: Sixth
+              6: Seventh
+              7: Eighth
+              8: Ninth
+              9: Tenth
