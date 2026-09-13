@@ -27,6 +27,8 @@ module Discord::Commands
         end
         Discord::Bot.slash_command(:manual_reward, t('manually_reward')) do |cmd|
           cmd.user('target_user', 'Discord user', required: true)
+          cmd.string('reward_type', 'Reward', required: true)
+          cmd.boolean('staff', 'Staff Reward', required: false)
         end
         Discord::Bot.slash_command(:grant_missions, t('grant')) do |cmd|
           cmd.user('target_user', 'Discord user', required: true)

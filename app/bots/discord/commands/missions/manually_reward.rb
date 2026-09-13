@@ -27,12 +27,21 @@ module Discord::Commands::Missions
     private
 
     def reward_type_due
-      # Temporary - Hardcode to the first reward type
-      @reward_type_due ||= guild_config.reward_types.first
+      @reward_type_due ||= guild_config.reward_types.find_by(name:)
     end
 
     def assignee
       @assignee ||= guild.find_member_by_discord_uid(user_id)
+    end
+
+    def issue_type
+      return :staff if event.options['staff']
+
+      :manual
+    end
+
+    def name
+      event.options['reward_type']
     end
 
     def user_id
@@ -47,7 +56,7 @@ module Discord::Commands::Missions
     end
 
     def member_reward
-      @member_reward ||= reward_type_due.next_reward.issue_to(assignee, issue_type: :manual)
+      @member_reward ||= reward_type_due.next_reward.issue_to(assignee, issue_type:)
     end
 
     def confirm_button
