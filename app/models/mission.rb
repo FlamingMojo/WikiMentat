@@ -78,6 +78,12 @@ class Mission < ActiveRecord::Base
     "[#{id}] #{title}"
   end
 
+  def language_label
+    return unless language
+
+    t("embed.field.languages.#{language}")
+  end
+
   def as_json(options = nil)
     rule = image_upload? && image_mission_rule ? image_rule.name : nil
     assignee_uid = assignee_id.present? ? assignee.discord_uid : nil
@@ -86,7 +92,7 @@ class Mission < ActiveRecord::Base
     {
       id:, guild_config_id:, status:, type:, title:, description:, wiki_page:, map_link:,
       discord_post_uid:, discord_post_link:, rule:, assignee_wiki_user:, issuer_wiki_user:,
-      issuer: issuer.discord_uid, assignee: assignee_uid,
+      issuer: issuer.discord_uid, assignee: assignee_uid, language:, language_label:
     }
   end
 end
