@@ -124,7 +124,7 @@ class Mission
 
     GuildConfig::ConfiguredChannel::MISSION_CHANNELS.each do |channel_purpose|
       define_method("#{channel_purpose}_channel") do
-        guild_config.configured_channels.find_by(channel_purpose:).channel
+        guild_config.send("#{channel_purpose}_#{mission.type}_channel")
       end
     end
   end

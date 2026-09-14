@@ -1,6 +1,6 @@
 ActiveAdmin.register GuildConfig::ConfiguredChannel do
   # Specify parameters which should be permitted for assignment
-  permit_params :guild_config_id, :channel_id, :channel_purpose
+  permit_params :guild_config_id, :channel_id, :channel_purpose, :channel_mission_type
 
   # or consider:
   #
@@ -18,6 +18,7 @@ ActiveAdmin.register GuildConfig::ConfiguredChannel do
   filter :guild_config
   filter :channel
   filter :channel_purpose
+  filter :channel_mission_type
   filter :created_at
   filter :updated_at
 
@@ -28,6 +29,7 @@ ActiveAdmin.register GuildConfig::ConfiguredChannel do
     column :guild_config
     column :channel
     column :channel_purpose
+    column :channel_mission_type
     column :created_at
     column :updated_at
     actions
@@ -40,6 +42,7 @@ ActiveAdmin.register GuildConfig::ConfiguredChannel do
       row :guild_config
       row :channel
       row :channel_purpose
+      row :channel_mission_type
       row :created_at
       row :updated_at
     end
@@ -52,6 +55,7 @@ ActiveAdmin.register GuildConfig::ConfiguredChannel do
       f.input :guild_config
       f.input :channel
       f.input :channel_purpose
+      f.input :channel_mission_type
     end
     f.actions
   end
