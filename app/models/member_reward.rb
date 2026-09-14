@@ -49,10 +49,6 @@ class MemberReward < ActiveRecord::Base
     "`#{reward.redacted}`"
   end
 
-  def reward_key
-    reward_type.reward_key
-  end
-
   def as_json(options = nil)
     { id:, message: to_message, issued_at:, status: }
   end

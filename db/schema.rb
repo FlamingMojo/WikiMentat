@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_06_204407) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_13_173918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_204407) do
 
   create_table "configured_channels", force: :cascade do |t|
     t.bigint "channel_id", null: false
+    t.integer "channel_mission_type", default: 0, null: false
     t.integer "channel_purpose", default: 0, null: false
     t.datetime "created_at", null: false
     t.bigint "guild_config_id", null: false
@@ -252,13 +253,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_204407) do
 
   create_table "reward_types", force: :cascade do |t|
     t.boolean "active", default: true
+    t.jsonb "config", default: "{}", null: false
     t.datetime "created_at", null: false
     t.bigint "guild_config_id", null: false
     t.string "name", null: false
     t.text "redemption_instructions"
-    t.integer "reward_key", default: 0, null: false
-    t.integer "threshold"
-    t.integer "threshold_type", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["guild_config_id"], name: "index_reward_types_on_guild_config_id"
   end

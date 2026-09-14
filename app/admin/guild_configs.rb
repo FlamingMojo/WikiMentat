@@ -5,7 +5,7 @@ ActiveAdmin.register GuildConfig do
     :guild_id, :wiki_id, :wiki_prefix, :send_discord_messages, :bot_changes, :minor_changes, :null_changes, 
     :suppress_previews, :max_characters, :max_username_characters, :prepend_timestamp, :use_emojis,
     :enable_missions, :enable_rewards, :enable_image_upload,
-    configured_channels_attributes: [ :id, :channel_id, :channel_purpose, :_destroy ],
+    configured_channels_attributes: [ :id, :channel_id, :channel_purpose, :channel_mission_type, :_destroy ],
     disabled_hooks_attributes: [ :id, :hook_name, :_destroy ],
     disabled_users_attributes: [ :id, :wiki_user_id, :_destroy ],
     hook_emojis_attributes: [ :id, :name, :hook_name ],
@@ -70,6 +70,7 @@ ActiveAdmin.register GuildConfig do
         table_for resource.configured_channels do
           column :channel
           column :channel_purpose
+          column :channel_mission_type
         end
       end
       row 'Disabled Hooks' do
@@ -117,6 +118,7 @@ ActiveAdmin.register GuildConfig do
           cf.input :id, as: :hidden
           cf.input :channel_purpose
           cf.input :channel, collection: resource.guild.channels
+          cf.input :channel_mission_type
         end
 
         f.has_many :disabled_users, heading: 'Disabled Users', allow_destroy: true, new_record: true do |cf|

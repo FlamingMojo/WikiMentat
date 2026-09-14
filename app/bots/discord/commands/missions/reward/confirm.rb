@@ -38,7 +38,7 @@ module Discord::Commands::Missions
     end
 
     def user_already_rewarded?
-      rewarded_member.claimed_rewards.include?(member_reward.reward_key)
+      rewarded_member.claimed_rewards.include?(member_reward.name)
     end
 
     def notify_reward

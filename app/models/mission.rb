@@ -23,6 +23,7 @@ class Mission < ActiveRecord::Base
 
   # Add page_translate when ready
   TYPES = %w[page_create page_update image_upload].freeze
+  TYPES_SYM = TYPES.map(&:to_sym).freeze
   STATES = %w[active accepted submitted completed].freeze
 
   enum :status, STATES.map { |k| [ k.to_sym, k ] }.to_h
