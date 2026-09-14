@@ -21,10 +21,10 @@ class Mission < ActiveRecord::Base
 
   with_locale_context 'mission'
 
-  # Add page_translate when ready
-  TYPES = %w[page_create page_update image_upload].freeze
+  TYPES = %w[page_create page_update image_upload page_translate].freeze
   TYPES_SYM = TYPES.map(&:to_sym).freeze
   STATES = %w[active accepted submitted completed].freeze
+  LANGUAGES = %w[en fr es de it nl no da sv pl cs ua ru tr pt jp ko zh].freeze
 
   enum :status, STATES.map { |k| [ k.to_sym, k ] }.to_h
   enum :type, TYPES.map { |k| [ k.to_sym, k ] }.to_h
@@ -43,6 +43,7 @@ class Mission < ActiveRecord::Base
 
   validates :title, presence: true
   validates :description, presence: true
+  validates :language, inclusion: { in: LANGUAGES }, allow_nil: true, if: :page_translate
   validate :wiki_page_must_be_valid_wiki_url, unless: :manually_granted?
   validate :map_link_must_be_valid_wiki_url, unless: :manually_granted?
 

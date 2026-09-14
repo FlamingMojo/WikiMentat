@@ -204,6 +204,26 @@ en:
         map_link: "Nearest Map Location:"
         language: "Language:"
         rule: "Image Ruleset:"
+        languages:
+          en: 🇬🇧/ 🇺🇸English
+          fr: 🇫🇷 français
+          es: 🇪🇸 español
+          de: 🇩🇪 Deutsch
+          it: 🇮🇹 italiano
+          nl: 🇳🇱 Nederlands
+          no: 🇳🇴 norsk
+          da: 🇩🇰 dansk
+          sv: 🇸🇪 svenska
+          pl: 🇵🇱 polski
+          cs: 🇨🇿 čeština
+          ua: 🇺🇦 українська
+          ru: 🇷🇺 русский
+          tr: 🇹🇷 Türkçe
+          pt-br: 🇧🇷 português do Brasil
+          jp: 🇯🇵 日本語
+          ko: 🇰🇷 한국어
+          zh: 🇨🇳 中文
+          other: 🌍
     instructions:
       page_create: >
         Create or Edit the wiki page %{wiki_page_md}. This will be automatically detected by the system
@@ -495,6 +515,17 @@ en:
               Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+          page_translate:
+            notify: >
+              <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue translating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue translating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
           upload_image:
             link: "%{wiki}/File:%{image_name}"
