@@ -5,7 +5,7 @@ class GuildConfig
 
       ConfiguredChannel::MISSION_CHANNELS.each do |channel_purpose|
         # Either an :all channel OR one for each mission type
-        next if record.configured_channels.exists?(channel_purpose:, channel_mission_type: :all)
+        next if record.configured_channels.exists?(channel_purpose:, channel_mission_type: :all_types)
         Mission::TYPES_SYM.all? do |channel_mission_type|
           record.configured_channels.exists?(channel_purpose:, channel_mission_type:)
         end
