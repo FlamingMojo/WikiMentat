@@ -118,7 +118,7 @@ ActiveAdmin.register GuildConfig do
           cf.input :id, as: :hidden
           cf.input :channel_purpose
           cf.input :channel, collection: resource.guild.channels
-          cd.input :channel_mission_type
+          cf.input :channel_mission_type
         end
 
         f.has_many :disabled_users, heading: 'Disabled Users', allow_destroy: true, new_record: true do |cf|

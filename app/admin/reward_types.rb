@@ -1,6 +1,6 @@
 ActiveAdmin.register RewardType do
   # Specify parameters which should be permitted for assignment
-  permit_params :guild_config_id, :name, :active, :conditions, :redemption_instructions
+  permit_params :guild_config_id, :name, :active, :config, :redemption_instructions
 
   # For security, limit the actions that should be available
   actions :all, except: []
@@ -21,7 +21,7 @@ ActiveAdmin.register RewardType do
     column :guild_config
     column :name
     column :active
-    column :conditions
+    column :config
     column :redemption_instructions
     column :created_at
     column :updated_at
@@ -35,7 +35,7 @@ ActiveAdmin.register RewardType do
       row :guild_config
       row :name
       row :active
-      row :conditions
+      row :config
       row :redemption_instructions
       row :created_at
       row :updated_at
@@ -49,7 +49,7 @@ ActiveAdmin.register RewardType do
       f.input :guild_config
       f.input :name
       f.input :active
-      f.input :conditions
+      f.input :config
       f.input :redemption_instructions
     end
     f.actions
