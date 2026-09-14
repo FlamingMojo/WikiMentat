@@ -43,7 +43,7 @@ class Mission < ActiveRecord::Base
 
   validates :title, presence: true
   validates :description, presence: true
-  validates :language, inclusion: { in: LANGUAGES }, allow_nil: true, if: :page_translate?
+  validates :language, inclusion: { in: LANGUAGES }, if: :page_translate?
   validate :wiki_page_must_be_valid_wiki_url, unless: :manually_granted?
   validate :map_link_must_be_valid_wiki_url, unless: :manually_granted?
 
