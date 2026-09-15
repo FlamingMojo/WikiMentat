@@ -37,7 +37,6 @@ class Mission
         return unless guild_config.enable_rewards
         return unless reward_types.any? && reward_types_due.any?
         check_stock
-        member_reward
 
         reward_types_due.each do |reward_type|
           member_reward = reward_type.next_reward.issue_to(assignee)
