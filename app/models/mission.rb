@@ -39,6 +39,7 @@ class Mission < ActiveRecord::Base
   has_one :image_rule, through: :image_mission_rule
 
   scope :in_progress, -> { where(status: %w[active accepted submitted]) }
+  scope :writing, -> { where(type: %w[page_create page_update page_translate]) }
   scope :for_user, ->(user) { joins(:guild_config).where(guild_config: { guild_id: user.guilds.pluck(:id) }) }
 
   validates :title, presence: true
