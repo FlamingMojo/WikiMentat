@@ -84,6 +84,7 @@ class Webhook < ApplicationRecord
   def check_missions(type, wiki_page: page.url, language: nil)
     return if IGNORE_USERS.include?(user.name)
 
+    wiki_page = CGI.unescape(wiki_page)
     Mission.accepted.where(type:, wiki_page:, language:).each do |mission|
       guild_config = mission.guild_config
       next unless mission.assignee.user.wiki_users.include?(wiki_user)
