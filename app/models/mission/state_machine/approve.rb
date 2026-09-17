@@ -18,7 +18,7 @@ class Mission
       def approve
         mission.completed! && mission.reload && mission.sync_post!
         celebrate
-        notify_celebration
+        notify_celebration if wiki_user
         handle_reward
 
         t('approved_mission', summary: mission.summary)
