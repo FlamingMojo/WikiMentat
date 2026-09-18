@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         end
       end
       resources :guild_configs, only: %i[index]
+      resources :wiki_users, only: %i[show]
       resources :users, only: %i[show] do
         collection do
           match :wiki_missions, via: %i[get]

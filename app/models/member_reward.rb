@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MemberReward < ActiveRecord::Base
+  extend Forwardable
+
   def self.ransackable_attributes(auth_object = nil)
     %w[comment created_at discord_uid id issue_type issued_at issuer_id member_id reward_id status updated_at]
   end
@@ -19,6 +21,8 @@ class MemberReward < ActiveRecord::Base
   has_one :user, through: :member
 
   after_initialize :cache_user, unless: :persisted?
+
+  def_delegators :reward_type, :name
 
   def award(issuer)
     update(issuer:, status: :approved)

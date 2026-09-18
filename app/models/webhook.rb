@@ -6,6 +6,8 @@ class Webhook < ApplicationRecord
   after_create :check_verifications
   after_create :check_create_missions, if: :created_page?
   after_create :check_update_missions, if: :updated_page?
+  after_create :check_translate_missions, if: :updated_page?
+  after_create :check_translate_missions, if: :created_page?
   after_create :register_new_wiki_user, if: :registered_user?
 
   PAGE_ATTRIBUTES = %i[
@@ -13,6 +15,7 @@ class Webhook < ApplicationRecord
     old_url expiry expiry_as_unix target added removed performer new_revision file_name width height mime_type rev_count
     s_rev_count original_title original_url revision_url revision_author image_url uploader old_username new_username
   ]
+  IGNORE_USERS = [ 'FuzzyBot', 'Redirect fixer' ].freeze
 
   def self.ransackable_attributes(auth_object = nil)
     %w[created_at hook_type id message_id payload updated_at wiki_id wiki_user_id]
@@ -74,8 +77,15 @@ class Webhook < ApplicationRecord
     check_missions(:page_create)
   end
 
-  def check_missions(type)
-    Mission.accepted.where(type:, wiki_page: page.url).each do |mission|
+  def check_translate_missions
+    check_missions(:page_translate, wiki_page: page.source_url, language: page.language)
+  end
+
+  def check_missions(type, wiki_page: page.url, language: nil)
+    return if IGNORE_USERS.include?(user.name)
+
+    wiki_page = CGI.unescape(wiki_page)
+    Mission.accepted.where(type:, wiki_page:, language:).each do |mission|
       guild_config = mission.guild_config
       next unless mission.assignee.user.wiki_users.include?(wiki_user)
       next unless guild_config.enable_missions
