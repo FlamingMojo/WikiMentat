@@ -64,6 +64,7 @@ module Discord::Commands
         handle_command(:rewards, 'Discord::Commands::Missions::Rewards')
         handle_command(:manual_reward, 'Discord::Commands::Missions::ManuallyReward')
         handle_command(:grant_missions, 'Discord::Commands::Missions::Grant')
+        handle_command(:grant_missions_wiki, 'Discord::Commands::Missions::GrantWiki')
         handle_command(:leaderboard, 'Discord::Commands::Missions::Leaderboard')
       end
     end
