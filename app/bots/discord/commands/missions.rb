@@ -35,6 +35,11 @@ module Discord::Commands
           cmd.integer('count', 'Mission credits to grant', required: true, min_value: 1, max_value: 100)
           cmd.string('description', 'Description of tasks credited', required: true)
         end
+        Discord::Bot.slash_command(:grant_missions_wiki, t('grant_wiki')) do |cmd|
+          cmd.string('target_user', 'Wiki Username', required: true)
+          cmd.integer('count', 'Mission credits to grant', required: true, min_value: 1, max_value: 100)
+          cmd.string('description', 'Description of tasks credited', required: true)
+        end
         Discord::Bot.slash_command(:rewards, t('rewards'))
         Discord::Bot.slash_command(:leaderboard, t('leaderboard'))
       end
@@ -59,6 +64,7 @@ module Discord::Commands
         handle_command(:rewards, 'Discord::Commands::Missions::Rewards')
         handle_command(:manual_reward, 'Discord::Commands::Missions::ManuallyReward')
         handle_command(:grant_missions, 'Discord::Commands::Missions::Grant')
+        handle_command(:grant_missions_wiki, 'Discord::Commands::Missions::GrantWiki')
         handle_command(:leaderboard, 'Discord::Commands::Missions::Leaderboard')
       end
     end
