@@ -407,7 +407,7 @@ en:
           approved_mission_subject: "Mission Submission Approved"
           celebration: "🎉<@%{user}> has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
           celebration_content: "🎉 You have completed a mission - %{summary}! You have now completed '''%{count}''' missions! 🎉"
-          reward: "@here️ 🎖<@%{user}> Has has earned a reward!"
+          reward: "@here️ 🎖<@%{user}> has earned a reward!"
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"
