@@ -211,7 +211,7 @@ en:
           de: 🇩🇪 Deutsch
           it: 🇮🇹 italiano
           nl: 🇳🇱 Nederlands
-          no: 🇳🇴 norsk
+          _no: 🇳🇴 norsk
           da: 🇩🇰 dansk
           sv: 🇸🇪 svenska
           pl: 🇵🇱 polski
@@ -220,7 +220,7 @@ en:
           ru: 🇷🇺 русский
           tr: 🇹🇷 Türkçe
           pt-br: 🇧🇷 português do Brasil
-          jp: 🇯🇵 日本語
+          ja: 🇯🇵 日本語
           ko: 🇰🇷 한국어
           zh: 🇨🇳 中文
           other: 🌍
