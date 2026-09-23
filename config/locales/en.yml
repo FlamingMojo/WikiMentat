@@ -550,6 +550,8 @@ en:
             Congratulations! You have earned the following rewards:
             
             - %{rewards}
+            
+            Redeem codes at https://account.duneawakening.com/
         reward:
           not_found: "Reward not found or already approved"
           approved: "🏅Issued <@%{user_id}> a key for %{reward} - `%{key}`"
