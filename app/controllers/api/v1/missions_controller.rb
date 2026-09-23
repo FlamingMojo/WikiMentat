@@ -102,15 +102,24 @@ module API::V1
     def abandon_wiki
       if wiki_abandonable?
         mission.abandon
-        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]" }, status: 200)
       else
         handle_response({ message: "Not able to abandon mission - #{@error}" }, status: 200)
       end
     end
 
+    def submit_wiki
+      if wiki_submittable?
+        mission.submit
+        handle_response({ message: "Successfully submitted Mission [#{mission.id}]" }, status: 200)
+      else
+        handle_response({ message: "Not able to submit mission - #{@error}" }, status: 200)
+      end
+    end
+
     private
 
-    def wiki_acceptable?
+    def wiki_abandonable?
       @error = 'Mission not available' and return false unless mission&.active?
       @error = 'Missions not enabled' and return false unless guild_config.enable_missions
       @error = 'Guild not found' and return false unless guild
@@ -119,6 +128,8 @@ module API::V1
 
       true
     end
+
+    alias_method :wiki_submittable?, :wiki_abandonable?
 
     def wiki_abandonable?
       @error = 'Mission not found' and return false unless mission

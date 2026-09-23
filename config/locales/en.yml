@@ -211,7 +211,7 @@ en:
           de: 🇩🇪 Deutsch
           it: 🇮🇹 italiano
           nl: 🇳🇱 Nederlands
-          no: 🇳🇴 norsk
+          _no: 🇳🇴 norsk
           da: 🇩🇰 dansk
           sv: 🇸🇪 svenska
           pl: 🇵🇱 polski
@@ -220,7 +220,7 @@ en:
           ru: 🇷🇺 русский
           tr: 🇹🇷 Türkçe
           pt-br: 🇧🇷 português do Brasil
-          jp: 🇯🇵 日本語
+          ja: 🇯🇵 日本語
           ko: 🇰🇷 한국어
           zh: 🇨🇳 中文
           other: 🌍
@@ -239,6 +239,7 @@ en:
       approve_mission: "Approve"
       reject_mission: "Reject"
       abandon_mission: "Abandon"
+      submit_mission: "Submit"
       admin_notification: "@here A new submission landed!"
       link: "https://discord.com/channels/%{guild_id}/%{channel}/%{message_id}"
   discord:
@@ -495,6 +496,9 @@ en:
           no_mission: "<@%{user_id}> is not currently on a mission"
         submit:
           submitted_mission_subject: "Mission Submitted"
+          not_found: 'You are not currently on a mission'
+          not_yours: 'This is not your mission to submit'
+          manual_submit: 'Manually submitted the mission %{summary}'
           page_create:
             notify: |
               <@%{user}> Thank you for your submission for mission %{summary}! 
