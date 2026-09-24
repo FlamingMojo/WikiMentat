@@ -119,7 +119,7 @@ module API::V1
 
     private
 
-    def wiki_abandonable?
+    def wiki_acceptable?
       @error = 'Mission not available' and return false unless mission&.active?
       @error = 'Missions not enabled' and return false unless guild_config.enable_missions
       @error = 'Guild not found' and return false unless guild
@@ -128,8 +128,6 @@ module API::V1
 
       true
     end
-
-    alias_method :wiki_submittable?, :wiki_abandonable?
 
     def wiki_abandonable?
       @error = 'Mission not found' and return false unless mission
@@ -140,6 +138,8 @@ module API::V1
 
       true
     end
+
+    alias_method :wiki_submittable?, :wiki_abandonable?
 
     def current_mission_link
       "[[Mentat:Missions/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"
