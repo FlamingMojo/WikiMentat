@@ -9,7 +9,7 @@ module Discord::Commands::Custom::AwakeningWiki
     with_locale_context 'discord.commands.user.upload_image'
 
     TAMZIN_ID = '1476239415532584981'
-    TAMZIN_HELLO = "Good day Tamzin, how is employment under the Archivist's Guild?"
+    TAMZIN_HELLO = "Good day <@#{TAMZIN_ID}>, how is employment under the Archivist's Guild?"
     TAMZIN_NEUTRAL = "I'm sorry, I don't quite understand."
     TAMZIN_ANGRY = "Dude what the fuck it's hot as hell on the sands and you're bugging me like some fuckass tax collector - shoo!"
     TRIGGER_WORDS = [
