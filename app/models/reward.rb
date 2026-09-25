@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Reward < ActiveRecord::Base
+  extend Forwardable
   def self.ransackable_attributes(auth_object = nil)
     %w[created_at id key member_reward_id reward_type_id updated_at]
   end
@@ -16,6 +17,8 @@ class Reward < ActiveRecord::Base
 
   scope :unclaimed, -> { where(member_reward_id: nil) }
   scope :claimed, -> { where.not(member_reward_id: nil) }
+
+  def_delegators :reward_type, :name
 
   def issue_to(member, **kwargs)
     transaction do

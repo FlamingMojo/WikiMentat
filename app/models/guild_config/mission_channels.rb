@@ -17,7 +17,7 @@ class GuildConfig
 
           specific_channel = configured_channels.find_by(channel_purpose:, channel_mission_type:)&.channel
 
-          specific_channel || send(send("#{channel_purpose}_channel"))
+          specific_channel || send("#{channel_purpose}_channel")
         end
       end
     end

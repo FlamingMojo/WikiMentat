@@ -181,7 +181,7 @@ en:
     user_unblock: "%{user_links} unblocked %{target_links}"
     user_groups_changed: "%{user_links} changed rights of %{target_links} `%{reason}` (%{added}) (%{removed})"
     file_upload_new: "new version of "
-    file_upload: "%{user_links} uploaded %{page_link} %{new_version}%{comment} (%{width}x%{height}, %{mime_type})"
+    file_upload: "%{user_links} uploaded %{new_version} %{page_link} %{comment} (%{width}x%{height}, %{mime_type})"
     file_delete: "%{user_links} deleted a version of file %{page_link} `%{reason}`"
     file_undelete: "%{user_links} restored some versions of file %{page_link} `%{reason}`"
     import: "%{user_links} imported %{page_link} (imported %{rev_count}/%{s_rev_count} revisions)"
@@ -204,6 +204,26 @@ en:
         map_link: "Nearest Map Location:"
         language: "Language:"
         rule: "Image Ruleset:"
+        languages:
+          en: 🇬🇧/ 🇺🇸English
+          fr: 🇫🇷 français
+          es: 🇪🇸 español
+          de: 🇩🇪 Deutsch
+          it: 🇮🇹 italiano
+          nl: 🇳🇱 Nederlands
+          _no: 🇳🇴 norsk
+          da: 🇩🇰 dansk
+          sv: 🇸🇪 svenska
+          pl: 🇵🇱 polski
+          cs: 🇨🇿 čeština
+          ua: 🇺🇦 українська
+          ru: 🇷🇺 русский
+          tr: 🇹🇷 Türkçe
+          pt-br: 🇧🇷 português do Brasil
+          ja: 🇯🇵 日本語
+          ko: 🇰🇷 한국어
+          zh: 🇨🇳 中文
+          other: 🌍
     instructions:
       page_create: >
         Create or Edit the wiki page %{wiki_page_md}. This will be automatically detected by the system
@@ -219,6 +239,7 @@ en:
       approve_mission: "Approve"
       reject_mission: "Reject"
       abandon_mission: "Abandon"
+      submit_mission: "Submit"
       admin_notification: "@here A new submission landed!"
       link: "https://discord.com/channels/%{guild_id}/%{channel}/%{message_id}"
   discord:
@@ -327,8 +348,9 @@ en:
           count: 'Show how many missions someone has completed (defaults to your own mission count)'
           find: "Show a user's current mission (defaults to your own mission)"
           rewards: 'Claim and view your rewards earned by completing missions!'
-          manually_reward: 'Manually give a player a reward'
-          grant: 'Grant a player a number of mission credits'
+          manually_reward: 'Manually give a user a reward'
+          grant: 'Grant a user a number of mission credits'
+          grant_wiki: 'Grant a non-discord user a number of mission credits'
           leaderboard: 'Show the missions leaderboard'
           fields:
             id: 'ID of the mission to cancel'
@@ -387,7 +409,7 @@ en:
           approved_mission_subject: "Mission Submission Approved"
           celebration: "🎉<@%{user}> has completed a mission - %{summary}! They have now completed **%{count}** missions! 🎉"
           celebration_content: "🎉 You have completed a mission - %{summary}! You have now completed '''%{count}''' missions! 🎉"
-          reward: "@here️ 🎖<@%{user}> Has has earned a reward!"
+          reward: "@here️ 🎖<@%{user}> has earned a reward!"
           not_found: "Sorry, something went wrong, can't find that mission"
           not_submitted: "Sorry, that mission has not had a submission yet"
           not_assigned: "Sorry, nobody is on that mission"
@@ -474,6 +496,9 @@ en:
           no_mission: "<@%{user_id}> is not currently on a mission"
         submit:
           submitted_mission_subject: "Mission Submitted"
+          not_found: 'You are not currently on a mission'
+          not_yours: 'This is not your mission to submit'
+          manual_submit: 'Manually submitted the mission %{summary}'
           page_create:
             notify: |
               <@%{user}> Thank you for your submission for mission %{summary}! 
@@ -495,6 +520,17 @@ en:
               Thank you for your submission for mission %{summary}! 
               It will be reviewed by staff.
               You can continue updating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+          page_translate:
+            notify: >
+              <@%{user}> Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue translating the wiki page if you need in the meantime.
+              Thanks so much for your contribution! 🏅
+            notify_content: |
+              Thank you for your submission for mission %{summary}! 
+              It will be reviewed by staff.
+              You can continue translating the wiki page if you need in the meantime.
               Thanks so much for your contribution! 🏅
           upload_image:
             link: "%{wiki}/File:%{image_name}"
@@ -518,6 +554,8 @@ en:
             Congratulations! You have earned the following rewards:
             
             - %{rewards}
+            
+            Redeem codes at https://account.duneawakening.com/
         reward:
           not_found: "Reward not found or already approved"
           approved: "🏅Issued <@%{user_id}> a key for %{reward} - `%{key}`"
@@ -539,7 +577,7 @@ en:
         leaderboard:
           embed:
             title: 'Missions Leaderboard'
-            description: 'The top players by completed missions:'
+            description: 'The top users by completed missions:'
             places:
               0: 🥇First 🥇
               1: 🥈Second 🥈

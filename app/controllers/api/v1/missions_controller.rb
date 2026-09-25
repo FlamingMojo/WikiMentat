@@ -102,9 +102,18 @@ module API::V1
     def abandon_wiki
       if wiki_abandonable?
         mission.abandon
-        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]"}, status: 200)
+        handle_response({ message: "Successfully abandoned Mission [#{mission.id}]" }, status: 200)
       else
         handle_response({ message: "Not able to abandon mission - #{@error}" }, status: 200)
+      end
+    end
+
+    def submit_wiki
+      if wiki_submittable?
+        mission.submit
+        handle_response({ message: "Successfully submitted Mission [#{mission.id}]" }, status: 200)
+      else
+        handle_response({ message: "Not able to submit mission - #{@error}" }, status: 200)
       end
     end
 
@@ -129,6 +138,8 @@ module API::V1
 
       true
     end
+
+    alias_method :wiki_submittable?, :wiki_abandonable?
 
     def current_mission_link
       "[[Mentat:Missions/#{wiki_member.current_mission.id}|#{wiki_member.current_mission.id}]]"

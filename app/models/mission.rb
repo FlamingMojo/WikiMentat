@@ -21,10 +21,10 @@ class Mission < ActiveRecord::Base
 
   with_locale_context 'mission'
 
-  # Add page_translate when ready
-  TYPES = %w[page_create page_update image_upload].freeze
+  TYPES = %w[page_create page_update image_upload page_translate].freeze
   TYPES_SYM = TYPES.map(&:to_sym).freeze
   STATES = %w[active accepted submitted completed].freeze
+  LANGUAGES = %w[en fr es de it nl no da sv pl cs ua ru tr pt-br ja ko zh].freeze
 
   enum :status, STATES.map { |k| [ k.to_sym, k ] }.to_h
   enum :type, TYPES.map { |k| [ k.to_sym, k ] }.to_h
@@ -39,10 +39,12 @@ class Mission < ActiveRecord::Base
   has_one :image_rule, through: :image_mission_rule
 
   scope :in_progress, -> { where(status: %w[active accepted submitted]) }
+  scope :writing, -> { where(type: %w[page_create page_update page_translate]) }
   scope :for_user, ->(user) { joins(:guild_config).where(guild_config: { guild_id: user.guilds.pluck(:id) }) }
 
   validates :title, presence: true
   validates :description, presence: true
+  validates :language, inclusion: { in: LANGUAGES }, if: :page_translate?
   validate :wiki_page_must_be_valid_wiki_url, unless: :manually_granted?
   validate :map_link_must_be_valid_wiki_url, unless: :manually_granted?
 
@@ -77,6 +79,14 @@ class Mission < ActiveRecord::Base
     "[#{id}] #{title}"
   end
 
+  def language_label
+    return unless language
+    # 'no' is a special string for Rails i18n keys, so Norwegian gets special treatment
+    return t('embed.field.languages._no') if language == 'no'
+
+    t("embed.field.languages.#{language}")
+  end
+
   def as_json(options = nil)
     rule = image_upload? && image_mission_rule ? image_rule.name : nil
     assignee_uid = assignee_id.present? ? assignee.discord_uid : nil
@@ -85,7 +95,7 @@ class Mission < ActiveRecord::Base
     {
       id:, guild_config_id:, status:, type:, title:, description:, wiki_page:, map_link:,
       discord_post_uid:, discord_post_link:, rule:, assignee_wiki_user:, issuer_wiki_user:,
-      issuer: issuer.discord_uid, assignee: assignee_uid,
+      issuer: issuer.discord_uid, assignee: assignee_uid, language:, language_label:
     }
   end
 end
