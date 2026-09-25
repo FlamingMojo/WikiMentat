@@ -35,6 +35,7 @@ module Discord::Commands::Custom::AwakeningWiki
     private
 
     def content
+      return if message_text.start_with?(/upload/i)
       return blood_response if TRIGGER_WORDS.any? { |w| message_text.downcase.include?(w) }
       return tamzin_response if user.id.to_s == TAMZIN_ID
 
