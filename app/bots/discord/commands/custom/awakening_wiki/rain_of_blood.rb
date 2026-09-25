@@ -37,5 +37,9 @@ module Discord::Commands::Custom::AwakeningWiki
     def api_response
       @api_response ||= Faraday.get('https://funcom.nyc3.digitaloceanspaces.com/bucket/DA/challenge/latest.json')
     end
+
+    def message_text
+      text.gsub("<@#{Discord::Bot.client_id}>", '').strip
+    end
   end
 end
