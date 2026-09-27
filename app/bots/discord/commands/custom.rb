@@ -28,6 +28,7 @@ module Discord::Commands
         handle_button(/skip:/, 'Discord::Commands::Custom::AwakeningWiki::Skip')
         handle_button(/problem:/, 'Discord::Commands::Custom::AwakeningWiki::Problem')
         handle_button('front_or_back', 'Discord::Commands::Custom::AwakeningWiki::Retry')
+        handle_mention('Discord::Commands::Custom::AwakeningWiki::RainOfBlood')
       end
     end
   end

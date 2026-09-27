@@ -65,7 +65,8 @@ class Mission
     end
 
     def format_link(link)
-      return unless link
+      return unless link.present?
+
       "[#{link.split("/").last.split("?").first.gsub("_", " ")}](#{link})"
     end
 

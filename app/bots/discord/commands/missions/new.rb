@@ -38,6 +38,7 @@ module Discord::Commands::Missions
     def fields
       {
         image_upload: %i[title description wiki_page map_link rule],
+        page_translate: %i[title description wiki_page language],
       }.fetch(type.to_sym, %i[title description wiki_page map_link])
     end
 

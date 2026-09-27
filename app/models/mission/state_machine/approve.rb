@@ -18,7 +18,7 @@ class Mission
       def approve
         mission.completed! && mission.reload && mission.sync_post!
         celebrate
-        notify_celebration
+        notify_celebration if wiki_user
         handle_reward
 
         t('approved_mission', summary: mission.summary)
@@ -37,7 +37,6 @@ class Mission
         return unless guild_config.enable_rewards
         return unless reward_types.any? && reward_types_due.any?
         check_stock
-        member_reward
 
         reward_types_due.each do |reward_type|
           member_reward = reward_type.next_reward.issue_to(assignee)

@@ -37,7 +37,7 @@ module Discord::Commands::Missions
     end
 
     def modal_keys
-      %w[title description wiki_page map_link rule]
+      %w[title description wiki_page map_link rule language]
     end
   end
 end

@@ -56,7 +56,7 @@ class UserClaim < ApplicationRecord
         mission.sync_post!
       end
       dummy_member.member_rewards.each do |reward|
-        reward.update(rewardable: dummy_member, discord_uid: user.discord_uid)
+        reward.update(member: real_member, discord_uid: user.discord_uid)
       end
       dummy_member.destroy
     end

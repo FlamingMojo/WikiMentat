@@ -12,13 +12,14 @@ module Discord::Commands::User
     def_delegators :event, :message, :text
 
     def handle
+      return unless message_text.start_with?(/upload/i)
       event.respond(content)
     end
 
     private
 
     def content
-      return t('unknown_command', user_id: user.id) unless message_text.start_with?(/upload/i)
+      # return t('unknown_command', user_id: user.id)
       return t('not_enabled', user_id: user.id) unless guild_config.enable_image_upload
       return t('no_attachments', user_id: user.id) unless attachments.any?
       return t('no_title', user_id: user.id) unless title_base.length

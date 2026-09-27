@@ -32,5 +32,18 @@ class Webhook
     def message_key
       (dig(:message_key) || 'default').split('-').excluding(%w[mentat msg]).join('_')
     end
+
+    def source_url
+      return url unless language
+
+      url[...-(language.length + 1)]
+    end
+
+    def language
+      last_part = url.split('/').last
+      return unless Mission::LANGUAGES.include?(last_part)
+
+      last_part
+    end
   end
 end
