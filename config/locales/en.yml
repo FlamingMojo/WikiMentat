@@ -434,7 +434,7 @@ en:
             abandon:
               discord:
                 feedback: |
-                  Sorry, your submission to mission %{summary} was rejected, with the feedback:
+                  Sorry, your submission to mission %{summary} was rejected, with Staff feedback:
                   ```
                   %{feedback}
                   ```
@@ -447,7 +447,7 @@ en:
                   It has now been set back to available and you can pick it up later here %{link}
               wiki:
                 feedback: |
-                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                  Sorry, your submission to mission %{summary} was rejected, with [[Staff]] feedback:
                    %{feedback}
                   As you are now on %{current_mission}, you must complete or abandon that before you can pick up %{summary}.
                   It has now been set back to available and you can pick it up later here %{link}
@@ -459,7 +459,7 @@ en:
             rejected:
               discord:
                 feedback: |
-                  Sorry, your submission to mission %{summary} was rejected, with the staff feedback:
+                  Sorry, your submission to mission %{summary} was rejected, with Staff feedback:
                   ```
                   %{feedback}
                   ```
@@ -470,7 +470,7 @@ en:
                   You can view the mission at %{link}
               wiki:
                 feedback: |
-                  Sorry, your submission to mission %{summary} was rejected, with the [[Staff]] feedback:
+                  Sorry, your submission to mission %{summary} was rejected, with [[Staff]] feedback:
                    %{feedback}
                   You can view the mission at %{link}
                 standalone: |
