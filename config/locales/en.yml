@@ -180,7 +180,7 @@ en:
     user_block_partial: "%{user_links} partially blocked %{target_links} `%{reason}` (%{expiry})"
     user_unblock: "%{user_links} unblocked %{target_links}"
     user_groups_changed: "%{user_links} changed rights of %{target_links} `%{reason}` (%{added}) (%{removed})"
-    file_upload_new: "new version of "
+    file_upload_new: "new version of"
     file_upload: "%{user_links} uploaded %{new_version} %{page_link} %{comment} (%{width}x%{height}, %{mime_type})"
     file_delete: "%{user_links} deleted a version of file %{page_link} `%{reason}`"
     file_undelete: "%{user_links} restored some versions of file %{page_link} `%{reason}`"
