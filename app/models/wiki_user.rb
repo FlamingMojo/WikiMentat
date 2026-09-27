@@ -21,11 +21,14 @@ class WikiUser < ApplicationRecord
     user && user.discord_uid.start_with?('wiki_user')
   end
 
-  def discord_user_id
-    user.id if real_user?
+  def discord_user_params
+    return {} if dummy_user?
+
+    { discord_user_id: user.discord_uid, discord_username: user.username }
   end
 
   def as_json(options = nil)
-    { wiki: wiki.url, username:, discord_user_id:  }
+    { wiki: wiki.url, username:, user_id:, discord_username: nil, discord_user_id: nil }.
+      merge(discord_user_params)
   end
 end
