@@ -58,6 +58,9 @@ module Discord::Commands::Custom::AwakeningWiki
         total = JSON.parse(api_response.body)['total'] || total
       end
 
+      # Add , to separate thousands
+      total = total.to_s.reverse.gsub(/...(?=.)/, '\&,').reverse
+
       "The blood of #{total} bodies have been spilled during El Sayldam so far..."
     end
 
