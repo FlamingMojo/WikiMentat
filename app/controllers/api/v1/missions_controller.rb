@@ -160,7 +160,7 @@ module API::V1
     end
 
     def mission_params
-      params.permit(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :rule)
+      params.permit(:guild_config_id, :type, :title, :description, :wiki_page, :map_link, :language, :rule)
     end
 
     def assignee_member
