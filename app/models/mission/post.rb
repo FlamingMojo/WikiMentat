@@ -69,7 +69,7 @@ class Mission
     def active_buttons
       return [ accept_button ] if mission.active?
       return [ submit_button, abandon_button ] if mission.accepted? && mission.title.include?('MEGA')
-      return [ submit_button ] if mission.accepted?
+      return [ abandon_button ] if mission.accepted?
       return [ approve_button, reject_button ] if mission.submitted?
 
       []
