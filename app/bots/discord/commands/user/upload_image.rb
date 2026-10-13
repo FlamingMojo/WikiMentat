@@ -28,7 +28,7 @@ module Discord::Commands::User
       upload_files_to_wiki
       t('success', user_id: user.id, files: uploaded_files.map(&:filename).join("\n- "))
     rescue => e
-      return t('aborted_error') if e.message == 'Aborted'
+      return t('aborted_error', user_id: user.id) if e.message == 'Aborted'
       t('error', user_id: user.id, error: e.message.truncate(500))
     end
 
