@@ -140,6 +140,7 @@ module Mediawiki
         # Uses the line map to fill out the topic lines hash
         lines.each_with_index do |line, i|
           next if topic_titles.values.include?(i)
+          next unless topic_line_map.key?(i)
           topic_lines[topic_line_map[i]] << line
         end
       end
