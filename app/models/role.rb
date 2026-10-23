@@ -7,7 +7,7 @@ class Role < ApplicationRecord
     %w[guild members]
   end
 
-  enum :role_type, %i[standard moderator admin], default: :standard
+  enum :role_type, %i[standard moderator admin trusted], default: :standard
 
   belongs_to :guild
   has_and_belongs_to_many :members
