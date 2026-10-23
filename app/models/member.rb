@@ -44,6 +44,10 @@ class Member < ApplicationRecord
     roles.admin.any?
   end
 
+  def trusted?
+    roles.trusted.any?
+  end
+
   def claimed_rewards
     earned_rewards.map(&:name)
   end

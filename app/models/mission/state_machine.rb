@@ -6,6 +6,10 @@ class Mission
     end
 
     def submit
+      # If a user has a trusted role, auto-approve submission 90% of the time.
+      # The 10% is just a sample to be audited to prevent abuse
+      return approve if assignee.trusted? && rand > 0.1
+
       delete_post! && submitted! && reload && sync_post!
     end
 

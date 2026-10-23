@@ -14,6 +14,7 @@ module Discord::Commands
       end
 
       def register_commands
+        Discord::Bot.slash_command(:sync_mentat, 'Syncs the Guild with the Mentat system')
         Discord::Bot.slash_command(:mentat_admin, t('wiki_admin')) do |cmd|
           cmd.subcommand(:verify_board, t('verify_board'))
           # cmd.subcommand(:editor_board, t('editor_board'))
@@ -28,6 +29,7 @@ module Discord::Commands
 
       def register_handlers
         # handle_message('Discord::Commands::Admin::AutoBlock')
+        handle_command(:sync_mentat, 'Discord::Commands::Admin::Sync')
         handle(:mentat_admin, :verify_board, 'Discord::Commands::Admin::VerifyBoard')
         # handle(:wiki_admin, :block_word, 'Discord::Commands::Admin::AutoBlock::BlacklistWord')
         # handle(:wiki_admin, :unblock_word, 'Discord::Commands::Admin::AutoBlock::WhitelistWord')
